@@ -19,6 +19,8 @@ export interface Lemma {
   t?: [string, number][];
   /** Example sentences from Tatoeba. */
   ex?: Example[];
+  /** Frequency rank in subtitles (1 = most common); absent for words not seen there. */
+  fr?: number;
 }
 
 /** One row in a form shard: [form, lemma id, tag set index]. */

@@ -44,6 +44,7 @@ npm run build && npm run preview                          # production build wit
 - Reads the [Kaikki.org](https://kaikki.org/dictionary/Hungarian/) Hungarian extract of English Wiktionary and the [Tatoeba](https://tatoeba.org/) Hungarian–English sentence pairs.
 - Kaikki's Hungarian verb tables are parsed with every person shifted one column (*látok* is tagged "second person"), and mood labels are missing. The build rebuilds the tags from the table layout, then checks them against Kaikki's separate form-of entries. It prints the agreement rate (currently 99.4%).
 - The English index reverses the Hungarian entries' glosses: "to see (to perceive…)" indexes *see* → lát. Ranking favours a term that leads its gloss, the first sense and everyday labels, plus how often the Hungarian word appears in Tatoeba.
+- Word frequency comes from Hungarian subtitle counts (FrequencyWords). The subtitle list counts word forms, so each form's count is shared among the dictionary words that have it. The split is weighted by the number of everyday (non-rare) senses and by how common the headword itself is, so *eszik* outranks the rare *esz*, and *fog* "will/hold" outranks *fog* "tooth". Each entry stores its rank (`fr`). The rank drives the "very common" (top 1,000) and "common" (top 5,000) labels, search ranking in both directions, and `top1000`/`top5000` tags in the Anki export.
 - Senses that only describe an inflected form ("third-person singular possessive of *monitor*") become links to the headword instead of separate entries.
 
 Output lives in `public/data/`:
@@ -87,5 +88,6 @@ The site is already an installable PWA (manifest, icons including a maskable one
 - App code: MIT (see `LICENSE`).
 - Definitions and inflection tables: Wiktionary contributors via Kaikki.org, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 - Example sentences: Tatoeba contributors, [CC BY 2.0 FR](https://creativecommons.org/licenses/by/2.0/fr/).
+- Word frequencies: [FrequencyWords](https://github.com/hermitdave/FrequencyWords) by Hermit Dave, from OpenSubtitles 2018, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
 The in-app About page carries the same attribution.

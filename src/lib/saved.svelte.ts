@@ -1,3 +1,4 @@
+import { commonness } from './frequency';
 import type { Lemma } from './types';
 
 export interface SavedWord {
@@ -8,6 +9,8 @@ export interface SavedWord {
   example?: [string, string];
   /** The form that was looked up, if different from the headword. */
   lookedUp?: string;
+  /** Frequency rank (1 = most common). */
+  fr?: number;
   added: number;
 }
 
@@ -57,6 +60,7 @@ export function toggleSaved(lemmaId: number, lemma: Lemma, lookedUp?: string) {
         meaning: meaningOf(lemma),
         example,
         lookedUp: lookedUp && lookedUp.toLowerCase() !== lemma.w.toLowerCase() ? lookedUp : undefined,
+        fr: lemma.fr,
         added: Date.now(),
       },
       ...saved.list,
@@ -79,7 +83,8 @@ export function ankiTsv(list: SavedWord[]): string {
   const lines = ['#separator:tab', '#html:false', '#columns:Hungarian\tEnglish\tExample\tTags', '#tags column:4'];
   for (const s of list) {
     const example = s.example ? `${s.example[0]} — ${s.example[1]}` : '';
-    lines.push([s.word, `${s.meaning} (${s.pos})`, example, 'hungarian'].map(field).join('\t'));
+    const tags = ['hungarian', commonness(s.fr)?.tag].filter(Boolean).join(' ');
+    lines.push([s.word, `${s.meaning} (${s.pos})`, example, tags].map(field).join('\t'));
   }
   return lines.join('\n') + '\n';
 }

@@ -1,6 +1,7 @@
 import { getLemma, getTags, lookupEnglish, lookupFolded, suggest } from './data';
 import { deinflect, normalizeEnglish } from './english';
 import { fold, hasAccents } from './fold';
+import { frequencyBonus } from './frequency';
 import { candidates, type Step } from './stemmer';
 import { describe, isBaseForm, type Part } from './tags';
 import type { FormRow, Lemma } from './types';
@@ -120,9 +121,9 @@ export async function search(raw: string): Promise<SearchResponse> {
       }
       let score = 0;
       if (g.exact) score += 100;
-      if (g.head) score += 20;
+      if (g.head) score += 10;
       score -= g.steps * 30;
-      score += Math.min(lemma.s.length, 6) + (lemma.t ? 3 : 0) + (lemma.ex ? 2 : 0);
+      score += Math.min(lemma.s.length, 6) + (lemma.t ? 3 : 0) + (lemma.ex ? 2 : 0) + frequencyBonus(lemma.fr);
       if (lemma.pos === 'name') score -= 6;
       if (lemma.pos === 'character') score -= 15;
       if (['suffix', 'prefix', 'infix'].includes(lemma.pos) && !query.startsWith('-')) score -= 8;
@@ -211,7 +212,8 @@ export function rankSections(hu: SearchResponse, en: EnglishResponse | null): Se
   const keepHu = !(huGuessed && en?.results.length);
   // A Hungarian word glossed with the same English word is a loan ("house" = house music): English first.
   const loan = huExact && !!en?.strong && glossMentions(hu.results[0].lemma, normalizeEnglish(hu.query));
-  const huScore = !keepHu || !hu.results.length ? 0 : huExact && !loan ? 3 : huGuessed ? 1 : 2;
+  // Exact Hungarian 3; accent-folded only (car → cár) 1.5, below an exact English term; stemmer guess 1.
+  const huScore = !keepHu || !hu.results.length ? 0 : huExact && !loan ? 3 : huGuessed ? 1 : 1.5;
   const enScore = !en?.results.length ? 0 : en.strong ? 3 : en.exact ? 2 : 1;
 
   const huSection: Section = { lang: 'hu', term: hu.query, results: keepHu ? hu.results : [] };

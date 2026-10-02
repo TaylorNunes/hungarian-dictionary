@@ -89,6 +89,35 @@ class EnglishIndexTest(unittest.TestCase):
         self.assertEqual(index['barn'], [[0, 0, 0]])
 
 
+class FrequencyTest(unittest.TestCase):
+    def lemma(self, word, pos='noun', senses=('meaning',), labels=None):
+        return {'w': word, 'pos': pos, 's': [{'g': g, **({'t': labels} if labels else {})} for g in senses]}
+
+    def test_weight_favours_everyday_senses_and_common_headwords(self):
+        everyday = self.lemma('eszik', 'verb', ['to eat'])
+        rare = self.lemma('esz', 'verb', ['to eat'], labels=['rare'])
+        self.assertGreater(bd.lemma_weight(everyday, 0), bd.lemma_weight(rare, 0))
+        self.assertGreater(bd.lemma_weight(everyday, 1000), bd.lemma_weight(everyday, 0))
+        letter = self.lemma('a', 'character')
+        self.assertLess(bd.lemma_weight(letter, 0), bd.lemma_weight(self.lemma('a', 'article'), 0))
+
+    def test_shared_form_counts_are_split_by_weight(self):
+        lemmas = [self.lemma('fog', 'noun', ['tooth']), self.lemma('fog', 'verb', ['to hold', 'to catch', 'will'])]
+        forms = {'fog': {(0, 0), (1, 0)}, 'fogok': {(1, 1)}}
+        freq = bd.lemma_frequency(lemmas, forms, {'fog': 400, 'fogok': 100, 'unknown': 50})
+        self.assertAlmostEqual(freq[0] + freq[1], 500)
+        self.assertAlmostEqual(freq[0], 100)    # 1 of 4 sense weight
+        self.assertAlmostEqual(freq[1], 400)
+
+    def test_read_frequency_drops_singletons_and_lowercases(self):
+        with tempfile.NamedTemporaryFile('w', suffix='.txt', delete=False, encoding='utf-8') as fh:
+            fh.write('Ház 3\nház 4\nhapax 1\nbad line\n')
+        try:
+            self.assertEqual(bd.read_frequency(Path(fh.name)), {'ház': 7})
+        finally:
+            Path(fh.name).unlink()
+
+
 class ConjugationTest(unittest.TestCase):
     """Kaikki shifts person tags by one column; the parser must undo it."""
 
@@ -163,6 +192,7 @@ class BuildTest(unittest.TestCase):
         tsv('hun_sentences.tsv.bz2', [(1, 'hun', 'Látom a házat.'), (2, 'hun', 'Ez egy nagyon nagyon nagyon nagyon hosszú mondat a házról és az almáról meg sok minden másról.')])
         tsv('eng_sentences.tsv.bz2', [(10, 'eng', 'I see the house.'), (20, 'eng', 'A long sentence.')])
         tsv('hun-eng_links.tsv.bz2', [(1, 10), (2, 20)])
+        (cache / 'frequencywords-hu.txt').write_text('látom 90\nlát 30\nházat 20\nház 15\nalma 4\nritka 1\n', encoding='utf-8')
         self.out = self.tmp / 'out'
         self.out.mkdir()
         self.args = SimpleNamespace(cache=str(cache), out=str(self.out), limit=None, skip_download=True, skip_sentences=False)
@@ -239,6 +269,17 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(english('house')[0], 'ház')
         self.assertEqual(english('see')[0], 'lát')
         self.assertIn('alma', english('apple'))
+
+    def test_lemmas_carry_frequency_rank(self):
+        manifest, root = self.build()
+        ranks = {}
+        for p in (root / 'lemmas').glob('*.json'):
+            for rec in json.loads(p.read_text(encoding='utf-8')).values():
+                if 'fr' in rec:
+                    ranks[(rec['w'], rec['pos'])] = rec['fr']
+        self.assertEqual(ranks[('lát', 'verb')], 1)
+        self.assertLess(ranks[('ház', 'noun')], ranks[('alma', 'noun')])
+        self.assertNotIn(('jön', 'verb'), ranks)   # not in the frequency fixture
 
     def test_version_is_content_addressed(self):
         first, _ = self.build()

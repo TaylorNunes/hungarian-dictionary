@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Result } from '../lib/search';
+  import { commonness } from '../lib/frequency';
   import { isSaved, toggleSaved } from '../lib/saved.svelte';
   import InflectionTable from './InflectionTable.svelte';
   import Sentence from './Sentence.svelte';
@@ -15,6 +16,7 @@
     proverb: 'proverb', character: 'letter', abbrev: 'abbreviation', prep_phrase: 'phrase', contraction: 'contraction',
   };
   const examples = $derived(lemma.ex ?? []);
+  const common = $derived(commonness(lemma.fr));
   // English lookups match one sense; show it first, keeping its original number.
   const senses = $derived(
     lemma.s
@@ -28,6 +30,7 @@
     <div class="head">
       <h2 lang="hu">{lemma.w}</h2>
       <span class="pos">{posLabel[lemma.pos] ?? lemma.pos}</span>
+      {#if common}<span class="common" title={common.title}>{common.label}</span>{/if}
       {#if lemma.ipa}<span class="ipa">{lemma.ipa}</span>{/if}
     </div>
     <button
@@ -125,6 +128,16 @@
     color: var(--accent);
     font-style: italic;
     font-size: 0.95rem;
+  }
+  .common {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    border-radius: 999px;
+    padding: 1px 8px;
+    align-self: center;
+    cursor: help;
   }
   .ipa {
     color: var(--faint);

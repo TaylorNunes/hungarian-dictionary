@@ -94,6 +94,12 @@
       Example sentences: <a href="https://tatoeba.org/" rel="noopener">Tatoeba</a> contributors, licensed
       <a href="https://creativecommons.org/licenses/by/2.0/fr/" rel="noopener">CC BY 2.0 FR</a>.
     </li>
+    <li>
+      Word frequencies (the “common” labels and result ranking): counts from Hungarian film and TV subtitles,
+      <a href="https://github.com/hermitdave/FrequencyWords" rel="noopener">FrequencyWords</a> by Hermit Dave, based on
+      <a href="https://www.opensubtitles.org/" rel="noopener">OpenSubtitles</a> 2018, licensed
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>.
+    </li>
     <li>App code: MIT licence.</li>
   </ul>
   {#if manifest}

@@ -32,6 +32,11 @@ describe('rankSections', () => {
     expect(order(hu('kar', [folded]), en('kar', [result('autó', 'car')]))).toEqual(['en', 'hu']);
   });
 
+  it('puts an exact English term ahead of an accent-folded Hungarian match even when it is not leading', () => {
+    const folded = result('cár', 'tsar', { exact: false });
+    expect(order(hu('car', [folded]), en('car', [result('autó', 'automobile, car')], true, false))).toEqual(['en', 'hu']);
+  });
+
   it('shows only Hungarian for accented queries (no English search)', () => {
     expect(order(hu('házat', [result('ház', 'house')]), null)).toEqual(['hu']);
   });

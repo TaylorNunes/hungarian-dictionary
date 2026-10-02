@@ -39,6 +39,8 @@ SOURCES = {
     'hun_sentences.tsv.bz2': 'https://downloads.tatoeba.org/exports/per_language/hun/hun_sentences.tsv.bz2',
     'eng_sentences.tsv.bz2': 'https://downloads.tatoeba.org/exports/per_language/eng/eng_sentences.tsv.bz2',
     'hun-eng_links.tsv.bz2': 'https://downloads.tatoeba.org/exports/per_language/hun/hun-eng_links.tsv.bz2',
+    # Word-form counts from OpenSubtitles 2018 (FrequencyWords by Hermit Dave, CC BY-SA 4.0).
+    'frequencywords-hu.txt': 'https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/2018/hu/hu_full.txt',
 }
 
 FORM_SHARD_MAX_BYTES = 250_000
@@ -502,7 +504,7 @@ TOKEN_RE = re.compile(r"[^\W\d_]+(?:-[^\W\d_]+)*")
 
 
 def attach_sentences(cache: Path, lemmas: list[dict], exact_index: dict[str, set[int]]) -> dict[int, int]:
-    """Attach example sentences; return how many sentences use each lemma (a frequency signal)."""
+    """Attach example sentences; return how many sentences use each lemma."""
     hun = {int(r[0]): r[2] for r in read_tsv_bz2(cache / 'hun_sentences.tsv.bz2') if len(r) >= 3}
     links: dict[int, int] = {}
     for r in read_tsv_bz2(cache / 'hun-eng_links.tsv.bz2'):
@@ -537,6 +539,58 @@ def attach_sentences(cache: Path, lemmas: list[dict], exact_index: dict[str, set
 
 
 # --------------------------------------------------------------------------- build
+
+# --------------------------------------------------------------------------- frequency
+
+# Usage labels that mark a sense as unlikely to be what a learner wants.
+UNCOMMON_LABELS = {
+    'archaic', 'obsolete', 'dated', 'rare', 'dialectal', 'regional', 'nonstandard', 'proscribed',
+    'literary', 'poetic', 'historical', 'uncommon', 'misspelling', 'eye-dialect',
+}
+
+MIN_FORM_COUNT = 2   # forms seen once in the subtitles are mostly typos and names
+MINOR_POS = {'character', 'name', 'suffix', 'prefix', 'infix', 'interfix'}
+
+
+def read_frequency(path: Path) -> dict[str, int]:
+    """Lowercased word form → count, from a 'word count' per line file."""
+    counts: dict[str, int] = defaultdict(int)
+    with open(path, encoding='utf-8', errors='replace') as fh:
+        for line in fh:
+            parts = line.split()
+            if len(parts) == 2 and parts[1].isdigit() and int(parts[1]) >= MIN_FORM_COUNT:
+                counts[parts[0].lower()] += int(parts[1])
+    return counts
+
+
+def lemma_weight(lemma: dict, headword_count: int) -> float:
+    """How much of a shared form's count a lemma should get, relative to the other lemmas with that form.
+
+    Everyday senses count fully and rare/archaic ones a little; letters, names and affixes get little;
+    and a lemma whose dictionary form is itself common in the corpus (eszik, not esz) gets more.
+    """
+    w = sum(0.2 if UNCOMMON_LABELS & set(s.get('t') or ()) else 1.0 for s in lemma['s'])
+    if lemma['pos'] in MINOR_POS:
+        w *= 0.1
+    return w * (1 + math.log10(1 + headword_count))
+
+
+def lemma_frequency(lemmas: list[dict], form_entries: dict[str, set], counts: dict[str, int]) -> dict[int, float]:
+    """Estimated corpus count per lemma: each form's count shared among the lemmas that have it."""
+    lemmas_of: dict[str, set[int]] = defaultdict(set)
+    for form, entries in form_entries.items():
+        lemmas_of[form.lower()].update(lid for lid, _ in entries)
+    weights = [lemma_weight(l, counts.get(l['w'].lower(), 0)) for l in lemmas]
+    freq: dict[int, float] = defaultdict(float)
+    for form, count in counts.items():
+        ids = lemmas_of.get(form)
+        if not ids:
+            continue
+        total = sum(weights[i] for i in ids)
+        for lid in ids:
+            freq[lid] += count * weights[lid] / total
+    return dict(freq)
+
 
 def build(args) -> None:
     cache = Path(args.cache)
@@ -598,14 +652,19 @@ def build(args) -> None:
 
     report_verb_accuracy(lemmas, links, tag_list, by_word)
 
-    freq: dict[int, int] = {}
     if not args.skip_sentences:
         print('Linking Tatoeba sentences…')
         exact: dict[str, set[int]] = defaultdict(set)
         for form, entries in form_entries.items():
             exact[form.lower()].update(lid for lid, _ in entries)
-        freq = attach_sentences(cache, lemmas, exact)
-        print(f'  {len(freq)} lemmas have example sentences')
+        linked = attach_sentences(cache, lemmas, exact)
+        print(f'  {len(linked)} lemmas have example sentences')
+
+    print('Ranking by subtitle frequency…')
+    freq = lemma_frequency(lemmas, form_entries, read_frequency(cache / 'frequencywords-hu.txt'))
+    for rank, lid in enumerate(sorted(freq, key=lambda i: (-freq[i], i)), start=1):
+        lemmas[lid]['fr'] = rank
+    print(f'  {len(freq)} lemmas ranked')
 
     english = build_english_index(lemmas, freq)
     print(f'  {len(english)} English terms')
@@ -613,19 +672,15 @@ def build(args) -> None:
     write_output(out_root, lemmas, form_entries, tag_list, english, args)
 
 
-UNCOMMON_LABELS = {
-    'archaic', 'obsolete', 'dated', 'rare', 'dialectal', 'regional', 'nonstandard', 'proscribed',
-    'literary', 'poetic', 'historical', 'uncommon', 'misspelling', 'eye-dialect',
-}
 
 
-def english_rank(position: int, sense_index: int, labels, freq: int) -> float:
+def english_rank(position: int, sense_index: int, labels, freq: float) -> float:
     """Lower is better: a leading term in the first everyday sense of a common word wins."""
-    return (position + 0.5 * (sense_index > 0) + 1.5 * bool(UNCOMMON_LABELS & set(labels or ()))
-            - 0.8 * math.log10(freq + 1))
+    return (0.6 * position + 0.5 * (sense_index > 0) + 1.5 * bool(UNCOMMON_LABELS & set(labels or ()))
+            - 0.6 * math.log10(freq + 1))
 
 
-def build_english_index(lemmas: list[dict], freq: dict[int, int]) -> dict[str, list[list[int]]]:
+def build_english_index(lemmas: list[dict], freq: dict[int, float]) -> dict[str, list[list[int]]]:
     """Folded English term → [[lemmaId, senseIndex, position], …], best first.
 
     position is 0 when the term leads its gloss ('house' in 'house, building'), else 1.
