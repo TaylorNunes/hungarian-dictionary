@@ -1,0 +1,385 @@
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import { APP_NAME, APP_TAGLINE } from './config';
+  import { getManifest, pruneOldShards } from './lib/data';
+  import { search, cleanQuery, type SearchResponse } from './lib/search';
+  import { saved } from './lib/saved.svelte';
+  import Result from './components/Result.svelte';
+  import SavedList from './components/SavedList.svelte';
+  import About from './components/About.svelte';
+
+  type View = 'search' | 'saved' | 'about';
+
+  let view = $state<View>('search');
+  let query = $state('');
+  let response = $state<SearchResponse | null>(null);
+  let loading = $state(false);
+  let error = $state('');
+  let input: HTMLInputElement | undefined = $state();
+  let seq = 0;
+  let debounce: ReturnType<typeof setTimeout> | undefined;
+
+  function parseHash(): { view: View; word: string } {
+    const h = location.hash.replace(/^#\/?/, '');
+    if (h === 'saved') return { view: 'saved', word: '' };
+    if (h === 'about') return { view: 'about', word: '' };
+    const m = h.match(/^w\/(.*)$/);
+    return { view: 'search', word: m ? decodeURIComponent(m[1]) : '' };
+  }
+
+  async function run(q: string) {
+    const id = ++seq;
+    const clean = cleanQuery(q);
+    if (!clean) {
+      response = null;
+      loading = false;
+      error = '';
+      return;
+    }
+    loading = true;
+    try {
+      const r = await search(clean);
+      if (id !== seq) return;
+      response = r;
+      error = '';
+    } catch (e) {
+      if (id !== seq) return;
+      // fetch() rejects with a TypeError when the network is unreachable.
+      const offline = !navigator.onLine || e instanceof TypeError;
+      error = offline
+        ? "You're offline and this part of the dictionary isn't saved on this device yet. Download everything for offline use under About."
+        : `Couldn't load the dictionary data (${(e as Error).message}).`;
+    } finally {
+      if (id === seq) loading = false;
+    }
+  }
+
+  function setHashForQuery(q: string, replace: boolean) {
+    const clean = cleanQuery(q);
+    const target = clean ? `#/w/${encodeURIComponent(clean)}` : '#/';
+    if (location.hash === target) return;
+    if (replace) history.replaceState(null, '', target);
+    else history.pushState(null, '', target);
+  }
+
+  function onInput() {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      // Typing refines the current entry rather than adding history steps.
+      setHashForQuery(query, parseHash().word !== '');
+      run(query);
+    }, 180);
+  }
+
+  function onSubmit(e: SubmitEvent) {
+    e.preventDefault();
+    clearTimeout(debounce);
+    setHashForQuery(query, false);
+    run(query);
+    input?.blur();
+  }
+
+  function clear() {
+    query = '';
+    response = null;
+    setHashForQuery('', false);
+    input?.focus();
+  }
+
+  function syncFromHash() {
+    const h = parseHash();
+    view = h.view;
+    if (h.view === 'search') {
+      if (h.word !== query) query = h.word;
+      run(h.word);
+      window.scrollTo({ top: 0 });
+    }
+  }
+
+  onMount(() => {
+    syncFromHash();
+    window.addEventListener('hashchange', syncFromHash);
+    window.addEventListener('popstate', syncFromHash);
+    getManifest().then(pruneOldShards).catch(() => {});
+    if (!parseHash().word && view === 'search' && matchMedia('(pointer: fine)').matches) input?.focus();
+    return () => {
+      window.removeEventListener('hashchange', syncFromHash);
+      window.removeEventListener('popstate', syncFromHash);
+    };
+  });
+</script>
+
+<header class="top">
+  <div class="bar">
+    <a class="brand" href="#/" onclick={() => (query = '')}>
+      <span class="logo" aria-hidden="true">ő</span>
+      <span class="name">{APP_NAME}</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="#/" aria-current={view === 'search' ? 'page' : undefined}>Search</a>
+      <a href="#/saved" aria-current={view === 'saved' ? 'page' : undefined}>
+        Saved{#if saved.list.length}<span class="count">{saved.list.length}</span>{/if}
+      </a>
+      <a href="#/about" aria-current={view === 'about' ? 'page' : undefined}>About</a>
+    </nav>
+  </div>
+
+  {#if view === 'search'}
+    <form class="search" role="search" onsubmit={onSubmit}>
+      <label for="q" class="visually-hidden">Hungarian word</label>
+      <input
+        id="q"
+        bind:this={input}
+        bind:value={query}
+        oninput={onInput}
+        type="search"
+        lang="hu"
+        placeholder="Type or paste a Hungarian word…"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        enterkeyhint="search"
+      />
+      {#if query}
+        <button type="button" class="clear" onclick={clear} aria-label="Clear search">×</button>
+      {/if}
+    </form>
+  {/if}
+</header>
+
+<main>
+  {#if view === 'saved'}
+    <SavedList />
+  {:else if view === 'about'}
+    <About />
+  {:else}
+    {#if error}
+      <p class="notice" role="alert">{error}</p>
+    {:else if response}
+      {#if response.tokens.length}
+        {#if !response.results.length}<p class="status">Tap a word to look it up.</p>{/if}
+        <div class="tokens" aria-label="Words in your text">
+          {#each response.tokens as t}
+            <a href={`#/w/${encodeURIComponent(t)}`} lang="hu">{t}</a>
+          {/each}
+        </div>
+      {/if}
+
+      {#if response.results.length}
+        <p class="status" aria-live="polite">
+          {response.results.length === 1 ? '1 entry' : `${response.results.length} entries`}
+          {#if response.results[0].guessed}
+            · <span class="guess">no exact form in the tables; best guess by removing suffixes</span>
+          {/if}
+        </p>
+        <ol class="results">
+          {#each response.results as r (r.lemmaId)}
+            <li><Result result={r} query={response.query} /></li>
+          {/each}
+        </ol>
+      {:else if !loading && !response.tokens.length}
+        <div class="empty">
+          <p>No entry for <strong lang="hu">{response.query}</strong>.</p>
+          {#if response.suggestions.length}
+            <p>Did you mean:</p>
+            <div class="tokens">
+              {#each response.suggestions as s}
+                <a href={`#/w/${encodeURIComponent(s)}`} lang="hu">{s}</a>
+              {/each}
+            </div>
+          {/if}
+        </div>
+      {/if}
+    {:else if !query}
+      <section class="welcome">
+        <h1>{APP_TAGLINE}</h1>
+        <p>Paste any form of a word, and see its dictionary form, meaning, how it's built, and example sentences.</p>
+        <p class="try">
+          Try
+          {#each ['házat', 'hazat', 'könyveimben', 'láttalak', 'megyünk', 'szeretném'] as w, i}
+            {#if i}, {/if}<a href={`#/w/${encodeURIComponent(w)}`} lang="hu">{w}</a>
+          {/each}
+        </p>
+        <p class="hint">Accents are optional: <em lang="hu">orom</em> finds <em lang="hu">öröm</em>.</p>
+      </section>
+    {/if}
+    {#if loading}
+      <p class="loading" aria-live="polite">Looking up…</p>
+    {/if}
+  {/if}
+</main>
+
+<style>
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: env(safe-area-inset-top) 0 0;
+  }
+  .bar,
+  .search,
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 10px;
+    padding-bottom: 8px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 650;
+    font-size: 1.1rem;
+  }
+  .logo {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    line-height: 1;
+    padding-bottom: 2px;
+  }
+  nav {
+    display: flex;
+    gap: 4px;
+  }
+  nav a {
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  nav a[aria-current='page'] {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+  }
+  .count {
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    padding: 0 6px;
+    min-width: 20px;
+    text-align: center;
+  }
+  .search {
+    position: relative;
+    padding-bottom: 12px;
+  }
+  .search input {
+    width: 100%;
+    font: inherit;
+    font-size: 1.15rem;
+    padding: 12px 44px 12px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .search input::-webkit-search-cancel-button {
+    display: none;
+  }
+  .search input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .clear {
+    position: absolute;
+    right: 24px;
+    top: 7px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: none;
+    color: var(--faint);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  main {
+    padding-top: 12px;
+    padding-bottom: calc(48px + env(safe-area-inset-bottom));
+  }
+  .results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .status,
+  .loading {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 4px 2px 12px;
+  }
+  .guess {
+    color: var(--warn);
+  }
+  .notice {
+    background: var(--warn-soft);
+    color: var(--warn);
+    padding: 12px 14px;
+    border-radius: var(--radius);
+  }
+  .tokens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 16px;
+  }
+  .tokens a {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    text-decoration: none;
+  }
+  .empty {
+    color: var(--muted);
+  }
+  .welcome h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 16px 0 8px;
+  }
+  .welcome p {
+    color: var(--muted);
+    max-width: 52ch;
+  }
+  .welcome .try a {
+    font-weight: 550;
+  }
+  .hint {
+    font-size: 0.9rem;
+  }
+</style>
