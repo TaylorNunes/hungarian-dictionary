@@ -5,8 +5,10 @@ import { VitePWA } from 'vite-plugin-pwa';
 // Keep in sync with APP_NAME in src/config.ts.
 const APP_NAME = 'Szóda';
 
-// GitHub Pages serves project sites from /<repo>/; the deploy workflow sets BASE_PATH.
-const base = process.env.BASE_PATH ?? '/';
+// Relative asset URLs, so the same build works at a domain root (hungarian.tcnunes.com) and under a
+// sub-path (taylornunes.github.io/hungarian-dictionary/). Routing is hash-based, so the page's own path
+// never changes. Set BASE_PATH to force an absolute base.
+const base = process.env.BASE_PATH ?? './';
 
 export default defineConfig({
   base,

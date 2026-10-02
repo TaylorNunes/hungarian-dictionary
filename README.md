@@ -72,7 +72,7 @@ Output lives in `public/data/`:
 1. Create a GitHub repository and push this project to `main`.
 2. In the repository's **Settings → Pages**, set **Source** to **GitHub Actions**.
 
-The workflow sets `BASE_PATH=/<repo>/` for a project site. For a custom domain or a `<user>.github.io` repository, set it to `/`.
+The build uses relative asset URLs, so the same site works on a custom domain (it's served at https://hungarian.tcnunes.com/) and at `<user>.github.io/<repo>/`. To use a custom domain, add a CNAME record pointing at `<user>.github.io` and enter the domain in **Settings → Pages → Custom domain**.
 
 ## Android / Play Store (phase 8)
 

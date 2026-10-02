@@ -50,11 +50,9 @@ jobs:
       - run: npm test
       - run: npm run check
 
+      # Assets use relative URLs, so the build works on the custom domain and under /<repo>/ alike.
       - name: Build site
         run: npm run build
-        env:
-          # Project sites are served from /<repo>/. Use '/' for a custom domain or a user site.
-          BASE_PATH: /${{ github.event.repository.name }}/
 
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
