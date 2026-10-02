@@ -1,4 +1,4 @@
-# Szóda: Hungarian → English dictionary
+# Szóda: Hungarian ⇄ English dictionary
 
 *Working name; change it in `src/config.ts` and `vite.config.ts`.*
 
@@ -9,6 +9,8 @@ An offline-capable Hungarian→English dictionary in the spirit of Takoboto. Typ
 - a breakdown: *házat* = ház + accusative; *szeretném* = szeret + conditional + I + definite
 - the full declension or conjugation table
 - example sentences, where every word can be tapped to look it up
+
+It also works the other way: type an English word (*house*, *beautiful*, *to see*, *went*) to find the Hungarian. As in Takoboto, there's one search box and no language switch. Words with Hungarian accents are looked up as Hungarian; anything else is looked up in both languages, and the stronger match is shown first.
 
 Accents are optional (*hazat* finds *házat*). When a form isn't in the tables, a suffix stripper makes a labelled guess (*könyveimben* = könyv + my (several) + inessive). Starred words can be exported for Anki. The site is a static PWA that installs on Android and works offline.
 
@@ -41,6 +43,7 @@ npm run build && npm run preview                          # production build wit
 
 - Reads the [Kaikki.org](https://kaikki.org/dictionary/Hungarian/) Hungarian extract of English Wiktionary and the [Tatoeba](https://tatoeba.org/) Hungarian–English sentence pairs.
 - Kaikki's Hungarian verb tables are parsed with every person shifted one column (*látok* is tagged "second person"), and mood labels are missing. The build rebuilds the tags from the table layout, then checks them against Kaikki's separate form-of entries. It prints the agreement rate (currently 99.4%).
+- The English index reverses the Hungarian entries' glosses: "to see (to perceive…)" indexes *see* → lát. Ranking favours a term that leads its gloss, the first sense and everyday labels, plus how often the Hungarian word appears in Tatoeba.
 - Senses that only describe an inflected form ("third-person singular possessive of *monitor*") become links to the headword instead of separate entries.
 
 Output lives in `public/data/`:
@@ -50,13 +53,14 @@ Output lives in `public/data/`:
 | `manifest.json` | current data version, shard list, counts |
 | `<version>/forms/<prefix>.json` | accent-folded form → `[form, lemma id, tag set]`; sharded by prefix, split until each is ≤ 250 KB |
 | `<version>/lemmas/<n>.json` | 128 entries per file: senses, IPA, inflection table, example sentences |
+| `<version>/en/<prefix>.json` | English gloss term → `[lemma id, sense, leading?]`, best first |
 | `<version>/tags.json` | the tag sets that forms and tables refer to |
 
 `<version>` is a hash of the content, so a rebuild that changes nothing keeps the same URLs and offline caches stay valid. The whole dataset is about 120 MB uncompressed, in about 3,000 files.
 
 **App** (Vite + Svelte 5 + TypeScript):
 
-- `src/lib/search.ts` tries an exact form, then an accent-folded form, then `src/lib/stemmer.ts`.
+- `src/lib/search.ts` tries an exact form, then an accent-folded form, then `src/lib/stemmer.ts`. In parallel, `searchEnglish` looks the query up in the English index, falling back to simple de-inflection from `src/lib/english.ts` (*houses → house*, *went → go*). `rankSections` decides which section comes first.
 - `src/lib/tags.ts` turns tag sets into readable breakdowns and inflection grids.
 - The service worker (`vite-plugin-pwa`) precaches the app shell and caches data shards as they're used. About → "Download for offline use" fetches every shard.
 

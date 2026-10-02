@@ -68,6 +68,27 @@ class GlossFormOfTest(unittest.TestCase):
         self.assertIsNone(bd.gloss_form_of('house, building'))
 
 
+class EnglishIndexTest(unittest.TestCase):
+    def test_terms_from_glosses(self):
+        self.assertEqual(bd.english_terms('to see (to perceive with the eyes)'), ['see'])
+        self.assertEqual(bd.english_terms('house, building (closed structure with walls and a roof)'), ['house', 'building'])
+        self.assertEqual(bd.english_terms('an apple; the fruit'), ['apple', 'fruit'])
+        self.assertEqual(bd.english_terms('good morning!'), ['good morning'])
+        self.assertEqual(bd.english_terms('the act of doing something for a very long time'), [])
+
+    def test_ranking_prefers_leading_term_then_first_sense_then_frequency(self):
+        lemmas = [
+            {'w': 'hodály', 'pos': 'noun', 's': [{'g': 'barn, house'}]},          # 'house' not leading
+            {'w': 'ház', 'pos': 'noun', 's': [{'g': 'house, building'}]},
+            {'w': 'kamara', 'pos': 'noun', 's': [{'g': 'chamber'}, {'g': 'house (of parliament)'}]},
+            {'w': 'lak', 'pos': 'noun', 's': [{'g': 'house'}]},                  # leading, but rarer than ház
+        ]
+        index = bd.build_english_index(lemmas, {1: 50, 3: 2})
+        self.assertEqual([row[0] for row in index['house']], [1, 3, 2, 0])
+        self.assertEqual(index['house'][0], [1, 0, 0])
+        self.assertEqual(index['barn'], [[0, 0, 0]])
+
+
 class ConjugationTest(unittest.TestCase):
     """Kaikki shifts person tags by one column; the parser must undo it."""
 
@@ -200,6 +221,24 @@ class BuildTest(unittest.TestCase):
         for p in (root / 'forms').glob('*.json'):
             for folded in json.loads(p.read_text(encoding='utf-8')):
                 self.assertTrue(self.lookup(manifest, root, folded), folded)
+
+    def test_english_index_shards(self):
+        manifest, root = self.build()
+        self.assertTrue(manifest['enShards'])
+        self.assertGreater(manifest['englishTermCount'], 0)
+        keys = set(manifest['enShards'])
+
+        def english(term):
+            chars = bd.shard_key_chars(term)
+            for n in range(len(chars), 0, -1):
+                if chars[:n] in keys:
+                    shard = json.loads((root / 'en' / f'{chars[:n]}.json').read_text(encoding='utf-8'))
+                    return [self.lemma(manifest, root, lid)['w'] for lid, _, _ in shard.get(term, [])]
+            return []
+
+        self.assertEqual(english('house')[0], 'ház')
+        self.assertEqual(english('see')[0], 'lát')
+        self.assertIn('alma', english('apple'))
 
     def test_version_is_content_addressed(self):
         first, _ = self.build()

@@ -44,8 +44,14 @@
 <section>
   <h1>About {APP_NAME}</h1>
   <p>
-    A free Hungarian → English dictionary. Type or paste any form of a word to see its dictionary form, meaning,
-    a breakdown of its endings, its full inflection table and example sentences.
+    A free Hungarian ⇄ English dictionary. Type or paste any form of a Hungarian word to see its dictionary form,
+    meaning, a breakdown of its endings, its full inflection table and example sentences.
+  </p>
+  <p>
+    Type an English word to find the Hungarian. English lookup searches the English meanings of the Hungarian entries,
+    so it finds words by their definitions. Common English endings (<em>houses</em>, <em>running</em>) and frequent
+    irregular forms (<em>went</em>, <em>children</em>) are reduced to the base word. Words without accents are looked up
+    in both languages; anything with Hungarian accents is treated as Hungarian.
   </p>
 
   <h2>Offline use</h2>

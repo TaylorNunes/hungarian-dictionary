@@ -15,6 +15,12 @@
     proverb: 'proverb', character: 'letter', abbrev: 'abbreviation', prep_phrase: 'phrase', contraction: 'contraction',
   };
   const examples = $derived(lemma.ex ?? []);
+  // English lookups match one sense; show it first, keeping its original number.
+  const senses = $derived(
+    lemma.s
+      .map((s, i) => ({ ...s, n: i + 1, match: i === result.sense }))
+      .sort((a, b) => Number(b.match) - Number(a.match)),
+  );
 </script>
 
 <article class="entry">
@@ -54,8 +60,8 @@
   {/if}
 
   <ol class="senses">
-    {#each lemma.s as s}
-      <li>
+    {#each senses as s (s.n)}
+      <li value={s.n} class:match={s.match}>
         {#if s.t?.length}
           {#each s.t as label}<span class="label">{label.replace(/-/g, ' ')}</span>{/each}
         {/if}
@@ -187,6 +193,15 @@
   }
   .senses > li::marker {
     color: var(--faint);
+  }
+  .senses > li.match {
+    background: var(--accent-soft);
+    border-radius: 6px;
+    padding: 2px 8px;
+    margin-left: -8px;
+  }
+  .senses > li.match::marker {
+    color: var(--accent);
   }
   .label {
     display: inline-block;

@@ -24,6 +24,9 @@ export interface Lemma {
 /** One row in a form shard: [form, lemma id, tag set index]. */
 export type FormRow = [form: string, lemmaId: number, tagIdx: number];
 
+/** One row in an English shard: [lemma id, matching sense index, 0 if the term leads its gloss else 1]. */
+export type EnglishRow = [lemmaId: number, senseIndex: number, position: number];
+
 export interface Manifest {
   version: string;
   built: string;
@@ -32,6 +35,8 @@ export interface Manifest {
   lemmasPerShard: number;
   lemmaShards: number;
   formShards: string[];
+  englishTermCount: number;
+  enShards: string[];
   bytes: number;
   partial?: boolean;
 }

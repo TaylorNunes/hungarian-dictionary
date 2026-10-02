@@ -1,13 +1,23 @@
 import { shardChars } from './fold';
-import type { FormRow, Lemma, Manifest } from './types';
+import type { EnglishRow, FormRow, Lemma, Manifest } from './types';
 
 const DATA_URL = `${import.meta.env.BASE_URL}data/`;
 const SHARD_CACHE = 'data-shards'; // must match the runtime cache name in vite.config.ts
 
+/** The two prefix-sharded indexes: Hungarian forms and English gloss terms. */
+type IndexName = 'forms' | 'en';
+
+interface ShardIndex {
+  keys: Set<string>;
+  maxKeyLength: number;
+  shards: Map<string, Promise<Record<string, unknown[]>>>;
+}
+
 let manifestPromise: Promise<Manifest> | null = null;
-let shardKeys: Set<string> | null = null;
-let maxKeyLength = 0;
-const formShards = new Map<string, Promise<Record<string, FormRow[]>>>();
+const indexes: Record<IndexName, ShardIndex> = {
+  forms: { keys: new Set(), maxKeyLength: 0, shards: new Map() },
+  en: { keys: new Set(), maxKeyLength: 0, shards: new Map() },
+};
 const lemmaShards = new Map<number, Promise<Record<string, Lemma>>>();
 let tagsPromise: Promise<string[][]> | null = null;
 
@@ -19,8 +29,11 @@ async function fetchJson<T>(url: string): Promise<T> {
 
 export function getManifest(): Promise<Manifest> {
   manifestPromise ??= fetchJson<Manifest>(`${DATA_URL}manifest.json`).then((m) => {
-    shardKeys = new Set(m.formShards);
-    maxKeyLength = Math.max(...m.formShards.map((k) => k.length));
+    const lists: Record<IndexName, string[]> = { forms: m.formShards, en: m.enShards ?? [] };
+    for (const name of Object.keys(lists) as IndexName[]) {
+      indexes[name].keys = new Set(lists[name]);
+      indexes[name].maxKeyLength = Math.max(0, ...lists[name].map((k) => k.length));
+    }
     return m;
   });
   manifestPromise.catch(() => (manifestPromise = null));
@@ -31,42 +44,52 @@ function versionUrl(m: Manifest, path: string): string {
   return `${DATA_URL}${m.version}/${path}`;
 }
 
-/** The longest shard key that is a prefix of the folded word, if any. */
-function shardKeyFor(folded: string): string | null {
+/** The longest shard key of an index that is a prefix of the folded word, if any. */
+function shardKeyFor(name: IndexName, folded: string): string | null {
+  const { keys, maxKeyLength } = indexes[name];
   const chars = shardChars(folded);
   for (let n = Math.min(chars.length, maxKeyLength); n > 0; n--) {
     const key = chars.slice(0, n);
-    if (shardKeys?.has(key)) return key;
+    if (keys.has(key)) return key;
   }
   return null;
 }
 
-async function loadFormShard(key: string): Promise<Record<string, FormRow[]>> {
+async function loadShard<Row>(name: IndexName, key: string): Promise<Record<string, Row[]>> {
   const m = await getManifest();
-  let p = formShards.get(key);
+  const { shards } = indexes[name];
+  let p = shards.get(key);
   if (!p) {
-    p = fetchJson<Record<string, FormRow[]>>(versionUrl(m, `forms/${key}.json`));
-    p.catch(() => formShards.delete(key));
-    formShards.set(key, p);
+    p = fetchJson<Record<string, unknown[]>>(versionUrl(m, `${name}/${key}.json`));
+    p.catch(() => shards.delete(key));
+    shards.set(key, p);
   }
-  return p;
+  return p as Promise<Record<string, Row[]>>;
 }
 
-/** All index rows whose folded spelling equals `folded`. */
-export async function lookupFolded(folded: string): Promise<FormRow[]> {
+async function lookup<Row>(name: IndexName, folded: string): Promise<Row[]> {
   await getManifest();
-  const key = shardKeyFor(folded);
+  const key = shardKeyFor(name, folded);
   if (!key) return [];
-  const shard = await loadFormShard(key);
-  return shard[folded] ?? [];
+  return (await loadShard<Row>(name, key))[folded] ?? [];
+}
+
+/** All Hungarian form rows whose folded spelling equals `folded`. */
+export function lookupFolded(folded: string): Promise<FormRow[]> {
+  return lookup<FormRow>('forms', folded);
+}
+
+/** Hungarian lemmas whose glosses contain the folded English term, best first. */
+export function lookupEnglish(folded: string): Promise<EnglishRow[]> {
+  return lookup<EnglishRow>('en', folded);
 }
 
 /** Headwords in the same shard that start with `folded` (for suggestions). */
 export async function suggest(folded: string, limit = 8): Promise<string[]> {
   await getManifest();
-  const key = shardKeyFor(folded);
+  const key = shardKeyFor('forms', folded);
   if (!key || folded.length < key.length) return [];
-  const shard = await loadFormShard(key);
+  const shard = await loadShard<FormRow>('forms', key);
   const out: string[] = [];
   for (const [k, rows] of Object.entries(shard)) {
     if (k === folded || !k.startsWith(folded)) continue;
@@ -102,6 +125,7 @@ export async function allDataUrls(): Promise<string[]> {
   const m = await getManifest();
   const urls = [versionUrl(m, 'tags.json')];
   for (const k of m.formShards) urls.push(versionUrl(m, `forms/${k}.json`));
+  for (const k of m.enShards ?? []) urls.push(versionUrl(m, `en/${k}.json`));
   for (let i = 0; i < m.lemmaShards; i++) urls.push(versionUrl(m, `lemmas/${i}.json`));
   return urls;
 }

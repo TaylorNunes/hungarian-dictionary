@@ -1,4 +1,5 @@
-import { getLemma, getTags, lookupFolded, suggest } from './data';
+import { getLemma, getTags, lookupEnglish, lookupFolded, suggest } from './data';
+import { deinflect, normalizeEnglish } from './english';
 import { fold, hasAccents } from './fold';
 import { candidates, type Step } from './stemmer';
 import { describe, isBaseForm, type Part } from './tags';
@@ -16,8 +17,10 @@ export interface Result {
   analyses: Analysis[];
   /** Matched with the accents exactly as typed. */
   exact: boolean;
-  /** Found through the suffix stripper rather than the tables. */
+  /** Found through the suffix stripper (or English de-inflection) rather than directly. */
   guessed: boolean;
+  /** For English lookups: index of the sense whose gloss matched. */
+  sense?: number;
 }
 
 export interface SearchResponse {
@@ -131,4 +134,101 @@ export async function search(raw: string): Promise<SearchResponse> {
 
   const suggestions = results.length ? [] : await suggest(fold(query));
   return { query, results: results.slice(0, MAX_RESULTS), tokens, suggestions };
+}
+
+// ----------------------------------------------------------------------------- English → Hungarian
+
+export interface EnglishResponse {
+  /** The English term that matched (after de-inflection), or the normalised query. */
+  term: string;
+  results: Result[];
+  /** The query itself was in the index (not reached by de-inflection). */
+  exact: boolean;
+  /** The best match has the term leading its gloss ("house" in "house, building"). */
+  strong: boolean;
+}
+
+export async function searchEnglish(raw: string): Promise<EnglishResponse> {
+  const query = normalizeEnglish(cleanQuery(raw));
+  const empty = { term: query, results: [], exact: false, strong: false };
+  if (!query) return empty;
+
+  let term = query;
+  let rows = await lookupEnglish(fold(term));
+  if (!rows.length) {
+    for (const base of deinflect(query)) {
+      rows = await lookupEnglish(fold(base));
+      if (rows.length) {
+        term = base;
+        break;
+      }
+    }
+  }
+  if (!rows.length) return empty;
+
+  const exact = term === query;
+  const top = rows.slice(0, MAX_RESULTS);
+  const lemmas = await Promise.all(top.map(([id]) => getLemma(id)));
+  const results: Result[] = [];
+  top.forEach(([lemmaId, sense], i) => {
+    const lemma = lemmas[i];
+    if (lemma) results.push({ lemmaId, lemma, analyses: [], exact, guessed: !exact, sense });
+  });
+  return { term, results, exact, strong: exact && rows[0][2] === 0 };
+}
+
+// ----------------------------------------------------------------------------- both directions
+
+export interface Section {
+  lang: 'hu' | 'en';
+  /** For 'en': the English term that matched. */
+  term: string;
+  results: Result[];
+}
+
+export interface CombinedResponse {
+  query: string;
+  sections: Section[];
+  tokens: string[];
+  suggestions: string[];
+}
+
+function glossMentions(lemma: Lemma, term: string): boolean {
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`(^|[^\\p{L}])${escaped}($|[^\\p{L}])`, 'iu');
+  return lemma.s.some((s) => re.test(s.g));
+}
+
+/**
+ * Order the Hungarian and English sections: the stronger match goes first, Hungarian on a tie.
+ * Hungarian is strong when the query is a dictionary form as typed, English when the query
+ * leads a gloss. Pure, so the rules are unit-tested in search.test.ts.
+ */
+export function rankSections(hu: SearchResponse, en: EnglishResponse | null): Section[] {
+  const huGuessed = hu.results.length > 0 && hu.results[0].guessed;
+  const huExact = hu.results.some((r) => r.exact && !r.guessed);
+  // A Hungarian stemmer guess is noise when the word is English ("houses").
+  const keepHu = !(huGuessed && en?.results.length);
+  // A Hungarian word glossed with the same English word is a loan ("house" = house music): English first.
+  const loan = huExact && !!en?.strong && glossMentions(hu.results[0].lemma, normalizeEnglish(hu.query));
+  const huScore = !keepHu || !hu.results.length ? 0 : huExact && !loan ? 3 : huGuessed ? 1 : 2;
+  const enScore = !en?.results.length ? 0 : en.strong ? 3 : en.exact ? 2 : 1;
+
+  const huSection: Section = { lang: 'hu', term: hu.query, results: keepHu ? hu.results : [] };
+  const enSection: Section = { lang: 'en', term: en?.term ?? '', results: en?.results ?? [] };
+  const ordered = huScore >= enScore ? [huSection, enSection] : [enSection, huSection];
+  return ordered.filter((sec) => sec.results.length);
+}
+
+/**
+ * Look the query up as Hungarian and as English, like Takoboto does for Latin-script input.
+ * Accented letters mean Hungarian, so English is only tried for unaccented queries.
+ */
+export async function searchBoth(raw: string): Promise<CombinedResponse> {
+  const [hu, en] = await Promise.all([
+    search(raw),
+    hasAccents(cleanQuery(raw)) ? Promise.resolve(null) : searchEnglish(raw),
+  ]);
+  const sections = rankSections(hu, en);
+  return { query: hu.query, sections, tokens: hu.tokens, suggestions: sections.length ? [] : hu.suggestions };
 }

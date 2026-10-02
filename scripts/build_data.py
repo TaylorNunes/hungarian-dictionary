@@ -21,6 +21,7 @@ import argparse
 import bz2
 import hashlib
 import json
+import math
 import re
 import shutil
 import sys
@@ -110,6 +111,26 @@ def gloss_form_of(gloss: str) -> tuple[str, tuple[str, ...]] | None:
     for w in words:
         tags.extend(GLOSS_TAGS.get(w, (w,)))
     return m.group(2), tuple(sorted(set(tags)))
+
+
+ARTICLE_RE = re.compile(r'^(?:to|a|an|the) ')
+MAX_TERM_WORDS = 4
+MAX_LEMMAS_PER_TERM = 30
+
+
+def english_terms(gloss: str) -> list[str]:
+    """English headword terms of a gloss: 'to see (to perceive…)' → ['see'].
+
+    Only text outside parentheses counts; it is split on commas and semicolons.
+    """
+    text = re.sub(r'\([^()]*\)', '', gloss)
+    terms = []
+    for piece in re.split(r'[,;]', text):
+        t = re.sub(r'\s+', ' ', piece).strip().strip('.!?"“”‘’').strip().lower()
+        t = ARTICLE_RE.sub('', t)
+        if t and len(t.split()) <= MAX_TERM_WORDS and not re.search(r'[:()\[\]=]', t) and t not in terms:
+            terms.append(t)
+    return terms
 
 
 def tag_key(tags) -> str:
@@ -480,7 +501,8 @@ def read_tsv_bz2(path: Path):
 TOKEN_RE = re.compile(r"[^\W\d_]+(?:-[^\W\d_]+)*")
 
 
-def attach_sentences(cache: Path, lemmas: list[dict], exact_index: dict[str, set[int]]) -> int:
+def attach_sentences(cache: Path, lemmas: list[dict], exact_index: dict[str, set[int]]) -> dict[int, int]:
+    """Attach example sentences; return how many sentences use each lemma (a frequency signal)."""
     hun = {int(r[0]): r[2] for r in read_tsv_bz2(cache / 'hun_sentences.tsv.bz2') if len(r) >= 3}
     links: dict[int, int] = {}
     for r in read_tsv_bz2(cache / 'hun-eng_links.tsv.bz2'):
@@ -508,12 +530,10 @@ def attach_sentences(cache: Path, lemmas: list[dict], exact_index: dict[str, set
                 bonus = 0 if tok == lemmas[lid]['w'].lower() else 1
                 candidates[lid].append((score + bonus, hid, hu_text, en_text))
 
-    linked = 0
     for lid, cands in candidates.items():
         cands.sort()
         lemmas[lid]['ex'] = [[h, e] for _, _, h, e in cands[:EXAMPLES_PER_LEMMA]]
-        linked += 1
-    return linked
+    return {lid: len(c) for lid, c in candidates.items()}
 
 
 # --------------------------------------------------------------------------- build
@@ -578,15 +598,54 @@ def build(args) -> None:
 
     report_verb_accuracy(lemmas, links, tag_list, by_word)
 
+    freq: dict[int, int] = {}
     if not args.skip_sentences:
         print('Linking Tatoeba sentences…')
         exact: dict[str, set[int]] = defaultdict(set)
         for form, entries in form_entries.items():
             exact[form.lower()].update(lid for lid, _ in entries)
-        n = attach_sentences(cache, lemmas, exact)
-        print(f'  {n} lemmas have example sentences')
+        freq = attach_sentences(cache, lemmas, exact)
+        print(f'  {len(freq)} lemmas have example sentences')
 
-    write_output(out_root, lemmas, form_entries, tag_list, args)
+    english = build_english_index(lemmas, freq)
+    print(f'  {len(english)} English terms')
+
+    write_output(out_root, lemmas, form_entries, tag_list, english, args)
+
+
+UNCOMMON_LABELS = {
+    'archaic', 'obsolete', 'dated', 'rare', 'dialectal', 'regional', 'nonstandard', 'proscribed',
+    'literary', 'poetic', 'historical', 'uncommon', 'misspelling', 'eye-dialect',
+}
+
+
+def english_rank(position: int, sense_index: int, labels, freq: int) -> float:
+    """Lower is better: a leading term in the first everyday sense of a common word wins."""
+    return (position + 0.5 * (sense_index > 0) + 1.5 * bool(UNCOMMON_LABELS & set(labels or ()))
+            - 0.8 * math.log10(freq + 1))
+
+
+def build_english_index(lemmas: list[dict], freq: dict[int, int]) -> dict[str, list[list[int]]]:
+    """Folded English term → [[lemmaId, senseIndex, position], …], best first.
+
+    position is 0 when the term leads its gloss ('house' in 'house, building'), else 1.
+    """
+    best: dict[str, dict[int, tuple[float, int, int]]] = defaultdict(dict)
+    for lid, l in enumerate(lemmas):
+        if l['pos'] == 'character':
+            continue
+        for si, sense in enumerate(l['s']):
+            for i, term in enumerate(english_terms(sense['g'])):
+                key = fold(term)
+                position = min(i, 1)
+                cand = (english_rank(position, si, sense.get('t'), freq.get(lid, 0)), si, position)
+                if lid not in best[key] or cand < best[key][lid]:
+                    best[key][lid] = cand
+    index = {}
+    for key, by_lemma in best.items():
+        rows = sorted(by_lemma.items(), key=lambda kv: (kv[1][0], kv[0]))
+        index[key] = [[lid, si, position] for lid, (_, si, position) in rows[:MAX_LEMMAS_PER_TERM]]
+    return index
 
 
 def report_verb_accuracy(lemmas, links, tag_list, by_word) -> None:
@@ -614,7 +673,45 @@ def report_verb_accuracy(lemmas, links, tag_list, by_word) -> None:
         print(f'  verb tag check: {agree}/{checked} form-of entries agree ({100 * agree / checked:.1f}%)')
 
 
-def write_output(out_root: Path, lemmas, form_entries, tag_list, args) -> None:
+def write_sharded(directory: Path, mapping: dict[str, list], dump) -> list[str]:
+    """Write {folded key: rows} as prefix shards, splitting any shard over the size limit.
+
+    A key lives in the shard named by the longest listed prefix of shard_key_chars(key);
+    src/lib/data.ts resolves keys the same way. Returns the shard keys.
+    """
+    directory.mkdir(parents=True, exist_ok=True)
+    shard_keys: list[str] = []
+
+    def emit(prefix: str, group: list) -> None:
+        size = sum(len(k) * 2 + len(json.dumps(v, ensure_ascii=False)) for k, v in group)
+        depth = len(prefix)
+        if size <= FORM_SHARD_MAX_BYTES or all(len(shard_key_chars(k)) <= depth for k, _ in group):
+            dump(directory / f'{prefix}.json', dict(group))
+            shard_keys.append(prefix)
+            return
+        here = [(k, v) for k, v in group if len(shard_key_chars(k)) <= depth]
+        if here:
+            dump(directory / f'{prefix}.json', dict(here))
+            shard_keys.append(prefix)
+        children: dict[str, list] = defaultdict(list)
+        for k, v in group:
+            sk = shard_key_chars(k)
+            if len(sk) > depth:
+                children[sk[:depth + 1]].append((k, v))
+        for child, g in sorted(children.items()):
+            emit(child, g)
+
+    top: dict[str, list] = defaultdict(list)
+    for k, v in sorted(mapping.items()):
+        sk = shard_key_chars(k)
+        if sk:
+            top[sk[:1]].append((k, v))
+    for prefix, g in sorted(top.items()):
+        emit(prefix, g)
+    return sorted(shard_keys)
+
+
+def write_output(out_root: Path, lemmas, form_entries, tag_list, english, args) -> None:
     print('Writing shards…')
     staging = out_root / '_staging'
     if staging.exists():
@@ -627,40 +724,13 @@ def write_output(out_root: Path, lemmas, form_entries, tag_list, args) -> None:
         path.write_bytes(data)
         return len(data)
 
-    # Forms, grouped by folded spelling, sharded by folded prefix (split while too large).
+    # Forms grouped by folded spelling; both indexes are sharded by folded prefix.
     folded: dict[str, list] = defaultdict(list)
     for form, entries in form_entries.items():
         for lid, t in sorted(entries):
             folded[fold(form)].append([form, lid, t])
-    items = sorted(folded.items())
-    shard_keys: list[str] = []
-
-    def emit(prefix: str, group: list) -> None:
-        size = sum(len(k) * 2 + len(json.dumps(v, ensure_ascii=False)) for k, v in group)
-        depth = len(prefix)
-        if size <= FORM_SHARD_MAX_BYTES or all(len(shard_key_chars(k)) <= depth for k, _ in group):
-            dump(staging / 'forms' / f'{prefix}.json', dict(group))
-            shard_keys.append(prefix)
-            return
-        here = [(k, v) for k, v in group if len(shard_key_chars(k)) <= depth]
-        if here:
-            dump(staging / 'forms' / f'{prefix}.json', dict(here))
-            shard_keys.append(prefix)
-        children: dict[str, list] = defaultdict(list)
-        for k, v in group:
-            sk = shard_key_chars(k)
-            if len(sk) > depth:
-                children[sk[:depth + 1]].append((k, v))
-        for child, g in sorted(children.items()):
-            emit(child, g)
-
-    top: dict[str, list] = defaultdict(list)
-    for k, v in items:
-        sk = shard_key_chars(k)
-        if sk:
-            top[sk[:1]].append((k, v))
-    for prefix, g in sorted(top.items()):
-        emit(prefix, g)
+    form_keys = write_sharded(staging / 'forms', folded, dump)
+    en_keys = write_sharded(staging / 'en', english, dump)
 
     shards: dict[int, dict] = defaultdict(dict)
     for lid, l in enumerate(lemmas):
@@ -692,7 +762,9 @@ def write_output(out_root: Path, lemmas, form_entries, tag_list, args) -> None:
         'formCount': len(form_entries),
         'lemmasPerShard': LEMMAS_PER_SHARD,
         'lemmaShards': len(shards),
-        'formShards': sorted(shard_keys),
+        'formShards': form_keys,
+        'englishTermCount': len(english),
+        'enShards': en_keys,
         'bytes': total,
         'sources': {
             'kaikki': SOURCES['kaikki-hu.jsonl'],

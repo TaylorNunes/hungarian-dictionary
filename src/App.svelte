@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { APP_NAME, APP_TAGLINE } from './config';
   import { getManifest, pruneOldShards } from './lib/data';
-  import { search, cleanQuery, type SearchResponse } from './lib/search';
+  import { searchBoth, cleanQuery, type CombinedResponse } from './lib/search';
   import { saved } from './lib/saved.svelte';
   import Result from './components/Result.svelte';
   import SavedList from './components/SavedList.svelte';
@@ -12,7 +12,7 @@
 
   let view = $state<View>('search');
   let query = $state('');
-  let response = $state<SearchResponse | null>(null);
+  let response = $state<CombinedResponse | null>(null);
   let loading = $state(false);
   let error = $state('');
   let input: HTMLInputElement | undefined = $state();
@@ -38,7 +38,7 @@
     }
     loading = true;
     try {
-      const r = await search(clean);
+      const r = await searchBoth(clean);
       if (id !== seq) return;
       response = r;
       error = '';
@@ -126,7 +126,7 @@
 
   {#if view === 'search'}
     <form class="search" role="search" onsubmit={onSubmit}>
-      <label for="q" class="visually-hidden">Hungarian word</label>
+      <label for="q" class="visually-hidden">Hungarian or English word</label>
       <input
         id="q"
         bind:this={input}
@@ -134,7 +134,7 @@
         oninput={onInput}
         type="search"
         lang="hu"
-        placeholder="Type or paste a Hungarian word…"
+        placeholder="Hungarian or English word…"
         autocomplete="off"
         autocapitalize="off"
         autocorrect="off"
@@ -158,7 +158,7 @@
       <p class="notice" role="alert">{error}</p>
     {:else if response}
       {#if response.tokens.length}
-        {#if !response.results.length}<p class="status">Tap a word to look it up.</p>{/if}
+        {#if !response.sections.length}<p class="status">Tap a word to look it up.</p>{/if}
         <div class="tokens" aria-label="Words in your text">
           {#each response.tokens as t}
             <a href={`#/w/${encodeURIComponent(t)}`} lang="hu">{t}</a>
@@ -166,39 +166,53 @@
         </div>
       {/if}
 
-      {#if response.results.length}
-        <p class="status" aria-live="polite">
-          {response.results.length === 1 ? '1 entry' : `${response.results.length} entries`}
-          {#if response.results[0].guessed}
-            · <span class="guess">no exact form in the tables; best guess by removing suffixes</span>
+      {#each response.sections as section (section.lang)}
+        <section class="results-section">
+          {#if section.lang === 'en'}
+            <h2 class="section-head">English <span lang="en">“{section.term}”</span> → Hungarian</h2>
+          {:else if response.sections.length > 1}
+            <h2 class="section-head">Hungarian <span lang="hu">{section.term}</span></h2>
           {/if}
-        </p>
-        <ol class="results">
-          {#each response.results as r (r.lemmaId)}
-            <li><Result result={r} query={response.query} /></li>
-          {/each}
-        </ol>
-      {:else if !loading && !response.tokens.length}
-        <div class="empty">
-          <p>No entry for <strong lang="hu">{response.query}</strong>.</p>
-          {#if response.suggestions.length}
-            <p>Did you mean:</p>
-            <div class="tokens">
-              {#each response.suggestions as s}
-                <a href={`#/w/${encodeURIComponent(s)}`} lang="hu">{s}</a>
-              {/each}
-            </div>
-          {/if}
-        </div>
-      {/if}
+          <p class="status" aria-live="polite">
+            {section.results.length === 1 ? '1 entry' : `${section.results.length} entries`}
+            {#if section.lang === 'hu' && section.results[0].guessed}
+              · <span class="guess">no exact form in the tables; best guess by removing suffixes</span>
+            {:else if section.lang === 'en' && section.results[0].guessed}
+              · <span class="guess">matched the base form “{section.term}”</span>
+            {/if}
+          </p>
+          <ol class="results">
+            {#each section.results as r (r.lemmaId)}
+              <li><Result result={r} query={response.query} /></li>
+            {/each}
+          </ol>
+        </section>
+      {:else}
+        {#if !loading && !response.tokens.length}
+          <div class="empty">
+            <p>No entry for <strong>{response.query}</strong> in Hungarian or English.</p>
+            {#if response.suggestions.length}
+              <p>Did you mean:</p>
+              <div class="tokens">
+                {#each response.suggestions as s}
+                  <a href={`#/w/${encodeURIComponent(s)}`} lang="hu">{s}</a>
+                {/each}
+              </div>
+            {/if}
+          </div>
+        {/if}
+      {/each}
     {:else if !query}
       <section class="welcome">
         <h1>{APP_TAGLINE}</h1>
-        <p>Paste any form of a word, and see its dictionary form, meaning, how it's built, and example sentences.</p>
+        <p>
+          Paste any form of a Hungarian word to see its dictionary form, meaning, how it's built and example sentences,
+          or type an English word to find the Hungarian.
+        </p>
         <p class="try">
           Try
-          {#each ['házat', 'hazat', 'könyveimben', 'láttalak', 'megyünk', 'szeretném'] as w, i}
-            {#if i}, {/if}<a href={`#/w/${encodeURIComponent(w)}`} lang="hu">{w}</a>
+          {#each ['házat', 'könyveimben', 'láttalak', 'szeretném', 'house', 'beautiful', 'to see'] as w, i}
+            {#if i}, {/if}<a href={`#/w/${encodeURIComponent(w)}`}>{w}</a>
           {/each}
         </p>
         <p class="hint">Accents are optional: <em lang="hu">orom</em> finds <em lang="hu">öröm</em>.</p>
@@ -327,6 +341,23 @@
   main {
     padding-top: 12px;
     padding-bottom: calc(48px + env(safe-area-inset-bottom));
+  }
+  .results-section + .results-section {
+    margin-top: 28px;
+  }
+  .section-head {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 600;
+    margin: 4px 2px 0;
+  }
+  .section-head span {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text);
+    font-size: 1rem;
   }
   .results {
     list-style: none;
