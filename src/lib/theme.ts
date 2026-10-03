@@ -3,7 +3,7 @@
 export type Theme = 'dark' | 'light';
 
 export const THEME_KEY = 'szokert.theme'; // keep in sync with the inline script in index.html
-export const THEME_COLORS: Record<Theme, string> = { dark: '#0f1512', light: '#f6f8f2' }; // = --bg
+export const THEME_COLORS: Record<Theme, string> = { dark: '#121212', light: '#f6f8f2' }; // = --bg
 
 type Storage = Pick<globalThis.Storage, 'getItem' | 'setItem'>;
 

@@ -1,17 +1,17 @@
-/* Szókert palette: deep green-black with fresh green (primary) and warm amber (secondary).
+/* Szókert palette: neutral dark grey with fresh green (primary) and warm amber (secondary).
    Dark is the default; [data-theme='light'] is the toggle. Every text pair meets WCAG AA. */
 :root {
-  --bg: #0f1512;
-  --surface: #161f1a;
-  --surface-2: #1e2a23;
-  --text: #e8efe9;
-  --muted: #a9b8ae;
-  --faint: #87968c;
-  --border: #26332b;
+  --bg: #121212;
+  --surface: #1b1b1b;
+  --surface-2: #262626;
+  --text: #ececec;
+  --muted: #b3b3b3;
+  --faint: #8f8f8f;
+  --border: #2e2e2e;
   --accent: #8fe388;
   --accent-strong: #b3f0ad;
-  --accent-soft: #1c3322;
-  --on-accent: #0f1512;
+  --accent-soft: #1f3320;
+  --on-accent: #121212;
   --secondary: #f5b94e;
   --secondary-soft: #3a2c12;
   --star: #f5b94e;

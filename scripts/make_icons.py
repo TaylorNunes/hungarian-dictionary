@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the Szókert icons: a seedling "ő" (an o with two leaves for its accents) on a dark tile.
+"""Generate the Szókert icons: a seedling "ő" (an o with two leaves for its accents) on a dark grey tile.
 
 Writes public/icons/icon-{192,512}.png, icon-512-maskable.png and icon.svg, and prints the glyph's
 SVG markup used by src/components/Logo.svelte. Standard library only.
@@ -11,7 +11,7 @@ import zlib
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / 'public' / 'icons'
-BG = (0x0F, 0x15, 0x12)      # --bg (dark)
+BG = (0x12, 0x12, 0x12)      # --bg (dark)
 FG = (0x8F, 0xE3, 0x88)      # --accent (fresh green)
 
 # Glyph geometry in unit coordinates (0..1, y down), before scaling into the safe zone.
