@@ -33,6 +33,8 @@ export interface Manifest {
   version: string;
   built: string;
   lemmaCount: number;
+  /** Entries per part of speech. */
+  posCounts?: Record<string, number>;
   formCount: number;
   lemmasPerShard: number;
   lemmaShards: number;

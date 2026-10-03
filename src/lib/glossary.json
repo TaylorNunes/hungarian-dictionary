@@ -1,0 +1,892 @@
+{
+ "labelGroups": [
+  "Grammar",
+  "Style and tone",
+  "Time",
+  "Correctness",
+  "Qualifiers",
+  "Word formation",
+  "Region and subject"
+ ],
+ "labels": {
+  "transitive": {
+   "group": "Grammar",
+   "text": "The verb takes a direct object (in Hungarian usually in the accusative, -t): *látom a házat* \"I see the house\"."
+  },
+  "intransitive": {
+   "group": "Grammar",
+   "text": "The verb takes no direct object: *alszik* \"sleeps\"."
+  },
+  "ambitransitive": {
+   "group": "Grammar",
+   "text": "The verb can be used either with or without a direct object."
+  },
+  "ergative": {
+   "group": "Grammar",
+   "text": "The verb can be used with an object (someone does it to something) or without one (it happens by itself), like English \"the door opened / I opened the door\"."
+  },
+  "reflexive": {
+   "group": "Grammar",
+   "text": "The action is done to oneself, or the word refers back to the subject (*önmaga* \"oneself\")."
+  },
+  "reciprocal": {
+   "group": "Grammar",
+   "text": "The action is done to each other (*levelez* \"to correspond with one another\")."
+  },
+  "impersonal": {
+   "group": "Grammar",
+   "text": "Used without a real subject, usually in the third person: *illik* \"it is proper\"."
+  },
+  "auxiliary": {
+   "group": "Grammar",
+   "text": "A helper verb used together with another verb, e.g. *fog* + infinitive for the future, *szabad* \"may\"."
+  },
+  "copulative": {
+   "group": "Grammar",
+   "text": "A linking verb that connects the subject with a description: *van* \"to be\"."
+  },
+  "countable": {
+   "group": "Grammar",
+   "text": "A noun that can be counted and used in the plural: *egy ház, két ház*."
+  },
+  "uncountable": {
+   "group": "Grammar",
+   "text": "A noun that is not normally counted or made plural in this sense (a substance, quality or idea): *víz* \"water\", *türelem* \"patience\"."
+  },
+  "not-comparable": {
+   "group": "Grammar",
+   "text": "An adjective or adverb with no comparative or superlative (no *-bb*, *leg-…-bb*): something either is or isn't, e.g. *halott* \"dead\"."
+  },
+  "comparable": {
+   "group": "Grammar",
+   "text": "An adjective or adverb that has comparative and superlative forms (*-bb*, *leg-…-bb*)."
+  },
+  "comparative": {
+   "group": "Grammar",
+   "text": "The comparative degree (\"bigger\", *nagyobb*), or a word naming it."
+  },
+  "superlative": {
+   "group": "Grammar",
+   "text": "The superlative degree (\"biggest\", *legnagyobb*), or a word naming it."
+  },
+  "plural": {
+   "group": "Grammar",
+   "text": "This meaning applies to, or is used in, the plural."
+  },
+  "singular": {
+   "group": "Grammar",
+   "text": "This meaning applies to, or is used in, the singular."
+  },
+  "plural-only": {
+   "group": "Grammar",
+   "text": "Used only in the plural in this sense."
+  },
+  "singular-only": {
+   "group": "Grammar",
+   "text": "Used only in the singular in this sense."
+  },
+  "in-plural": {
+   "group": "Grammar",
+   "text": "Has this meaning when used in the plural."
+  },
+  "plural-normally": {
+   "group": "Grammar",
+   "text": "Normally used in the plural in this sense."
+  },
+  "no-plural": {
+   "group": "Grammar",
+   "text": "Has no plural form in this sense."
+  },
+  "collective": {
+   "group": "Grammar",
+   "text": "Refers to a group as a whole."
+  },
+  "dual": {
+   "group": "Grammar",
+   "text": "Refers to a pair, or expresses \"two-fold\"."
+  },
+  "attributive": {
+   "group": "Grammar",
+   "text": "Used before a noun to describe it (as an adjective would be), not on its own."
+  },
+  "predicative": {
+   "group": "Grammar",
+   "text": "Used after a linking verb such as *van* \"to be\", not directly before a noun."
+  },
+  "adjectival": {
+   "group": "Grammar",
+   "text": "Used like an adjective."
+  },
+  "adverbial": {
+   "group": "Grammar",
+   "text": "Used like an adverb, or relates to adverbs."
+  },
+  "nominal": {
+   "group": "Grammar",
+   "text": "Used like a noun, or relates to nouns."
+  },
+  "relational": {
+   "group": "Grammar",
+   "text": "An adjective meaning \"relating to …\", formed from a noun (often with *-i*): *felhasználói* \"user's, relating to users\"."
+  },
+  "possessive": {
+   "group": "Grammar",
+   "text": "Has a possessive ending (*-m, -d, -ja/-je…*, \"my, your, his/her…\"), or expresses possession."
+  },
+  "personal": {
+   "group": "Grammar",
+   "text": "Relates to grammatical person (I, you, he/she…): a personal pronoun or a personal verb ending."
+  },
+  "second-person": {
+   "group": "Grammar",
+   "text": "Addressed to \"you\"."
+  },
+  "demonstrative": {
+   "group": "Grammar",
+   "text": "Points to something: \"this, that, here, there\" (*ez, az, itt, ott*)."
+  },
+  "interrogative": {
+   "group": "Grammar",
+   "text": "Used to ask a question: \"which, what, who\" (*mely, mi, ki*)."
+  },
+  "relative": {
+   "group": "Grammar",
+   "text": "Introduces a relative clause: \"which, that, who\" (*amely, ami, aki*)."
+  },
+  "distributive": {
+   "group": "Grammar",
+   "text": "Expresses \"each, per, … by …\": *-ként, -nként* (*naponként* \"daily, per day\")."
+  },
+  "multiplicative": {
+   "group": "Grammar",
+   "text": "Expresses \"… times\": *-szor/-szer/-ször* (*háromszor* \"three times\")."
+  },
+  "ordinal": {
+   "group": "Grammar",
+   "text": "An ordinal number or word: \"first, second…\" (*első, második*)."
+  },
+  "numeral": {
+   "group": "Grammar",
+   "text": "Relates to numerals."
+  },
+  "pronoun": {
+   "group": "Grammar",
+   "text": "Relates to pronouns."
+  },
+  "noun": {
+   "group": "Grammar",
+   "text": "Used as, or forms, a noun."
+  },
+  "verb": {
+   "group": "Grammar",
+   "text": "Used as, or forms, a verb."
+  },
+  "adjective": {
+   "group": "Grammar",
+   "text": "Used as, or forms, an adjective."
+  },
+  "article": {
+   "group": "Grammar",
+   "text": "Relates to articles (*a/az* \"the\", *egy* \"a\")."
+  },
+  "conjunction": {
+   "group": "Grammar",
+   "text": "Used as a conjunction (joining words or clauses)."
+  },
+  "phrase": {
+   "group": "Grammar",
+   "text": "Used as part of a phrase."
+  },
+  "particle": {
+   "group": "Grammar",
+   "text": "A small invariable word that adds emphasis or nuance; in science, a particle."
+  },
+  "clitic": {
+   "group": "Grammar",
+   "text": "A short word that leans on a neighbouring word and is unstressed: *is* \"also\", the question particle *-e*."
+  },
+  "invariable": {
+   "group": "Grammar",
+   "text": "Never changes form (takes no endings)."
+  },
+  "indeclinable": {
+   "group": "Grammar",
+   "text": "Takes no case endings."
+  },
+  "participle": {
+   "group": "Grammar",
+   "text": "A verb form used as an adjective or adverb: *látó* \"seeing\", *látott* \"seen\", *látva* \"having seen\"."
+  },
+  "infinitive": {
+   "group": "Grammar",
+   "text": "The \"to …\" form of a verb (*-ni*: *látni* \"to see\")."
+  },
+  "with-infinitive": {
+   "group": "Grammar",
+   "text": "Used together with an infinitive."
+  },
+  "with-definite-article": {
+   "group": "Grammar",
+   "text": "Used with the definite article *a/az* in this sense."
+  },
+  "without-noun": {
+   "group": "Grammar",
+   "text": "Used on its own, without a following noun."
+  },
+  "present": {
+   "group": "Grammar",
+   "text": "Present tense."
+  },
+  "past": {
+   "group": "Grammar",
+   "text": "Past tense."
+  },
+  "preterite": {
+   "group": "Grammar",
+   "text": "A past tense (in Hungarian grammar, the simple past)."
+  },
+  "future": {
+   "group": "Grammar",
+   "text": "Future tense or future meaning."
+  },
+  "conditional": {
+   "group": "Grammar",
+   "text": "The conditional mood: \"would …\" (*-na/-ne, -nék*)."
+  },
+  "subjunctive": {
+   "group": "Grammar",
+   "text": "The subjunctive–imperative mood: commands, \"let …\", \"that … should\" (*-j-*: *lássak, menj*)."
+  },
+  "imperative": {
+   "group": "Grammar",
+   "text": "A command form."
+  },
+  "optative": {
+   "group": "Grammar",
+   "text": "Expresses a wish (\"may it be …\")."
+  },
+  "definite": {
+   "group": "Grammar",
+   "text": "The definite verb form, used with a specific object (\"the house\"), or the definite article."
+  },
+  "indefinite": {
+   "group": "Grammar",
+   "text": "The indefinite verb form, used with no object or a non-specific one (\"a house\"), or the indefinite article."
+  },
+  "potential": {
+   "group": "Grammar",
+   "text": "Expresses ability or permission: *-hat/-het* \"can, may\" (*láthat* \"can see\")."
+  },
+  "causative": {
+   "group": "Grammar",
+   "text": "Makes someone do something, or lets it happen: *-tat/-tet* (*láttat* \"makes visible\")."
+  },
+  "frequentative": {
+   "group": "Grammar",
+   "text": "Expresses a repeated or ongoing action (*-gat/-get, -ogat*: *olvasgat* \"reads a bit, now and then\")."
+  },
+  "inchoative": {
+   "group": "Grammar",
+   "text": "Expresses the beginning of an action or state (\"start to …, become …\")."
+  },
+  "perfective": {
+   "group": "Grammar",
+   "text": "Presents the action as completed, often with a verbal prefix like *meg-* or *el-*."
+  },
+  "imperfective": {
+   "group": "Grammar",
+   "text": "Presents the action as ongoing or incomplete."
+  },
+  "passive": {
+   "group": "Grammar",
+   "text": "Passive voice (\"is done\"); archaic or formal in Hungarian (*-tatik/-tetik*)."
+  },
+  "nominative": {
+   "group": "Grammar",
+   "text": "The nominative case: the subject, with no ending."
+  },
+  "accusative": {
+   "group": "Grammar",
+   "text": "The accusative case (*-t*): the direct object."
+  },
+  "dative": {
+   "group": "Grammar",
+   "text": "The dative case (*-nak/-nek*): \"to, for\"."
+  },
+  "instrumental": {
+   "group": "Grammar",
+   "text": "The instrumental case (*-val/-vel*): \"with, by means of\"; also \"instrumental\" as in music."
+  },
+  "ablative": {
+   "group": "Grammar",
+   "text": "The ablative case (*-tól/-től*): \"from (a person or place)\"."
+  },
+  "elative": {
+   "group": "Grammar",
+   "text": "The elative case (*-ból/-ből*): \"out of, from inside\"."
+  },
+  "sublative": {
+   "group": "Grammar",
+   "text": "The sublative case (*-ra/-re*): \"onto\"."
+  },
+  "terminative": {
+   "group": "Grammar",
+   "text": "The terminative case (*-ig*): \"up to, until\"."
+  },
+  "temporal": {
+   "group": "Grammar",
+   "text": "The temporal case (*-kor*): \"at (a time)\"."
+  },
+  "locative": {
+   "group": "Grammar",
+   "text": "The old locative case (*-t/-tt*, found in some town names): \"in, at\"."
+  },
+  "prepositional": {
+   "group": "Grammar",
+   "text": "Relates to prepositions (which Hungarian mostly lacks; it uses postpositions and cases instead)."
+  },
+  "masculine": {
+   "group": "Grammar",
+   "text": "Grammatically or semantically male."
+  },
+  "feminine": {
+   "group": "Grammar",
+   "text": "Grammatically or semantically female."
+  },
+  "neuter": {
+   "group": "Grammar",
+   "text": "Grammatically neuter."
+  },
+  "gender-neutral": {
+   "group": "Grammar",
+   "text": "Not specific to a gender."
+  },
+  "negative": {
+   "group": "Grammar",
+   "text": "Expresses negation, or a negative statement."
+  },
+  "affirmative": {
+   "group": "Grammar",
+   "text": "Expresses agreement or a positive statement."
+  },
+  "assertive": {
+   "group": "Grammar",
+   "text": "Makes a statement, as opposed to asking or ordering."
+  },
+  "subjective": {
+   "group": "Grammar",
+   "text": "Relates to the subject."
+  },
+  "stressed": {
+   "group": "Grammar",
+   "text": "The stressed (emphatic) form or use."
+  },
+  "unstressed": {
+   "group": "Grammar",
+   "text": "The unstressed form or use."
+  },
+  "front-vowel": {
+   "group": "Grammar",
+   "text": "The front-vowel form of a suffix, used after words with *e, é, i, í, ö, ő, ü, ű* (vowel harmony): *-ben* rather than *-ban*."
+  },
+  "capitalized": {
+   "group": "Grammar",
+   "text": "Written with a capital letter in this sense."
+  },
+  "lowercase": {
+   "group": "Grammar",
+   "text": "The small (lower-case) letter."
+  },
+  "uppercase": {
+   "group": "Grammar",
+   "text": "The capital (upper-case) letter."
+  },
+  "in-compounds": {
+   "group": "Grammar",
+   "text": "Has this meaning mainly as part of compound words."
+  },
+  "in-certain-phrases": {
+   "group": "Grammar",
+   "text": "Has this meaning only in certain set phrases."
+  },
+  "idiomatic": {
+   "group": "Grammar",
+   "text": "An idiom: the meaning of the whole is not simply the meanings of its parts."
+  },
+  "term-of-address": {
+   "group": "Grammar",
+   "text": "Used to address someone directly (\"sir\", *uram*)."
+  },
+  "formal": {
+   "group": "Style and tone",
+   "text": "Used in formal, official or polite speech and writing."
+  },
+  "informal": {
+   "group": "Style and tone",
+   "text": "Used in casual, everyday speech; not suitable for formal writing."
+  },
+  "colloquial": {
+   "group": "Style and tone",
+   "text": "Typical of conversation rather than careful writing."
+  },
+  "familiar": {
+   "group": "Style and tone",
+   "text": "Used with people you know well."
+  },
+  "slang": {
+   "group": "Style and tone",
+   "text": "Very informal, often specific to a group or generation."
+  },
+  "vulgar": {
+   "group": "Style and tone",
+   "text": "Crude or obscene; offensive in most situations."
+  },
+  "derogatory": {
+   "group": "Style and tone",
+   "text": "Expresses contempt or disapproval; insulting."
+  },
+  "offensive": {
+   "group": "Style and tone",
+   "text": "Likely to offend; often a slur. Avoid."
+  },
+  "humorous": {
+   "group": "Style and tone",
+   "text": "Used jokingly."
+  },
+  "ironic": {
+   "group": "Style and tone",
+   "text": "Used ironically, meaning roughly the opposite."
+  },
+  "sarcastic": {
+   "group": "Style and tone",
+   "text": "Used sarcastically."
+  },
+  "euphemistic": {
+   "group": "Style and tone",
+   "text": "A softer, more polite way of saying something unpleasant or taboo."
+  },
+  "mildly": {
+   "group": "Style and tone",
+   "text": "Only mildly rude, offensive or strong."
+  },
+  "childish": {
+   "group": "Style and tone",
+   "text": "Used by or to small children."
+  },
+  "endearing": {
+   "group": "Style and tone",
+   "text": "Affectionate; a term of endearment."
+  },
+  "polite": {
+   "group": "Style and tone",
+   "text": "A polite or courteous usage."
+  },
+  "literary": {
+   "group": "Style and tone",
+   "text": "Used mainly in literature or elevated writing."
+  },
+  "poetic": {
+   "group": "Style and tone",
+   "text": "Used mainly in poetry."
+  },
+  "rhetoric": {
+   "group": "Style and tone",
+   "text": "Used in rhetoric and the study of style."
+  },
+  "exaggerated": {
+   "group": "Style and tone",
+   "text": "An intensified, exaggerated form (e.g. *legeslegjobb* \"the very very best\")."
+  },
+  "excessive": {
+   "group": "Style and tone",
+   "text": "An exaggerated or excessive form or meaning."
+  },
+  "emphatic": {
+   "group": "Style and tone",
+   "text": "An emphatic form."
+  },
+  "archaic": {
+   "group": "Time",
+   "text": "Old-fashioned; still recognised, but no longer used in normal modern language."
+  },
+  "obsolete": {
+   "group": "Time",
+   "text": "No longer used at all; found only in old texts."
+  },
+  "dated": {
+   "group": "Time",
+   "text": "Sounds old-fashioned; used mostly by older speakers."
+  },
+  "historical": {
+   "group": "Time",
+   "text": "Refers to something that no longer exists, but the word itself is current (e.g. old offices or institutions)."
+  },
+  "neologism": {
+   "group": "Time",
+   "text": "A new word or new meaning that is not yet fully established."
+  },
+  "contemporary": {
+   "group": "Time",
+   "text": "The current, modern usage."
+  },
+  "proscribed": {
+   "group": "Correctness",
+   "text": "Used, but considered incorrect by style guides and teachers. Better to avoid in careful speech and writing."
+  },
+  "nonstandard": {
+   "group": "Correctness",
+   "text": "Not part of the standard language; considered incorrect or substandard."
+  },
+  "misspelling": {
+   "group": "Correctness",
+   "text": "A common misspelling. The correct spelling is given in the definition."
+  },
+  "pronunciation-spelling": {
+   "group": "Correctness",
+   "text": "Spelled the way it's pronounced in casual speech (\"eye dialect\"): *lécci* for *légyszi* \"please\"."
+  },
+  "alternative": {
+   "group": "Correctness",
+   "text": "An alternative form or spelling of another word; see the word mentioned in the definition."
+  },
+  "standard": {
+   "group": "Correctness",
+   "text": "The standard language form."
+  },
+  "usually": {
+   "group": "Qualifiers",
+   "text": "Usually used this way, but not always. Qualifies the label that follows."
+  },
+  "often": {
+   "group": "Qualifiers",
+   "text": "Often used this way. Qualifies the label that follows."
+  },
+  "sometimes": {
+   "group": "Qualifiers",
+   "text": "Sometimes used this way. Qualifies the label that follows."
+  },
+  "especially": {
+   "group": "Qualifiers",
+   "text": "Especially in this context or sense."
+  },
+  "mainly": {
+   "group": "Qualifiers",
+   "text": "Mainly in this context or sense."
+  },
+  "specifically": {
+   "group": "Qualifiers",
+   "text": "In a narrower, more specific sense."
+  },
+  "broadly": {
+   "group": "Qualifiers",
+   "text": "In a broader, looser sense."
+  },
+  "also": {
+   "group": "Qualifiers",
+   "text": "Also used this way."
+  },
+  "possibly": {
+   "group": "Qualifiers",
+   "text": "Possibly; the usage is uncertain."
+  },
+  "rare": {
+   "group": "Qualifiers",
+   "text": "Rarely used. You will probably not need it."
+  },
+  "uncommon": {
+   "group": "Qualifiers",
+   "text": "Not commonly used. (This is a Wiktionary usage label, separate from the \"very common / common\" frequency badges.)"
+  },
+  "figuratively": {
+   "group": "Qualifiers",
+   "text": "Used figuratively, not literally: *ég a keze alatt a munka* \"work burns under his hands\" = he works fast."
+  },
+  "literally": {
+   "group": "Qualifiers",
+   "text": "The literal, word-for-word meaning."
+  },
+  "metonymically": {
+   "group": "Qualifiers",
+   "text": "Refers to something closely associated with it (as \"the Crown\" means the monarchy)."
+  },
+  "abbreviation": {
+   "group": "Word formation",
+   "text": "A shortened written form, e.g. *ld.* for *lásd* \"see\"."
+  },
+  "initialism": {
+   "group": "Word formation",
+   "text": "An abbreviation made of initial letters, said letter by letter."
+  },
+  "acronym": {
+   "group": "Word formation",
+   "text": "An abbreviation made of initial letters and pronounced as a word."
+  },
+  "clipping": {
+   "group": "Word formation",
+   "text": "A shortened form of a longer word: *gumi* for *gumiabroncs* \"tyre\"."
+  },
+  "ellipsis": {
+   "group": "Word formation",
+   "text": "A shortened form of a phrase, with words left out."
+  },
+  "contraction": {
+   "group": "Word formation",
+   "text": "Two words, or a longer form, run together into a shorter one."
+  },
+  "diminutive": {
+   "group": "Word formation",
+   "text": "A \"little\" or affectionate form (*-ka/-ke, -cska/-cske*: *házikó* \"little house\")."
+  },
+  "morpheme": {
+   "group": "Word formation",
+   "text": "A meaningful word part (a stem, prefix or suffix) rather than a whole word."
+  },
+  "suffix": {
+   "group": "Word formation",
+   "text": "An ending added to words; in Hungarian, case endings, possessive endings and derivational suffixes."
+  },
+  "prefix": {
+   "group": "Word formation",
+   "text": "An element added to the front of a word; for Hungarian verbs, a verbal prefix such as *meg-, el-, ki-*."
+  },
+  "letter": {
+   "group": "Word formation",
+   "text": "A letter of the alphabet."
+  },
+  "diacritic": {
+   "group": "Word formation",
+   "text": "An accent mark (like the acute ´ or the double acute ˝)."
+  },
+  "character": {
+   "group": "Word formation",
+   "text": "Refers to someone's character or nature."
+  },
+  "dialectal": {
+   "group": "Region and subject",
+   "text": "Used only in some regional dialects."
+  },
+  "regional": {
+   "group": "Region and subject",
+   "text": "Used only in some regions."
+  },
+  "Transylvania": {
+   "group": "Region and subject",
+   "text": "Used in Transylvania (Romania)."
+  },
+  "US": {
+   "group": "Region and subject",
+   "text": "Relating to the United States."
+  },
+  "UK": {
+   "group": "Region and subject",
+   "text": "Relating to the United Kingdom."
+  },
+  "EU": {
+   "group": "Region and subject",
+   "text": "Relating to the European Union."
+  },
+  "European-Union": {
+   "group": "Region and subject",
+   "text": "Relating to the European Union."
+  },
+  "Internet": {
+   "group": "Region and subject",
+   "text": "Used on the internet or in internet culture."
+  },
+  "TV": {
+   "group": "Region and subject",
+   "text": "Relating to television."
+  },
+  "Greek": {
+   "group": "Region and subject",
+   "text": "Relating to Greek mythology or ancient Greece."
+  },
+  "Roman": {
+   "group": "Region and subject",
+   "text": "Relating to Roman mythology or ancient Rome."
+  },
+  "Ancient-Rome": {
+   "group": "Region and subject",
+   "text": "Relating to ancient Rome."
+  },
+  "Norse": {
+   "group": "Region and subject",
+   "text": "Relating to Norse mythology."
+  },
+  "Judaism": {
+   "group": "Region and subject",
+   "text": "Relating to Judaism."
+  },
+  "Jewish": {
+   "group": "Region and subject",
+   "text": "Used among Jewish speakers, or relating to Jewish culture."
+  },
+  "Hinduism": {
+   "group": "Region and subject",
+   "text": "Relating to Hinduism."
+  },
+  "Jainism": {
+   "group": "Region and subject",
+   "text": "Relating to Jainism."
+  },
+  "Sikhism": {
+   "group": "Region and subject",
+   "text": "Relating to Sikhism."
+  },
+  "Shia": {
+   "group": "Region and subject",
+   "text": "Relating to Shia Islam."
+  },
+  "Marxism": {
+   "group": "Region and subject",
+   "text": "Relating to Marxism."
+  },
+  "Nazism": {
+   "group": "Region and subject",
+   "text": "Relating to Nazism."
+  },
+  "physical": {
+   "group": "Region and subject",
+   "text": "In physics, or referring to physical things."
+  },
+  "material": {
+   "group": "Region and subject",
+   "text": "Referring to materials or physical substances."
+  },
+  "person": {
+   "group": "Region and subject",
+   "text": "Refers to a person."
+  },
+  "place": {
+   "group": "Region and subject",
+   "text": "Refers to a place."
+  }
+ },
+ "pos": {
+  "noun": {
+   "label": "noun",
+   "hu": "főnév",
+   "text": "A person, thing, place or idea: *ház* \"house\". Takes plural and case endings."
+  },
+  "verb": {
+   "label": "verb",
+   "hu": "ige",
+   "text": "An action or state: *lát* \"to see\". Listed, as in Hungarian dictionaries, in the 3rd person singular present (\"he/she sees\") rather than the infinitive (*látni*); *-ik* verbs keep their *-ik* (*eszik* \"eats\")."
+  },
+  "adj": {
+   "label": "adjective",
+   "hu": "melléknév",
+   "text": "Describes a noun: *szép* \"beautiful\". Comes before the noun and then takes no endings."
+  },
+  "adv": {
+   "label": "adverb",
+   "hu": "határozószó",
+   "text": "Describes how, when or where: *gyorsan* \"quickly\", *itt* \"here\"."
+  },
+  "name": {
+   "label": "proper noun",
+   "hu": "tulajdonnév",
+   "text": "A name of a person, place or organisation: *Budapest*."
+  },
+  "pron": {
+   "label": "pronoun",
+   "hu": "névmás",
+   "text": "Stands in for a noun: *én* \"I\", *ez* \"this\", *ki* \"who\"."
+  },
+  "num": {
+   "label": "numeral",
+   "hu": "számnév",
+   "text": "A number: *három* \"three\", *harmadik* \"third\"."
+  },
+  "intj": {
+   "label": "interjection",
+   "hu": "indulatszó",
+   "text": "An exclamation: *jaj* \"oh no\", *hé* \"hey\"."
+  },
+  "conj": {
+   "label": "conjunction",
+   "hu": "kötőszó",
+   "text": "Joins words or clauses: *és* \"and\", *mert* \"because\"."
+  },
+  "postp": {
+   "label": "postposition",
+   "hu": "névutó",
+   "text": "Comes *after* the noun where English uses a preposition: *a ház mögött* \"behind the house\"."
+  },
+  "det": {
+   "label": "determiner",
+   "hu": "determináns",
+   "text": "Comes before a noun to specify it: *minden* \"every\", *néhány* \"some\"."
+  },
+  "article": {
+   "label": "article",
+   "hu": "névelő",
+   "text": "*a/az* \"the\" and *egy* \"a, an\"."
+  },
+  "particle": {
+   "label": "particle",
+   "hu": "partikula",
+   "text": "A small invariable word adding emphasis or nuance: *csak* \"just\", *is* \"also\"."
+  },
+  "prep": {
+   "label": "preposition",
+   "hu": "elöljárószó",
+   "text": "Comes before a noun (rare in Hungarian, which uses postpositions and case endings instead)."
+  },
+  "phrase": {
+   "label": "phrase",
+   "hu": "kifejezés",
+   "text": "A fixed expression of several words: *jó reggelt* \"good morning\"."
+  },
+  "proverb": {
+   "label": "proverb",
+   "hu": "közmondás",
+   "text": "A traditional saying: *addig üsd a vasat, amíg meleg* \"strike while the iron is hot\"."
+  },
+  "contraction": {
+   "label": "contraction",
+   "hu": "összevonás",
+   "text": "A shortened form of one or more words run together."
+  },
+  "suffix": {
+   "label": "suffix",
+   "hu": "toldalék",
+   "text": "An ending attached to words: case endings (*-ban/-ben* \"in\"), possessive endings (*-m* \"my\") and word-building suffixes (*-ság/-ség* \"-ness\")."
+  },
+  "prefix": {
+   "label": "prefix",
+   "hu": "előtag",
+   "text": "An element placed before a word: verbal prefixes (*meg-, el-, ki-*) and word-building prefixes (*mikro-*)."
+  },
+  "interfix": {
+   "label": "interfix",
+   "hu": "kötőhang",
+   "text": "A linking element placed between parts of a word."
+  },
+  "character": {
+   "label": "letter",
+   "hu": "betű",
+   "text": "A letter of the alphabet. The Hungarian alphabet has 44 letters, including *cs, gy, ly, ny, sz, ty, zs* and *dzs*."
+  },
+  "symbol": {
+   "label": "symbol",
+   "hu": "jel",
+   "text": "A symbol or sign."
+  },
+  "punct": {
+   "label": "punctuation",
+   "hu": "írásjel",
+   "text": "A punctuation mark."
+  },
+  "classifier": {
+   "label": "classifier",
+   "hu": "mértékszó",
+   "text": "A word used when counting things of a certain kind (like English \"a *head* of cattle\")."
+  },
+  "abbrev": {
+   "label": "abbreviation",
+   "hu": "rövidítés",
+   "text": "A shortened written form."
+  }
+ }
+}

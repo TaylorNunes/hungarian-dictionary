@@ -14,6 +14,8 @@ It also works the other way: type an English word (*house*, *beautiful*, *to see
 
 Accents are optional (*hazat* finds *házat*). When a form isn't in the tables, a suffix stripper makes a labelled guess (*könyveimben* = könyv + my (several) + inessive). Starred words can be exported for Anki. The site is a static PWA that installs on Android and works offline.
 
+A **Guide** page explains the parts of speech, the frequency badges and how they're calculated, and every Wiktionary usage label. Its text lives in `src/lib/glossary.json`, and the data build warns if Wiktionary introduces a label the glossary doesn't describe.
+
 The plan and roadmap are in [app.md](app.md).
 
 ## Development

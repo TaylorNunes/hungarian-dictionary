@@ -54,6 +54,11 @@
     in both languages; anything with Hungarian accents is treated as Hungarian.
   </p>
 
+  <p>
+    What do labels like <em>proscribed</em>, <em>not comparable</em> or <em>very common</em> mean? See the
+    <a href="#/guide">Guide</a>.
+  </p>
+
   <h2>Offline use</h2>
   <p>
     Words you look up are saved on this device automatically. To use the whole dictionary without a connection,

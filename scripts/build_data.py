@@ -28,7 +28,7 @@ import sys
 import time
 import unicodedata
 import urllib.request
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -666,6 +666,7 @@ def build(args) -> None:
         lemmas[lid]['fr'] = rank
     print(f'  {len(freq)} lemmas ranked')
 
+    report_missing_glossary(lemmas)
     english = build_english_index(lemmas, freq)
     print(f'  {len(english)} English terms')
 
@@ -701,6 +702,24 @@ def build_english_index(lemmas: list[dict], freq: dict[int, float]) -> dict[str,
         rows = sorted(by_lemma.items(), key=lambda kv: (kv[1][0], kv[0]))
         index[key] = [[lid, si, position] for lid, (_, si, position) in rows[:MAX_LEMMAS_PER_TERM]]
     return index
+
+
+GLOSSARY = ROOT / 'src' / 'lib' / 'glossary.json'
+
+
+def missing_glossary(lemmas: list[dict], glossary: dict) -> tuple[list[str], list[str]]:
+    """Usage labels and parts of speech in the data that the Guide page (glossary.json) doesn't describe."""
+    labels = {t for l in lemmas for s in l['s'] for t in s.get('t', ())}
+    pos = {l['pos'] for l in lemmas}
+    return sorted(labels - glossary['labels'].keys()), sorted(pos - glossary['pos'].keys())
+
+
+def report_missing_glossary(lemmas: list[dict]) -> None:
+    labels, pos = missing_glossary(lemmas, json.loads(GLOSSARY.read_text(encoding='utf-8')))
+    if labels or pos:
+        print(f'  warning: not described in src/lib/glossary.json: labels {labels}, parts of speech {pos}')
+    else:
+        print('  glossary covers every label and part of speech')
 
 
 def report_verb_accuracy(lemmas, links, tag_list, by_word) -> None:
@@ -814,6 +833,7 @@ def write_output(out_root: Path, lemmas, form_entries, tag_list, english, args) 
         'version': version,
         'built': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         'lemmaCount': len(lemmas),
+        'posCounts': dict(sorted(Counter(l['pos'] for l in lemmas).items(), key=lambda kv: -kv[1])),
         'formCount': len(form_entries),
         'lemmasPerShard': LEMMAS_PER_SHARD,
         'lemmaShards': len(shards),

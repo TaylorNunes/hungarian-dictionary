@@ -9,8 +9,9 @@
   import Result from './components/Result.svelte';
   import SavedList from './components/SavedList.svelte';
   import About from './components/About.svelte';
+  import Guide from './components/Guide.svelte';
 
-  type View = 'search' | 'entry' | 'saved' | 'about';
+  type View = 'search' | 'entry' | 'saved' | 'guide' | 'about';
 
   let view = $state<View>('search');
   let query = $state('');
@@ -19,6 +20,7 @@
   let error = $state('');
   let input: HTMLInputElement | undefined = $state();
   let entryRoute = $state<EntryRoute | null>(null);
+  let guideAnchor = $state<string | undefined>();
   let backQuery = $state<string | undefined>();
   let backViaHistory = $state(false);
   let seq = 0;
@@ -29,9 +31,11 @@
   const scrollPositions = new Map<string, number>();
   const CACHE_SIZE = 20;
 
-  function parseHash(): { view: View; word: string; entry?: EntryRoute } {
+  function parseHash(): { view: View; word: string; entry?: EntryRoute; anchor?: string } {
     const h = location.hash.replace(/^#\/?/, '');
     if (h === 'saved') return { view: 'saved', word: '' };
+    const guide = h.match(/^guide(?:\/(.+))?$/);
+    if (guide) return { view: 'guide', word: '', anchor: guide[1] ? decodeURIComponent(guide[1]) : undefined };
     if (h === 'about') return { view: 'about', word: '' };
     const entry = parseEntryHash(location.hash);
     if (entry) return { view: 'entry', word: '', entry };
@@ -136,6 +140,12 @@
 
     view = h.view;
     document.title = APP_NAME;
+    if (h.view === 'guide') {
+      // Moving between sections of the guide shouldn't jump to the top first.
+      if (from !== 'guide' || !h.anchor) window.scrollTo({ top: 0 });
+      guideAnchor = h.anchor;
+      return;
+    }
     if (h.view === 'search') {
       if (h.word !== query) query = h.word;
       await run(h.word);
@@ -170,6 +180,7 @@
       <a href="#/saved" aria-current={view === 'saved' ? 'page' : undefined}>
         Saved{#if saved.list.length}<span class="count">{saved.list.length}</span>{/if}
       </a>
+      <a href="#/guide" aria-current={view === 'guide' ? 'page' : undefined}>Guide</a>
       <a href="#/about" aria-current={view === 'about' ? 'page' : undefined}>About</a>
     </nav>
   </div>
@@ -203,6 +214,8 @@
     <Entry route={entryRoute} {backQuery} {backViaHistory} />
   {:else if view === 'saved'}
     <SavedList />
+  {:else if view === 'guide'}
+    <Guide anchor={guideAnchor} />
   {:else if view === 'about'}
     <About />
   {:else}
@@ -327,6 +340,15 @@
   nav {
     display: flex;
     gap: 4px;
+  }
+  /* Four nav links need the room on phones; the ő logo stays. */
+  @media (max-width: 420px) {
+    .brand .name {
+      display: none;
+    }
+    nav a {
+      padding: 6px 8px;
+    }
   }
   nav a {
     padding: 6px 10px;

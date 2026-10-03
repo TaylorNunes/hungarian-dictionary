@@ -43,7 +43,7 @@ export const PERSONS: [key: string, pronoun: string, english: string][] = [
 ];
 const POSSESSORS = ['my', 'your', 'his/her/its', 'our', 'your (pl.)', 'their'];
 
-const MOODS: Record<string, { label: string; hint?: string }> = {
+export const MOODS: Record<string, { label: string; hint?: string }> = {
   'indicative present': { label: 'present' },
   'indicative past': { label: 'past' },
   'indicative future': { label: 'future' },

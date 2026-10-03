@@ -118,6 +118,19 @@ class FrequencyTest(unittest.TestCase):
             Path(fh.name).unlink()
 
 
+class GlossaryTest(unittest.TestCase):
+    def test_reports_undescribed_labels_and_parts_of_speech(self):
+        lemmas = [{'w': 'x', 'pos': 'noun', 's': [{'g': 'a', 't': ['rare', 'brand-new-label']}]},
+                  {'w': 'y', 'pos': 'mystery', 's': [{'g': 'b'}]}]
+        glossary = {'labels': {'rare': {}}, 'pos': {'noun': {}}}
+        self.assertEqual(bd.missing_glossary(lemmas, glossary), (['brand-new-label'], ['mystery']))
+
+    def test_shipped_glossary_covers_fixture(self):
+        lemmas, _ = bd.read_kaikki(FIXTURES / 'kaikki_sample.jsonl', None)
+        glossary = json.loads(bd.GLOSSARY.read_text(encoding='utf-8'))
+        self.assertEqual(bd.missing_glossary(lemmas, glossary), ([], []))
+
+
 class ConjugationTest(unittest.TestCase):
     """Kaikki shifts person tags by one column; the parser must undo it."""
 
@@ -280,6 +293,11 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(ranks[('lát', 'verb')], 1)
         self.assertLess(ranks[('ház', 'noun')], ranks[('alma', 'noun')])
         self.assertNotIn(('jön', 'verb'), ranks)   # not in the frequency fixture
+
+    def test_manifest_counts_parts_of_speech(self):
+        manifest, _ = self.build()
+        self.assertEqual(manifest['posCounts'].get('verb'), 4)
+        self.assertGreaterEqual(manifest['posCounts'].get('noun', 0), 2)
 
     def test_version_is_content_addressed(self):
         first, _ = self.build()

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { commonness } from '../lib/frequency';
+  import { describePos, guideHref } from '../lib/glossary';
   import { isSaved, toggleSaved } from '../lib/saved.svelte';
   import type { Lemma } from '../lib/types';
 
@@ -19,12 +20,7 @@
     level?: 'h1' | 'h2';
   } = $props();
 
-  const POS_LABELS: Record<string, string> = {
-    noun: 'noun', verb: 'verb', adj: 'adjective', adv: 'adverb', pron: 'pronoun', num: 'numeral',
-    name: 'proper noun', intj: 'interjection', conj: 'conjunction', postp: 'postposition', det: 'determiner',
-    article: 'article', particle: 'particle', prefix: 'prefix', suffix: 'suffix', phrase: 'phrase',
-    proverb: 'proverb', character: 'letter', abbrev: 'abbreviation', prep_phrase: 'phrase', contraction: 'contraction',
-  };
+  const pos = $derived(describePos(lemma.pos));
   const saved = $derived(isSaved(lemmaId));
   const common = $derived(commonness(lemma.fr));
 </script>
@@ -34,8 +30,14 @@
     <svelte:element this={level} lang="hu">
       {#if href}<a {href} class="stretched">{lemma.w}</a>{:else}{lemma.w}{/if}
     </svelte:element>
-    <span class="pos">{POS_LABELS[lemma.pos] ?? lemma.pos}</span>
-    {#if common}<span class="common" title={common.title}>{common.label}</span>{/if}
+    {#if href}
+      <span class="pos" title={pos.text.replace(/\*/g, '')}>{pos.label}</span>
+      {#if common}<span class="common" title={common.title}>{common.label}</span>{/if}
+    {:else}
+      <!-- On the word page, the part of speech and badge link to their explanations. -->
+      <a class="pos" href={guideHref.pos(lemma.pos)} title={pos.text.replace(/\*/g, '')}>{pos.label}</a>
+      {#if common}<a class="common" href={guideHref.commonness} title={common.title}>{common.label}</a>{/if}
+    {/if}
     {#if lemma.ipa}<span class="ipa">{lemma.ipa}</span>{/if}
   </div>
   <button
@@ -98,6 +100,13 @@
     color: var(--accent);
     font-style: italic;
     font-size: 0.95rem;
+  }
+  a.pos,
+  a.common {
+    text-decoration: none;
+  }
+  a.pos:hover {
+    text-decoration: underline;
   }
   .common {
     font-size: 0.72rem;

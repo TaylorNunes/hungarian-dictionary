@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { describeLabel, guideHref, labelName } from '../lib/glossary';
   import type { Sense } from '../lib/types';
   import Sentence from './Sentence.svelte';
 
@@ -10,7 +11,7 @@
     senses: Sense[];
     /** Index of the meaning an English search matched; highlighted in place. */
     highlight?: number;
-    /** Show the Wiktionary examples under each meaning (word page only). */
+    /** Show the Wiktionary examples under each meaning, and link labels to the guide (word page only). */
     examples?: boolean;
   } = $props();
 </script>
@@ -18,7 +19,13 @@
 <ol class="senses">
   {#each senses as s, i}
     <li class:match={i === highlight}>
-      {#each s.t ?? [] as label}<span class="label">{label.replace(/-/g, ' ')}</span>{/each}
+      {#each s.t ?? [] as label}
+        {#if examples}
+          <a class="label" href={guideHref.label(label)} title={describeLabel(label)?.text.replace(/\*/g, '')}>{labelName(label)}</a>
+        {:else}
+          <span class="label" title={describeLabel(label)?.text.replace(/\*/g, '')}>{labelName(label)}</span>
+        {/if}
+      {/each}
       {#if s.p}<span class="parent">{s.p} ›</span>{/if}
       <span class="gloss">{s.g}</span>
       {#if examples && s.ex?.length}
@@ -59,6 +66,11 @@
     padding: 0 6px;
     margin-right: 5px;
     vertical-align: 1px;
+    text-decoration: none;
+  }
+  a.label:hover {
+    color: var(--accent-strong);
+    background: var(--accent-soft);
   }
   .parent {
     color: var(--muted);
