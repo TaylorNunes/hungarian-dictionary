@@ -1,6 +1,6 @@
 # Szókert: Hungarian ⇄ English dictionary
 
-*Cultivate your knowledge.* Live at https://hungarian.tcnunes.com/. The name and slogan are set in `src/config.ts` and `vite.config.ts`; the logo and app icons are drawn by `scripts/make_icons.py`.
+*Cultivate your knowledge.* Live at https://szokert.tcnunes.com/. The name and slogan are set in `src/config.ts` and `vite.config.ts`; the logo and app icons are drawn by `scripts/make_icons.py`.
 
 An offline-capable Hungarian→English dictionary in the spirit of Takoboto. Type or paste any form of a word and get:
 
@@ -74,7 +74,7 @@ Output lives in `public/data/`:
 1. Create a GitHub repository and push this project to `main`.
 2. In the repository's **Settings → Pages**, set **Source** to **GitHub Actions**.
 
-The build uses relative asset URLs, so the same site works on a custom domain (it's served at https://hungarian.tcnunes.com/) and at `<user>.github.io/<repo>/`. To use a custom domain, add a CNAME record pointing at `<user>.github.io` and enter the domain in **Settings → Pages → Custom domain**.
+The build uses relative asset URLs, so the same site works on a custom domain (it's served at https://szokert.tcnunes.com/) and at `<user>.github.io/<repo>/`. To use a custom domain, add a CNAME record pointing at `<user>.github.io` and enter the domain in **Settings → Pages → Custom domain**.
 
 ## Android / Play Store (phase 8)
 
