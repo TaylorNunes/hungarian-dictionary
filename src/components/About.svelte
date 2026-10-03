@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { APP_NAME } from '../config';
+  import { APP_NAME, APP_SLOGAN } from '../config';
   import { downloadAll, getManifest, offlineStatus } from '../lib/data';
   import type { Manifest } from '../lib/types';
 
@@ -43,8 +43,9 @@
 
 <section>
   <h1>About {APP_NAME}</h1>
+  <p class="slogan">{APP_SLOGAN}</p>
   <p>
-    A free Hungarian ⇄ English dictionary. Type or paste any form of a Hungarian word to see its dictionary form,
+    {APP_NAME} (“word garden”) is a free Hungarian ⇄ English dictionary. Type or paste any form of a Hungarian word to see its dictionary form,
     meaning, a breakdown of its endings, its full inflection table and example sentences.
   </p>
   <p>
@@ -123,6 +124,12 @@
     font-size: 1.5rem;
     margin: 8px 0;
   }
+  .slogan {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--secondary);
+    margin-top: 0;
+  }
   h2 {
     font-size: 1.05rem;
     margin: 24px 0 6px;
@@ -139,7 +146,7 @@
   }
   .primary {
     background: var(--accent);
-    color: var(--bg);
+    color: var(--on-accent);
     border: 0;
     border-radius: 999px;
     padding: 10px 18px;

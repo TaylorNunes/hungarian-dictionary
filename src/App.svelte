@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount, tick } from 'svelte';
-  import { APP_NAME, APP_TAGLINE } from './config';
+  import { APP_NAME, APP_SLOGAN, APP_TAGLINE } from './config';
+  import { applyTheme, saveTheme, storedTheme, type Theme } from './lib/theme';
+  import Logo from './components/Logo.svelte';
   import { getManifest, pruneOldShards } from './lib/data';
   import { searchBoth, cleanQuery, type CombinedResponse } from './lib/search';
   import { saved } from './lib/saved.svelte';
@@ -19,6 +21,7 @@
   let loading = $state(false);
   let error = $state('');
   let input: HTMLInputElement | undefined = $state();
+  let theme = $state<Theme>(storedTheme());
   let entryRoute = $state<EntryRoute | null>(null);
   let guideAnchor = $state<string | undefined>();
   let backQuery = $state<string | undefined>();
@@ -114,6 +117,12 @@
     input?.focus();
   }
 
+  function toggleTheme() {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    applyTheme(theme);
+    saveTheme(theme);
+  }
+
   let lastHash: string | null = null;
 
   function rememberScroll() {
@@ -172,7 +181,7 @@
 <header class="top">
   <div class="bar">
     <a class="brand" href="#/" onclick={() => (query = '')}>
-      <span class="logo" aria-hidden="true">ő</span>
+      <span class="logo"><Logo size={26} /></span>
       <span class="name">{APP_NAME}</span>
     </a>
     <nav aria-label="Main">
@@ -182,6 +191,14 @@
       </a>
       <a href="#/guide" aria-current={view === 'guide' ? 'page' : undefined}>Guide</a>
       <a href="#/about" aria-current={view === 'about' ? 'page' : undefined}>About</a>
+      <button
+        class="theme"
+        onclick={toggleTheme}
+        aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+        title={theme === 'dark' ? 'Light theme' : 'Dark theme'}
+      >
+        {theme === 'dark' ? '☀' : '☾'}
+      </button>
     </nav>
   </div>
 
@@ -269,7 +286,9 @@
       {/each}
     {:else if !query}
       <section class="welcome">
-        <h1>{APP_TAGLINE}</h1>
+        <h1>{APP_NAME}</h1>
+        <p class="slogan">{APP_SLOGAN}</p>
+        <p class="tagline">{APP_TAGLINE}</p>
         <p>
           Paste any form of a Hungarian word to see its dictionary form, meaning, how it's built and example sentences,
           or type an English word to find the Hungarian.
@@ -277,7 +296,7 @@
         <p class="try">
           Try
           {#each ['házat', 'könyveimben', 'láttalak', 'szeretném', 'house', 'beautiful', 'to see'] as w, i}
-            {#if i}, {/if}<a href={`#/w/${encodeURIComponent(w)}`}>{w}</a>
+            {#if i}{', '}{/if}<a href={`#/w/${encodeURIComponent(w)}`}>{w}</a>
           {/each}
         </p>
         <p class="hint">Accents are optional: <em lang="hu">orom</em> finds <em lang="hu">öröm</em>.</p>
@@ -327,15 +346,23 @@
   .logo {
     display: grid;
     place-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    background: var(--accent);
-    color: var(--bg);
-    font-family: var(--serif);
-    font-size: 1.25rem;
+    color: var(--accent);
+  }
+  .theme {
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 1.15rem;
     line-height: 1;
-    padding-bottom: 2px;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .theme:hover {
+    color: var(--secondary);
+    background: var(--surface-2);
   }
   nav {
     display: flex;
@@ -366,7 +393,7 @@
   }
   .count {
     background: var(--accent);
-    color: var(--bg);
+    color: var(--on-accent);
     border-radius: 999px;
     font-size: 0.75rem;
     padding: 0 6px;
@@ -447,11 +474,11 @@
     margin: 4px 2px 12px;
   }
   .guess {
-    color: var(--warn);
+    color: var(--secondary);
   }
   .notice {
-    background: var(--warn-soft);
-    color: var(--warn);
+    background: var(--secondary-soft);
+    color: var(--secondary);
     padding: 12px 14px;
     border-radius: var(--radius);
   }
@@ -474,8 +501,22 @@
   .welcome h1 {
     font-family: var(--serif);
     font-weight: 600;
-    font-size: 1.6rem;
-    margin: 16px 0 8px;
+    font-size: 2.4rem;
+    letter-spacing: -0.01em;
+    margin: 20px 0 0;
+    color: var(--accent);
+  }
+  .welcome .slogan {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--secondary);
+    margin: 2px 0 14px;
+  }
+  .welcome .tagline {
+    color: var(--text);
+    font-weight: 550;
+    margin-bottom: 4px;
   }
   .welcome p {
     color: var(--muted);

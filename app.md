@@ -1,6 +1,6 @@
 # Hungarian Dictionary App — Project Plan
 
-*Working name: TBD (candidates: Szónokedli, Ragulyás, Szóda, Töltött Szó, Betűrétes, Szócsárda)*
+*Name: **Szókert** ("word garden"), slogan "Cultivate your knowledge." (Earlier working title: Szóda.)*
 
 ## Goal
 

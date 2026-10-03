@@ -253,11 +253,6 @@
     padding: 6px 8px;
     border-bottom: 1px solid var(--border);
   }
-  thead th {
-    color: var(--faint);
-    font-weight: 500;
-    font-size: 0.8rem;
-  }
   tbody th {
     font-weight: 500;
     white-space: nowrap;
@@ -333,7 +328,7 @@
   @keyframes flash {
     0%,
     30% {
-      background: var(--accent-soft);
+      background: var(--secondary-soft);
     }
     100% {
       background: transparent;

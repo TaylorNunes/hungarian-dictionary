@@ -88,8 +88,8 @@
   .guessed {
     margin-left: auto;
     font-size: 0.75rem;
-    color: var(--warn);
-    background: var(--warn-soft);
+    color: var(--secondary);
+    background: var(--secondary-soft);
     border-radius: 999px;
     padding: 1px 8px;
   }

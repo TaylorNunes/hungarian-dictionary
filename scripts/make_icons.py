@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Generate the app icons (a stylised "ő" on a green tile) as PNG and SVG. Standard library only."""
+"""Generate the Szókert icons: a seedling "ő" (an o with two leaves for its accents) on a dark tile.
+
+Writes public/icons/icon-{192,512}.png, icon-512-maskable.png and icon.svg, and prints the glyph's
+SVG markup used by src/components/Logo.svelte. Standard library only.
+"""
 
 import math
 import struct
@@ -7,28 +11,37 @@ import zlib
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / 'public' / 'icons'
-BG = (0x2F, 0x6B, 0x4F)
-FG = (0xF7, 0xF5, 0xEF)
+BG = (0x0F, 0x15, 0x12)      # --bg (dark)
+FG = (0x8F, 0xE3, 0x88)      # --accent (fresh green)
 
-# Glyph geometry in unit coordinates (0..1), before scaling into the safe zone.
-RING = (0.5, 0.62, 0.25, 0.145)                     # cx, cy, outer r, inner r
-ACCENTS = [((0.385, 0.305), (0.455, 0.135)), ((0.565, 0.305), (0.635, 0.135))]
-STROKE = 0.036                                      # accent half-width
+# Glyph geometry in unit coordinates (0..1, y down), before scaling into the safe zone.
+RING = (0.5, 0.635, 0.215, 0.13)              # cx, cy, outer r, inner r
+STEM = ((0.5, 0.43), (0.5, 0.36), 0.026)      # bottom, top, half-width
+# Each leaf: base, tip, and the bulge of its quadratic-curve sides (max half-width = BULGE / 2).
+LEAVES = [((0.495, 0.37), (0.285, 0.165)), ((0.505, 0.37), (0.715, 0.165))]
+BULGE = 0.15
 
 
-def seg_dist(px, py, a, b):
-    (ax, ay), (bx, by) = a, b
-    dx, dy = bx - ax, by - ay
-    t = max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)))
-    return math.hypot(px - ax - t * dx, py - ay - t * dy)
+def in_leaf(x, y, base, tip):
+    """Inside the leaf bounded by two quadratic curves base→tip (half-width 2·BULGE·t·(1−t))."""
+    (bx, by), (tx, ty) = base, tip
+    length = math.hypot(tx - bx, ty - by)
+    ux, uy = (tx - bx) / length, (ty - by) / length
+    t = ((x - bx) * ux + (y - by) * uy) / length
+    d = abs(-(x - bx) * uy + (y - by) * ux)
+    return 0 <= t <= 1 and d <= 2 * BULGE * t * (1 - t)
+
+
+def in_stem(x, y):
+    (x0, y0), (x1, y1), hw = STEM
+    return abs(x - x0) <= hw and min(y0, y1) <= y <= max(y0, y1)
 
 
 def glyph(x, y):
     cx, cy, ro, ri = RING
-    d = math.hypot(x - cx, y - cy)
-    if ri <= d <= ro:
+    if ri <= math.hypot(x - cx, y - cy) <= ro:
         return True
-    return any(seg_dist(x, y, a, b) <= STROKE for a, b in ACCENTS)
+    return in_stem(x, y) or any(in_leaf(x, y, b, t) for b, t in LEAVES)
 
 
 def rounded(x, y, r):
@@ -37,7 +50,7 @@ def rounded(x, y, r):
 
 
 def render(size, maskable):
-    scale = 0.72 if maskable else 0.92
+    scale = 0.72 if maskable else 0.9
     ss = 4
     rows = []
     for j in range(size):
@@ -48,42 +61,49 @@ def render(size, maskable):
                 for si in range(ss):
                     x = (i + (si + 0.5) / ss) / size
                     y = (j + (sj + 0.5) / ss) / size
-                    inside = True if maskable else rounded(x, y, 0.22)
-                    if not inside:
+                    if not (maskable or rounded(x, y, 0.22)):
                         continue
                     bg += 1
-                    gx, gy = 0.5 + (x - 0.5) / scale, 0.5 + (y - 0.5) / scale
-                    if glyph(gx, gy):
+                    if glyph(0.5 + (x - 0.5) / scale, 0.5 + (y - 0.5) / scale):
                         fg += 1
-            n = ss * ss
-            a = bg / n
+            a = bg / (ss * ss)
             f = fg / bg if bg else 0
             rgb = [round(BG[k] * (1 - f) + FG[k] * f) for k in range(3)]
             row += bytes(rgb + [round(a * 255)])
         rows.append(bytes(row))
-    raw = zlib.compress(b''.join(rows), 9)
 
     def chunk(tag, data):
         return struct.pack('>I', len(data)) + tag + data + struct.pack('>I', zlib.crc32(tag + data))
 
     return (b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', struct.pack('>IIBBBBB', size, size, 8, 6, 0, 0, 0))
-            + chunk(b'IDAT', raw) + chunk(b'IEND', b''))
+            + chunk(b'IDAT', zlib.compress(b''.join(rows), 9)) + chunk(b'IEND', b''))
 
 
-def svg():
+def glyph_svg(scale=1.0):
+    """The glyph as SVG elements in a 0..100 box, filled/stroked with currentColor."""
+    t = lambda v: (0.5 + (v - 0.5) * scale) * 100
     cx, cy, ro, ri = RING
-    s = 0.92
-    t = lambda v: 0.5 + (v - 0.5) * s
-    mid = (ro + ri) / 2
-    accents = ''.join(
-        f'<line x1="{t(a[0]) * 100:.2f}" y1="{t(a[1]) * 100:.2f}" x2="{t(b[0]) * 100:.2f}" y2="{t(b[1]) * 100:.2f}"/>'
-        for a, b in ACCENTS)
-    return (
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
-        f'<rect width="100" height="100" rx="22" fill="#{BG[0]:02x}{BG[1]:02x}{BG[2]:02x}"/>'
-        f'<g fill="none" stroke="#{FG[0]:02x}{FG[1]:02x}{FG[2]:02x}">'
-        f'<circle cx="{t(cx) * 100:.2f}" cy="{t(cy) * 100:.2f}" r="{mid * s * 100:.2f}" stroke-width="{(ro - ri) * s * 100:.2f}"/>'
-        f'<g stroke-width="{STROKE * 2 * s * 100:.2f}" stroke-linecap="round">{accents}</g></g></svg>\n')
+    parts = [f'<circle cx="{t(cx):.2f}" cy="{t(cy):.2f}" r="{(ro + ri) / 2 * scale * 100:.2f}" fill="none" '
+             f'stroke="currentColor" stroke-width="{(ro - ri) * scale * 100:.2f}"/>']
+    (sx0, sy0), (sx1, sy1), hw = STEM
+    parts.append(f'<rect x="{t(sx0 - hw):.2f}" y="{t(min(sy0, sy1)):.2f}" width="{2 * hw * scale * 100:.2f}" '
+                 f'height="{abs(sy1 - sy0) * scale * 100:.2f}" fill="currentColor"/>')
+    for (bx, by), (tx, ty) in LEAVES:
+        length = math.hypot(tx - bx, ty - by)
+        nx, ny = -(ty - by) / length, (tx - bx) / length
+        mx, my = (bx + tx) / 2, (by + ty) / 2
+        c1 = (mx + nx * BULGE, my + ny * BULGE)
+        c2 = (mx - nx * BULGE, my - ny * BULGE)
+        parts.append(f'<path d="M{t(bx):.2f} {t(by):.2f}Q{t(c1[0]):.2f} {t(c1[1]):.2f} {t(tx):.2f} {t(ty):.2f}'
+                     f'Q{t(c2[0]):.2f} {t(c2[1]):.2f} {t(bx):.2f} {t(by):.2f}Z" fill="currentColor"/>')
+    return ''.join(parts)
+
+
+def icon_svg():
+    hexc = lambda c: '#' + ''.join(f'{v:02x}' for v in c)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
+            f'<rect width="100" height="100" rx="22" fill="{hexc(BG)}"/>'
+            f'<g color="{hexc(FG)}">{glyph_svg(0.9)}</g></svg>\n')
 
 
 if __name__ == '__main__':
@@ -91,5 +111,7 @@ if __name__ == '__main__':
     (OUT / 'icon-192.png').write_bytes(render(192, False))
     (OUT / 'icon-512.png').write_bytes(render(512, False))
     (OUT / 'icon-512-maskable.png').write_bytes(render(512, True))
-    (OUT / 'icon.svg').write_text(svg())
+    (OUT / 'icon.svg').write_text(icon_svg())
     print('icons written to', OUT)
+    print('Logo.svelte glyph (viewBox 0 0 100 100):')
+    print(glyph_svg(1.0))

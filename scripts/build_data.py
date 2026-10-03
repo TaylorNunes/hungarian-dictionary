@@ -413,7 +413,7 @@ def download(cache: Path) -> None:
         part = dest.with_suffix(dest.suffix + '.part')
         for attempt in range(6):
             have = part.stat().st_size if part.exists() else 0
-            req = urllib.request.Request(url, headers={'User-Agent': 'szoda-build/1.0'})
+            req = urllib.request.Request(url, headers={'User-Agent': 'szokert-build/1.0'})
             if have:
                 req.add_header('Range', f'bytes={have}-')
             try:

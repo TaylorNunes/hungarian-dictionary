@@ -156,8 +156,8 @@
     color: var(--muted);
   }
   .notice {
-    background: var(--warn-soft);
-    color: var(--warn);
+    background: var(--secondary-soft);
+    color: var(--secondary);
     padding: 12px 14px;
     border-radius: var(--radius);
   }

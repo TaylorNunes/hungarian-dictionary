@@ -2,8 +2,9 @@ import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// Keep in sync with APP_NAME in src/config.ts.
-const APP_NAME = 'Szóda';
+// Keep in sync with APP_NAME / APP_SLOGAN in src/config.ts.
+const APP_NAME = 'Szókert';
+const APP_SLOGAN = 'Cultivate your knowledge.';
 
 // Relative asset URLs, so the same build works at a domain root (hungarian.tcnunes.com) and under a
 // sub-path (taylornunes.github.io/hungarian-dictionary/). Routing is hash-based, so the page's own path
@@ -20,13 +21,13 @@ export default defineConfig({
       manifest: {
         name: `${APP_NAME} — Hungarian dictionary`,
         short_name: APP_NAME,
-        description: 'Offline Hungarian–English dictionary with word breakdowns and example sentences.',
+        description: `${APP_SLOGAN} A Hungarian ⇄ English dictionary with word breakdowns and example sentences, offline.`,
         lang: 'en',
         start_url: '.',
         scope: '.',
         display: 'standalone',
-        background_color: '#f7f5ef',
-        theme_color: '#2f6b4f',
+        background_color: '#0f1512',
+        theme_color: '#0f1512',
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },

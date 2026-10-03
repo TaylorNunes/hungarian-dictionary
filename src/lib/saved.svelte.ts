@@ -14,6 +14,7 @@ export interface SavedWord {
   added: number;
 }
 
+// Named after the app's old working title (Szóda); kept so saved words survive the rename.
 const KEY = 'szoda.saved.v1';
 
 function load(): SavedWord[] {

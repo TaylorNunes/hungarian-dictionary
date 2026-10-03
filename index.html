@@ -1,13 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="Offline Hungarian–English dictionary: paste any inflected word and get its base form, meaning, breakdown and example sentences." />
-    <meta name="theme-color" content="#2f6b4f" />
+    <meta name="description" content="Szókert — cultivate your knowledge. A Hungarian ⇄ English dictionary: paste any inflected word and get its base form, meaning, breakdown and example sentences." />
+    <meta name="theme-color" content="#0f1512" />
+    <script>
+      // Apply a saved light theme before first paint (see src/lib/theme.ts).
+      try {
+        if (localStorage.getItem('szokert.theme') === 'light') {
+          document.documentElement.dataset.theme = 'light';
+          document.querySelector('meta[name="theme-color"]').content = '#f6f8f2';
+        }
+      } catch (e) {}
+    </script>
     <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icons/icon-192.png" />
-    <title>Szóda</title>
+    <title>Szókert</title>
   </head>
   <body>
     <div id="app"></div>

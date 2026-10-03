@@ -1,6 +1,6 @@
-# Szóda: Hungarian ⇄ English dictionary
+# Szókert: Hungarian ⇄ English dictionary
 
-*Working name; change it in `src/config.ts` and `vite.config.ts`.*
+*Cultivate your knowledge.* Live at https://hungarian.tcnunes.com/. The name and slogan are set in `src/config.ts` and `vite.config.ts`; the logo and app icons are drawn by `scripts/make_icons.py`.
 
 An offline-capable Hungarian→English dictionary in the spirit of Takoboto. Type or paste any form of a word and get:
 

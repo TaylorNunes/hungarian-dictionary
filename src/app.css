@@ -1,42 +1,44 @@
+/* Szókert palette: deep green-black with fresh green (primary) and warm amber (secondary).
+   Dark is the default; [data-theme='light'] is the toggle. Every text pair meets WCAG AA. */
 :root {
-  --bg: #f7f5ef;
-  --surface: #ffffff;
-  --surface-2: #f0ede4;
-  --text: #1d2420;
-  --muted: #5d6660;
-  --faint: #8a918c;
-  --border: #e2ddd0;
-  --accent: #2f6b4f;
-  --accent-strong: #245640;
-  --accent-soft: #e3efe8;
-  --warn-soft: #fbf0d9;
-  --warn: #7a5a12;
-  --star: #c98a12;
+  --bg: #0f1512;
+  --surface: #161f1a;
+  --surface-2: #1e2a23;
+  --text: #e8efe9;
+  --muted: #a9b8ae;
+  --faint: #87968c;
+  --border: #26332b;
+  --accent: #8fe388;
+  --accent-strong: #b3f0ad;
+  --accent-soft: #1c3322;
+  --on-accent: #0f1512;
+  --secondary: #f5b94e;
+  --secondary-soft: #3a2c12;
+  --star: #f5b94e;
   --radius: 12px;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.05), 0 2px 8px rgb(0 0 0 / 0.04);
+  --shadow: none;
   --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
-  color-scheme: light;
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #141816;
-    --surface: #1c211e;
-    --surface-2: #232a26;
-    --text: #e6ebe7;
-    --muted: #a6b0aa;
-    --faint: #7c8680;
-    --border: #2e3632;
-    --accent: #7cc4a0;
-    --accent-strong: #9ad6b8;
-    --accent-soft: #1f3329;
-    --warn-soft: #3a2f16;
-    --warn: #e9c77a;
-    --star: #f0b84a;
-    --shadow: none;
-    color-scheme: dark;
-  }
+:root[data-theme='light'] {
+  --bg: #f6f8f2;
+  --surface: #ffffff;
+  --surface-2: #eef2e8;
+  --text: #18211b;
+  --muted: #56645a;
+  --faint: #626e66;
+  --border: #dde5d7;
+  --accent: #257030;
+  --accent-strong: #1c5a24;
+  --accent-soft: #e2f5df;
+  --on-accent: #ffffff;
+  --secondary: #8f5a00;
+  --secondary-soft: #fdf0d3;
+  --star: #b47a00;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.05), 0 2px 8px rgb(0 0 0 / 0.04);
+  color-scheme: light;
 }
 
 *,

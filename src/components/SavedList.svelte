@@ -50,7 +50,7 @@
   }
   .primary {
     background: var(--accent);
-    color: var(--bg);
+    color: var(--on-accent);
     border: 0;
     border-radius: 999px;
     padding: 8px 16px;
