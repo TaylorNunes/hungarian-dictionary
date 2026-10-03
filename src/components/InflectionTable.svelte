@@ -2,51 +2,71 @@
   import { getTags } from '../lib/data';
   import { buildSections, type Section } from '../lib/tags';
 
-  let { table }: { table: [string, number][] } = $props();
+  let {
+    table,
+    collapseSecondary = false,
+  }: {
+    table: [string, number][];
+    /** Start the long, less-used sections (potential, personal infinitive, other forms) collapsed. */
+    collapseSecondary?: boolean;
+  } = $props();
 
   let sections = $state<Section[]>([]);
   $effect(() => {
     const t = table;
     getTags().then((tags) => (sections = buildSections(t, tags)));
   });
+
+  const isSecondary = (s: Section) => /^(Potential|Personal infinitive|Other forms)/.test(s.title);
 </script>
+
+{#snippet body(s: Section)}
+  {#if s.kind === 'grid'}
+    <div class="scroll">
+      <table>
+        {#if s.cols.length > 1}
+          <thead>
+            <tr><th></th>{#each s.cols as c}<th scope="col">{c}</th>{/each}</tr>
+          </thead>
+        {/if}
+        <tbody>
+          {#each s.rows as row}
+            <tr>
+              <th scope="row">
+                <span lang="hu">{row.head}</span>
+                {#if row.sub}<small>{row.sub}</small>{/if}
+              </th>
+              {#each row.cells as cell}
+                <td lang="hu">{cell.length ? cell.join(', ') : '—'}</td>
+              {/each}
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {:else}
+    <dl>
+      {#each s.items as item}
+        <dt>{item.head}</dt>
+        <dd lang="hu">{item.forms.join(', ')}</dd>
+      {/each}
+    </dl>
+  {/if}
+{/snippet}
 
 <div class="sections">
   {#each sections as s}
-    <section>
-      <h4>{s.title}</h4>
-      {#if s.kind === 'grid'}
-        <div class="scroll">
-          <table>
-            {#if s.cols.length > 1}
-              <thead>
-                <tr><th></th>{#each s.cols as c}<th scope="col">{c}</th>{/each}</tr>
-              </thead>
-            {/if}
-            <tbody>
-              {#each s.rows as row}
-                <tr>
-                  <th scope="row">
-                    <span lang="hu">{row.head}</span>
-                    {#if row.sub}<small>{row.sub}</small>{/if}
-                  </th>
-                  {#each row.cells as cell}
-                    <td lang="hu">{cell.length ? cell.join(', ') : '—'}</td>
-                  {/each}
-                </tr>
-              {/each}
-            </tbody>
-          </table>
-        </div>
-      {:else}
-        <dl>
-          {#each s.items as item}
-            <dt>{item.head}</dt>
-            <dd lang="hu">{item.forms.join(', ')}</dd>
-          {/each}
-        </dl>
-      {/if}
-    </section>
+    {#if collapseSecondary && isSecondary(s)}
+      <details>
+        <summary><h4>{s.title}</h4></summary>
+        {@render body(s)}
+      </details>
+    {:else}
+      <section>
+        <h4>{s.title}</h4>
+        {@render body(s)}
+      </section>
+    {/if}
   {/each}
 </div>
 
@@ -55,6 +75,17 @@
     display: grid;
     gap: 16px;
     margin-top: 8px;
+  }
+  summary {
+    cursor: pointer;
+    list-style-position: outside;
+  }
+  summary h4 {
+    display: inline;
+    color: var(--accent);
+  }
+  details[open] summary {
+    margin-bottom: 6px;
   }
   h4 {
     margin: 0 0 6px;

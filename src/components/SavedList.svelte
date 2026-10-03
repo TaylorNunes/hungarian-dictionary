@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { entryHref } from '../lib/entry';
   import { saved, removeSaved, downloadAnki } from '../lib/saved.svelte';
 </script>
 
@@ -17,7 +18,7 @@
       {#each saved.list as s (s.lemmaId)}
         <li>
           <div class="text">
-            <a href={`#/w/${encodeURIComponent(s.word)}`} lang="hu" class="word">{s.word}</a>
+            <a href={entryHref({ w: s.word, pos: s.pos }, s.lemmaId)} lang="hu" class="word">{s.word}</a>
             {#if s.lookedUp}<span class="looked" lang="hu">from {s.lookedUp}</span>{/if}
             <span class="meaning">{s.meaning}</span>
             {#if s.example}<span class="example" lang="hu">{s.example[0]}</span>{/if}

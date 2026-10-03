@@ -1,4 +1,4 @@
-import { shardChars } from './fold';
+import { fold, shardChars } from './fold';
 import type { EnglishRow, FormRow, Lemma, Manifest } from './types';
 
 const DATA_URL = `${import.meta.env.BASE_URL}data/`;
@@ -109,6 +109,23 @@ export async function getLemma(id: number): Promise<Lemma | undefined> {
     lemmaShards.set(n, p);
   }
   return (await p)[String(id)];
+}
+
+/**
+ * The entry for a word page. Tries the lemma id from the link first; ids can shift when the data is
+ * rebuilt, so if that entry no longer matches, falls back to the word itself (same part of speech first).
+ */
+export async function findEntry(word: string, pos: string, id?: number): Promise<{ id: number; lemma: Lemma } | null> {
+  if (id !== undefined) {
+    const lemma = await getLemma(id).catch(() => undefined);
+    if (lemma && lemma.w === word && lemma.pos === pos) return { id, lemma };
+  }
+  const rows = await lookupFolded(fold(word));
+  const ids = [...new Set(rows.filter((r) => r[0] === word && r[2] === 0).map((r) => r[1]))].sort((a, b) => a - b);
+  const lemmas = await Promise.all(ids.map((i) => getLemma(i)));
+  const index = lemmas.findIndex((l) => l?.pos === pos);
+  const pick = index >= 0 ? index : lemmas.findIndex(Boolean);
+  return pick >= 0 ? { id: ids[pick], lemma: lemmas[pick]! } : null;
 }
 
 /** Tag sets, indexed by the numbers in form rows and tables; each is a list of tags. */

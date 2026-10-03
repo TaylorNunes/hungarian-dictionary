@@ -1,14 +1,16 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { APP_NAME, APP_TAGLINE } from './config';
   import { getManifest, pruneOldShards } from './lib/data';
   import { searchBoth, cleanQuery, type CombinedResponse } from './lib/search';
   import { saved } from './lib/saved.svelte';
+  import { parseEntryHash, type EntryRoute } from './lib/entry';
+  import Entry from './components/Entry.svelte';
   import Result from './components/Result.svelte';
   import SavedList from './components/SavedList.svelte';
   import About from './components/About.svelte';
 
-  type View = 'search' | 'saved' | 'about';
+  type View = 'search' | 'entry' | 'saved' | 'about';
 
   let view = $state<View>('search');
   let query = $state('');
@@ -16,13 +18,23 @@
   let loading = $state(false);
   let error = $state('');
   let input: HTMLInputElement | undefined = $state();
+  let entryRoute = $state<EntryRoute | null>(null);
+  let backQuery = $state<string | undefined>();
+  let backViaHistory = $state(false);
   let seq = 0;
   let debounce: ReturnType<typeof setTimeout> | undefined;
 
-  function parseHash(): { view: View; word: string } {
+  // Recent searches and their scroll positions, so returning from a word page is instant and in place.
+  const cache = new Map<string, CombinedResponse>();
+  const scrollPositions = new Map<string, number>();
+  const CACHE_SIZE = 20;
+
+  function parseHash(): { view: View; word: string; entry?: EntryRoute } {
     const h = location.hash.replace(/^#\/?/, '');
     if (h === 'saved') return { view: 'saved', word: '' };
     if (h === 'about') return { view: 'about', word: '' };
+    const entry = parseEntryHash(location.hash);
+    if (entry) return { view: 'entry', word: '', entry };
     const m = h.match(/^w\/(.*)$/);
     return { view: 'search', word: m ? decodeURIComponent(m[1]) : '' };
   }
@@ -36,12 +48,21 @@
       error = '';
       return;
     }
+    const cached = cache.get(clean);
+    if (cached) {
+      response = cached;
+      loading = false;
+      error = '';
+      return;
+    }
     loading = true;
     try {
       const r = await searchBoth(clean);
       if (id !== seq) return;
       response = r;
       error = '';
+      cache.set(clean, r);
+      if (cache.size > CACHE_SIZE) cache.delete(cache.keys().next().value!);
     } catch (e) {
       if (id !== seq) return;
       // fetch() rejects with a TypeError when the network is unreachable.
@@ -60,13 +81,15 @@
     if (location.hash === target) return;
     if (replace) history.replaceState(null, '', target);
     else history.pushState(null, '', target);
+    lastHash = location.hash;
   }
 
   function onInput() {
     clearTimeout(debounce);
     debounce = setTimeout(() => {
-      // Typing refines the current entry rather than adding history steps.
+      // Typing refines the current search rather than adding history steps.
       setHashForQuery(query, parseHash().word !== '');
+      view = 'search';
       run(query);
     }, 180);
   }
@@ -75,6 +98,7 @@
     e.preventDefault();
     clearTimeout(debounce);
     setHashForQuery(query, false);
+    view = 'search';
     run(query);
     input?.blur();
   }
@@ -86,13 +110,37 @@
     input?.focus();
   }
 
-  function syncFromHash() {
+  let lastHash: string | null = null;
+
+  function rememberScroll() {
+    if (view === 'search' && response) scrollPositions.set(response.query, window.scrollY);
+  }
+
+  async function syncFromHash() {
+    // Going back fires both popstate and hashchange; handle each address once.
+    if (location.hash === lastHash) return;
+    lastHash = location.hash;
+    const from = view;
     const h = parseHash();
+
+    if (h.entry) {
+      // Opened from the results: "back" is a history step, which keeps their scroll position.
+      backViaHistory = from === 'search' && !!response;
+      backQuery = from === 'search' ? response?.query : undefined;
+      entryRoute = h.entry;
+      view = 'entry';
+      query = h.entry.from ?? h.entry.word;
+      window.scrollTo({ top: 0 });
+      return;
+    }
+
     view = h.view;
+    document.title = APP_NAME;
     if (h.view === 'search') {
       if (h.word !== query) query = h.word;
-      run(h.word);
-      window.scrollTo({ top: 0 });
+      await run(h.word);
+      await tick();
+      window.scrollTo({ top: scrollPositions.get(cleanQuery(h.word)) ?? 0 });
     }
   }
 
@@ -100,11 +148,13 @@
     syncFromHash();
     window.addEventListener('hashchange', syncFromHash);
     window.addEventListener('popstate', syncFromHash);
+    window.addEventListener('scroll', rememberScroll, { passive: true });
     getManifest().then(pruneOldShards).catch(() => {});
     if (!parseHash().word && view === 'search' && matchMedia('(pointer: fine)').matches) input?.focus();
     return () => {
       window.removeEventListener('hashchange', syncFromHash);
       window.removeEventListener('popstate', syncFromHash);
+      window.removeEventListener('scroll', rememberScroll);
     };
   });
 </script>
@@ -124,7 +174,7 @@
     </nav>
   </div>
 
-  {#if view === 'search'}
+  {#if view === 'search' || view === 'entry'}
     <form class="search" role="search" onsubmit={onSubmit}>
       <label for="q" class="visually-hidden">Hungarian or English word</label>
       <input
@@ -149,7 +199,9 @@
 </header>
 
 <main>
-  {#if view === 'saved'}
+  {#if view === 'entry' && entryRoute}
+    <Entry route={entryRoute} {backQuery} {backViaHistory} />
+  {:else if view === 'saved'}
     <SavedList />
   {:else if view === 'about'}
     <About />
