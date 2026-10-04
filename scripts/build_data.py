@@ -503,8 +503,33 @@ def read_tsv_bz2(path: Path):
 TOKEN_RE = re.compile(r"[^\W\d_]+(?:-[^\W\d_]+)*")
 
 
-def attach_sentences(cache: Path, lemmas: list[dict], exact_index: dict[str, set[int]]) -> dict[int, int]:
-    """Attach example sentences; return how many sentences use each lemma."""
+LABELS = ROOT / 'data' / 'sentence_labels.jsonl'
+EXAMPLE_POOL = 10    # candidates per word worth checking: EXAMPLES_PER_LEMMA plus room for rejections
+NO_EXAMPLES_POS = {'character', 'punct', 'symbol'}   # "a" in a sentence is the article, never the letter
+
+
+def lemma_key(lemma: dict) -> str:
+    """A stable name for an entry across rebuilds (ids shift): headword, POS and a hash of the first gloss."""
+    digest = hashlib.sha1(lemma['s'][0]['g'].encode('utf-8')).hexdigest()[:6]
+    return f"{lemma['w']}|{lemma['pos']}|{digest}"
+
+
+def read_sentence_labels(path: Path | None) -> dict[tuple[int, str], set[str]]:
+    """(Tatoeba sentence id, lowercased form) → keys of the entries that form really is there; empty = none.
+
+    Written by scripts/sentence_labels.py from Claude's answers; see .claude/skills/label-sentences.
+    """
+    labels: dict[tuple[int, str], set[str]] = {}
+    if path and path.exists():
+        for line in path.read_text(encoding='utf-8').splitlines():
+            if line.strip():
+                d = json.loads(line)
+                labels[(d['s'], d['f'])] = set(d['e'])
+    return labels
+
+
+def eligible_sentences(cache: Path) -> list[tuple[int, str, str]]:
+    """(Tatoeba id, Hungarian, English) for linked sentences of 2–14 words."""
     hun = {int(r[0]): r[2] for r in read_tsv_bz2(cache / 'hun_sentences.tsv.bz2') if len(r) >= 3}
     links: dict[int, int] = {}
     for r in read_tsv_bz2(cache / 'hun-eng_links.tsv.bz2'):
@@ -512,29 +537,56 @@ def attach_sentences(cache: Path, lemmas: list[dict], exact_index: dict[str, set
             links.setdefault(int(r[0]), int(r[1]))
     wanted = set(links.values())
     eng = {int(r[0]): r[2] for r in read_tsv_bz2(cache / 'eng_sentences.tsv.bz2') if len(r) >= 3 and int(r[0]) in wanted}
-
-    candidates: dict[int, list[tuple[int, int, str, str]]] = defaultdict(list)
+    out = []
     for hid, eid in links.items():
         hu_text, en_text = hun.get(hid), eng.get(eid)
-        if not hu_text or not en_text:
-            continue
+        if hu_text and en_text and 2 <= len(TOKEN_RE.findall(hu_text.lower())) <= 14:
+            out.append((hid, hu_text, en_text))
+    return out
+
+
+def sentence_candidates(sentences, lemmas: list[dict], exact_index: dict[str, set[int]],
+                        labels: dict[tuple[int, str], set[str]]) -> dict[int, list[tuple]]:
+    """Lemma id → [(confirmed, score, hid, hu, en, form)], best first.
+
+    A sentence is a candidate for every entry with a matching form. A label for (sentence, form) keeps
+    only the entries it names (confirmed ones sort first); a label naming none of the current
+    entries is stale (the dictionary changed) and is ignored. Score prefers 4–9 words and the
+    headword itself over an inflected form.
+    """
+    headwords = [l['w'].lower() for l in lemmas]
+    keys = [lemma_key(l) for l in lemmas]
+    skip = {i for i, l in enumerate(lemmas) if l['pos'] in NO_EXAMPLES_POS}
+    candidates: dict[int, list[tuple]] = defaultdict(list)
+    for hid, hu_text, en_text in sentences:
         tokens = TOKEN_RE.findall(hu_text.lower())
-        if not 2 <= len(tokens) <= 14:
-            continue
-        # Prefer 4–9 words; very short sentences carry little context.
-        score = abs(len(tokens) - 6)
+        length_score = abs(len(tokens) - 6)
         seen = set()
         for tok in tokens:
-            for lid in exact_index.get(tok, ()):
+            ids = [i for i in exact_index.get(tok, ()) if i not in skip]
+            label = labels.get((hid, tok))
+            if label is not None and label and not label & {keys[i] for i in ids}:
+                label = None
+            for lid in ids:
                 if lid in seen:
                     continue
+                confirmed = label is not None and keys[lid] in label
+                if label is not None and not confirmed:
+                    continue
                 seen.add(lid)
-                bonus = 0 if tok == lemmas[lid]['w'].lower() else 1
-                candidates[lid].append((score + bonus, hid, hu_text, en_text))
-
-    for lid, cands in candidates.items():
+                score = length_score + (0 if tok == headwords[lid] else 1)
+                candidates[lid].append((not confirmed, score, hid, hu_text, en_text, tok))
+    for cands in candidates.values():
         cands.sort()
-        lemmas[lid]['ex'] = [[h, e] for _, _, h, e in cands[:EXAMPLES_PER_LEMMA]]
+    return candidates
+
+
+def attach_sentences(cache: Path, lemmas: list[dict], exact_index: dict[str, set[int]],
+                     labels: dict[tuple[int, str], set[str]] | None = None) -> dict[int, int]:
+    """Attach example sentences; return how many sentences use each lemma."""
+    candidates = sentence_candidates(eligible_sentences(cache), lemmas, exact_index, labels or {})
+    for lid, cands in candidates.items():
+        lemmas[lid]['ex'] = [[c[3], c[4]] for c in cands[:EXAMPLES_PER_LEMMA]]
     return {lid: len(c) for lid, c in candidates.items()}
 
 
@@ -657,8 +709,9 @@ def build(args) -> None:
         exact: dict[str, set[int]] = defaultdict(set)
         for form, entries in form_entries.items():
             exact[form.lower()].update(lid for lid, _ in entries)
-        linked = attach_sentences(cache, lemmas, exact)
-        print(f'  {len(linked)} lemmas have example sentences')
+        labels = read_sentence_labels(Path(args.labels) if getattr(args, 'labels', None) else None)
+        linked = attach_sentences(cache, lemmas, exact, labels)
+        print(f'  {len(linked)} lemmas have example sentences ({len(labels)} checked sentence words)')
 
     print('Ranking by subtitle frequency…')
     freq = lemma_frequency(lemmas, form_entries, read_frequency(cache / 'frequencywords-hu.txt'))
@@ -902,6 +955,7 @@ def main() -> None:
     ap.add_argument('--limit', type=int, help='only read the first N Kaikki lines (for quick dev builds)')
     ap.add_argument('--skip-download', action='store_true')
     ap.add_argument('--skip-sentences', action='store_true')
+    ap.add_argument('--labels', default=str(LABELS), help='checked example sentences (see scripts/sentence_labels.py)')
     args = ap.parse_args()
     Path(args.out).mkdir(parents=True, exist_ok=True)
     build(args)

@@ -11,6 +11,7 @@ from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_data as bd  # noqa: E402
+import sentence_labels as sl  # noqa: E402
 
 FIXTURES = Path(__file__).resolve().parent / 'fixtures'
 
@@ -106,6 +107,50 @@ class HeadwordIndexTest(unittest.TestCase):
         self.assertEqual(bd.short_gloss('house'), 'house')
         cut = bd.short_gloss('apartment building, tenement house, block of flats for rent', 30)
         self.assertEqual(cut, 'apartment building, tenement…')
+
+
+class SentenceLabelTest(unittest.TestCase):
+    lemmas = [
+        {'w': 'tar', 'pos': 'adj', 's': [{'g': 'bald'}]},
+        {'w': 'tart', 'pos': 'verb', 's': [{'g': 'to hold, keep'}]},
+        {'w': 'A', 'pos': 'character', 's': [{'g': 'the letter'}]},
+        {'w': 'a', 'pos': 'article', 's': [{'g': 'the'}]},
+    ]
+    exact = {'tart': {0, 1}, 'a': {2, 3}, 'nap': set()}
+    sentences = [(1, 'A nap sokáig tart.', 'The day lasts long.'), (2, 'Tart egy napig.', 'It takes a day.')]
+
+    def words(self, labels):
+        c = bd.sentence_candidates(self.sentences, self.lemmas, self.exact, labels)
+        return {self.lemmas[lid]['w']: [x[2] for x in rows] for lid, rows in c.items()}
+
+    def test_unlabelled_sentences_go_to_every_matching_entry_but_letters(self):
+        self.assertEqual(self.words({}), {'tar': [1, 2], 'tart': [1, 2], 'a': [1]})
+
+    def test_labels_keep_only_the_named_entry_and_sort_it_first(self):
+        tart = bd.lemma_key(self.lemmas[1])
+        got = self.words({(1, 'tart'): {tart}, (2, 'tart'): set()})
+        self.assertNotIn('tar', got)
+        self.assertEqual(got['tart'], [1])
+
+    def test_confirmed_sentences_come_before_unlabelled(self):
+        tart = bd.lemma_key(self.lemmas[1])
+        self.assertEqual(self.words({(2, 'tart'): {tart}})['tart'], [2, 1])
+
+    def test_stale_labels_are_ignored(self):
+        self.assertEqual(self.words({(1, 'tart'): {'tart|verb|000000'}})['tar'], [1, 2])
+
+    def test_parse_answers(self):
+        sidecar = {'1': {'a': ['a|article|x'], 'tart': ['tar|adj|y', 'tart|verb|z']}}
+        records, problems = sl.parse_answers('# done\n1 a=a tart=b\n', sidecar)
+        self.assertEqual(problems, [])
+        self.assertEqual(records, [{'s': 1, 'f': 'a', 'e': ['a|article|x']}, {'s': 1, 'f': 'tart', 'e': ['tart|verb|z']}])
+        records, _ = sl.parse_answers('1 a=- tart=ab', sidecar)
+        self.assertEqual([r['e'] for r in records], [[], ['tar|adj|y', 'tart|verb|z']])
+
+    def test_parse_answers_reports_problems(self):
+        sidecar = {'1': {'a': ['a|article|x']}, '2': {'tart': ['tar|adj|y']}}
+        _, problems = sl.parse_answers('1 a=c extra=a\n3 a=a\nnonsense line', sidecar)
+        self.assertEqual(len(problems), 5, problems)
 
 
 class FrequencyTest(unittest.TestCase):
@@ -314,6 +359,14 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(starts['haz'][0][0], 'ház')
         self.assertEqual(ends['zah'], starts['haz'])
         self.assertNotIn('hazat', starts)   # inflected forms are not headwords
+
+    def test_labels_remove_wrong_examples(self):
+        labels = self.tmp / 'labels.jsonl'
+        labels.write_text('{"s":1,"f":"látom","e":[]}\n', encoding='utf-8')
+        self.args.labels = str(labels)
+        manifest, root = self.build()
+        ids = {self.lemma(manifest, root, lid)['w']: lid for _, lid, _ in self.lookup(manifest, root, 'lat')}
+        self.assertNotIn(['Látom a házat.', 'I see the house.'], self.lemma(manifest, root, ids['lát']).get('ex', []))
 
     def test_lemmas_carry_frequency_rank(self):
         manifest, root = self.build()
