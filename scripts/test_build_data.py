@@ -89,6 +89,25 @@ class EnglishIndexTest(unittest.TestCase):
         self.assertEqual(index['barn'], [[0, 0, 0]])
 
 
+class HeadwordIndexTest(unittest.TestCase):
+    def test_rows_keyed_by_folded_and_reversed_headword(self):
+        lemmas = [
+            {'w': 'ház', 'pos': 'noun', 's': [{'g': 'house'}], 'fr': 245},
+            {'w': 'bérház', 'pos': 'noun', 's': [{'g': 'apartment building, tenement house, block of flats for rent'}]},
+            {'w': 'Á', 'pos': 'character', 's': [{'g': 'The first letter'}]},
+        ]
+        starts, ends = bd.headword_indexes(lemmas)
+        self.assertEqual(starts['haz'], [['ház', 0, 'noun', 245, 'house']])
+        self.assertEqual(ends['zah'], [['ház', 0, 'noun', 245, 'house']])
+        self.assertEqual(ends['zahreb'][0][:4], ['bérház', 1, 'noun', 0])
+        self.assertNotIn('a', starts)
+
+    def test_short_gloss_cuts_at_a_word(self):
+        self.assertEqual(bd.short_gloss('house'), 'house')
+        cut = bd.short_gloss('apartment building, tenement house, block of flats for rent', 30)
+        self.assertEqual(cut, 'apartment building, tenement…')
+
+
 class FrequencyTest(unittest.TestCase):
     def lemma(self, word, pos='noun', senses=('meaning',), labels=None):
         return {'w': word, 'pos': pos, 's': [{'g': g, **({'t': labels} if labels else {})} for g in senses]}
@@ -282,6 +301,19 @@ class BuildTest(unittest.TestCase):
         self.assertEqual(english('house')[0], 'ház')
         self.assertEqual(english('see')[0], 'lát')
         self.assertIn('alma', english('apple'))
+
+    def test_headword_indexes_shards(self):
+        manifest, root = self.build()
+        self.assertTrue(manifest['startShards'] and manifest['endShards'])
+        starts = {}
+        for p in (root / 'starts').glob('*.json'):
+            starts.update(json.loads(p.read_text(encoding='utf-8')))
+        ends = {}
+        for p in (root / 'ends').glob('*.json'):
+            ends.update(json.loads(p.read_text(encoding='utf-8')))
+        self.assertEqual(starts['haz'][0][0], 'ház')
+        self.assertEqual(ends['zah'], starts['haz'])
+        self.assertNotIn('hazat', starts)   # inflected forms are not headwords
 
     def test_lemmas_carry_frequency_rank(self):
         manifest, root = self.build()

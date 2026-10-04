@@ -29,6 +29,12 @@ export type FormRow = [form: string, lemmaId: number, tagIdx: number];
 /** One row in an English shard: [lemma id, matching sense index, 0 if the term leads its gloss else 1]. */
 export type EnglishRow = [lemmaId: number, senseIndex: number, position: number];
 
+/**
+ * One row in a headword shard (starts/ keyed by folded headword, ends/ by the same reversed):
+ * [headword, lemma id, part of speech, frequency rank or 0, first meaning cut short].
+ */
+export type HeadRow = [word: string, lemmaId: number, pos: string, rank: number, gloss: string];
+
 export interface Manifest {
   version: string;
   built: string;
@@ -41,6 +47,9 @@ export interface Manifest {
   formShards: string[];
   englishTermCount: number;
   enShards: string[];
+  /** Headword indexes for partial search; absent in data built before them. */
+  startShards?: string[];
+  endShards?: string[];
   bytes: number;
   partial?: boolean;
 }

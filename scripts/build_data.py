@@ -670,7 +670,8 @@ def build(args) -> None:
     english = build_english_index(lemmas, freq)
     print(f'  {len(english)} English terms')
 
-    write_output(out_root, lemmas, form_entries, tag_list, english, args)
+    starts, ends = headword_indexes(lemmas)
+    write_output(out_root, lemmas, form_entries, tag_list, english, (starts, ends), args)
 
 
 
@@ -702,6 +703,36 @@ def build_english_index(lemmas: list[dict], freq: dict[int, float]) -> dict[str,
         rows = sorted(by_lemma.items(), key=lambda kv: (kv[1][0], kv[0]))
         index[key] = [[lid, si, position] for lid, (_, si, position) in rows[:MAX_LEMMAS_PER_TERM]]
     return index
+
+
+HEAD_SKIP_POS = {'character', 'punct', 'symbol'}
+HEAD_GLOSS_CHARS = 60
+
+
+def short_gloss(gloss: str, limit: int = HEAD_GLOSS_CHARS) -> str:
+    """The gloss cut at a word boundary to about `limit` characters."""
+    if len(gloss) <= limit:
+        return gloss
+    cut = gloss[:limit].rsplit(' ', 1)[0].rstrip(' ,;:(')
+    return (cut or gloss[:limit]) + '…'
+
+
+def headword_indexes(lemmas: list[dict]) -> tuple[dict[str, list], dict[str, list]]:
+    """Headwords for partial search: folded headword → rows, and reversed folded headword → the same rows.
+
+    A row is [word, lemmaId, pos, frequency rank or 0, short first gloss], enough to list a match
+    without loading its lemma record (ends-with matches are spread over every lemma shard).
+    """
+    starts: dict[str, list] = defaultdict(list)
+    ends: dict[str, list] = defaultdict(list)
+    for lid, l in enumerate(lemmas):
+        if l['pos'] in HEAD_SKIP_POS:
+            continue
+        row = [l['w'], lid, l['pos'], l.get('fr', 0), short_gloss(l['s'][0]['g'])]
+        key = fold(l['w'])
+        starts[key].append(row)
+        ends[key[::-1]].append(row)
+    return starts, ends
 
 
 GLOSSARY = ROOT / 'src' / 'lib' / 'glossary.json'
@@ -785,7 +816,7 @@ def write_sharded(directory: Path, mapping: dict[str, list], dump) -> list[str]:
     return sorted(shard_keys)
 
 
-def write_output(out_root: Path, lemmas, form_entries, tag_list, english, args) -> None:
+def write_output(out_root: Path, lemmas, form_entries, tag_list, english, heads, args) -> None:
     print('Writing shards…')
     staging = out_root / '_staging'
     if staging.exists():
@@ -805,6 +836,8 @@ def write_output(out_root: Path, lemmas, form_entries, tag_list, english, args) 
             folded[fold(form)].append([form, lid, t])
     form_keys = write_sharded(staging / 'forms', folded, dump)
     en_keys = write_sharded(staging / 'en', english, dump)
+    start_keys = write_sharded(staging / 'starts', heads[0], dump)
+    end_keys = write_sharded(staging / 'ends', heads[1], dump)
 
     shards: dict[int, dict] = defaultdict(dict)
     for lid, l in enumerate(lemmas):
@@ -840,6 +873,8 @@ def write_output(out_root: Path, lemmas, form_entries, tag_list, english, args) 
         'formShards': form_keys,
         'englishTermCount': len(english),
         'enShards': en_keys,
+        'startShards': start_keys,
+        'endShards': end_keys,
         'bytes': total,
         'sources': {
             'kaikki': SOURCES['kaikki-hu.jsonl'],
@@ -851,6 +886,9 @@ def write_output(out_root: Path, lemmas, form_entries, tag_list, english, args) 
 
     print(f'  version {version}: {len(files)} files, {total / 1e6:.1f} MB total, '
           f'largest {largest.relative_to(out_root)} {largest.stat().st_size / 1e3:.0f} KB')
+    for name in ('forms', 'en', 'starts', 'ends', 'lemmas'):
+        size = sum(p.stat().st_size for p in (out_root / version / name).glob('*.json'))
+        print(f'    {name}/: {size / 1e6:.1f} MB')
     if largest.stat().st_size > MAX_FILE_BYTES:
         sys.exit(f'{largest} exceeds {MAX_FILE_BYTES} bytes')
     if total > MAX_TOTAL_BYTES:

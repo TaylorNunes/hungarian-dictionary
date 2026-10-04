@@ -57,9 +57,10 @@ Output lives in `public/data/`:
 | `<version>/forms/<prefix>.json` | accent-folded form → `[form, lemma id, tag set]`; sharded by prefix, split until each is ≤ 250 KB |
 | `<version>/lemmas/<n>.json` | 128 entries per file: senses, IPA, inflection table, example sentences |
 | `<version>/en/<prefix>.json` | English gloss term → `[lemma id, sense, leading?]`, best first |
+| `<version>/starts/<prefix>.json`, `<version>/ends/<prefix>.json` | folded headword (reversed for `ends`) → `[headword, lemma id, pos, frequency rank, short gloss]`, for "starts or ends with" matches |
 | `<version>/tags.json` | the tag sets that forms and tables refer to |
 
-`<version>` is a hash of the content, so a rebuild that changes nothing keeps the same URLs and offline caches stay valid. The whole dataset is about 120 MB uncompressed, in about 3,000 files.
+`<version>` is a hash of the content, so a rebuild that changes nothing keeps the same URLs and offline caches stay valid. The whole dataset is about 125 MB uncompressed, in about 3,250 files.
 
 **App** (Vite + Svelte 5 + TypeScript):
 

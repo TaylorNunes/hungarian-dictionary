@@ -1,11 +1,14 @@
 import { fold, shardChars } from './fold';
-import type { EnglishRow, FormRow, Lemma, Manifest } from './types';
+import type { EnglishRow, FormRow, HeadRow, Lemma, Manifest } from './types';
 
 const DATA_URL = `${import.meta.env.BASE_URL}data/`;
 const SHARD_CACHE = 'data-shards'; // must match the runtime cache name in vite.config.ts
 
-/** The two prefix-sharded indexes: Hungarian forms and English gloss terms. */
-type IndexName = 'forms' | 'en';
+/**
+ * The prefix-sharded indexes: Hungarian forms, English gloss terms, and headwords
+ * keyed forwards (starts) and reversed (ends) for partial search.
+ */
+type IndexName = 'forms' | 'en' | 'starts' | 'ends';
 
 interface ShardIndex {
   keys: Set<string>;
@@ -17,6 +20,8 @@ let manifestPromise: Promise<Manifest> | null = null;
 const indexes: Record<IndexName, ShardIndex> = {
   forms: { keys: new Set(), maxKeyLength: 0, shards: new Map() },
   en: { keys: new Set(), maxKeyLength: 0, shards: new Map() },
+  starts: { keys: new Set(), maxKeyLength: 0, shards: new Map() },
+  ends: { keys: new Set(), maxKeyLength: 0, shards: new Map() },
 };
 const lemmaShards = new Map<number, Promise<Record<string, Lemma>>>();
 let tagsPromise: Promise<string[][]> | null = null;
@@ -29,7 +34,12 @@ async function fetchJson<T>(url: string): Promise<T> {
 
 export function getManifest(): Promise<Manifest> {
   manifestPromise ??= fetchJson<Manifest>(`${DATA_URL}manifest.json`).then((m) => {
-    const lists: Record<IndexName, string[]> = { forms: m.formShards, en: m.enShards ?? [] };
+    const lists: Record<IndexName, string[]> = {
+      forms: m.formShards,
+      en: m.enShards ?? [],
+      starts: m.startShards ?? [],
+      ends: m.endShards ?? [],
+    };
     for (const name of Object.keys(lists) as IndexName[]) {
       indexes[name].keys = new Set(lists[name]);
       indexes[name].maxKeyLength = Math.max(0, ...lists[name].map((k) => k.length));
@@ -84,19 +94,21 @@ export function lookupEnglish(folded: string): Promise<EnglishRow[]> {
   return lookup<EnglishRow>('en', folded);
 }
 
-/** Headwords in the same shard that start with `folded` (for suggestions). */
-export async function suggest(folded: string, limit = 8): Promise<string[]> {
+/**
+ * Headword rows whose key starts with `folded`, from the starts/ index (folded headwords)
+ * or the ends/ index (reversed folded headwords, so pass the query reversed).
+ * A short prefix can span a shard and its split-off children, so every such shard is read.
+ */
+export async function lookupPrefix(name: 'starts' | 'ends', folded: string): Promise<HeadRow[]> {
   await getManifest();
-  const key = shardKeyFor('forms', folded);
-  if (!key || folded.length < key.length) return [];
-  const shard = await loadShard<FormRow>('forms', key);
-  const out: string[] = [];
-  for (const [k, rows] of Object.entries(shard)) {
-    if (k === folded || !k.startsWith(folded)) continue;
-    const head = rows.find((r) => r[2] === 0);
-    if (head) out.push(head[0]);
+  const chars = shardChars(folded);
+  const keys = [...indexes[name].keys].filter((k) => k.startsWith(chars) || chars.startsWith(k));
+  const shards = await Promise.all(keys.map((k) => loadShard<HeadRow>(name, k)));
+  const rows: HeadRow[] = [];
+  for (const shard of shards) {
+    for (const [k, list] of Object.entries(shard)) if (k.startsWith(folded)) rows.push(...list);
   }
-  return out.sort((a, b) => a.length - b.length || a.localeCompare(b, 'hu')).slice(0, limit);
+  return rows;
 }
 
 export async function getLemma(id: number): Promise<Lemma | undefined> {
@@ -143,6 +155,8 @@ export async function allDataUrls(): Promise<string[]> {
   const urls = [versionUrl(m, 'tags.json')];
   for (const k of m.formShards) urls.push(versionUrl(m, `forms/${k}.json`));
   for (const k of m.enShards ?? []) urls.push(versionUrl(m, `en/${k}.json`));
+  for (const k of m.startShards ?? []) urls.push(versionUrl(m, `starts/${k}.json`));
+  for (const k of m.endShards ?? []) urls.push(versionUrl(m, `ends/${k}.json`));
   for (let i = 0; i < m.lemmaShards; i++) urls.push(versionUrl(m, `lemmas/${i}.json`));
   return urls;
 }

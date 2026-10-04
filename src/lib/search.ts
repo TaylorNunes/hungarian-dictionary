@@ -1,10 +1,10 @@
-import { getLemma, getTags, lookupEnglish, lookupFolded, suggest } from './data';
+import { getLemma, getTags, lookupEnglish, lookupFolded, lookupPrefix } from './data';
 import { deinflect, normalizeEnglish } from './english';
 import { fold, hasAccents } from './fold';
 import { frequencyBonus } from './frequency';
 import { candidates, type Step } from './stemmer';
 import { describe, isBaseForm, type Part } from './tags';
-import type { FormRow, Lemma } from './types';
+import type { FormRow, HeadRow, Lemma } from './types';
 
 export interface Analysis {
   /** The form as found in the dictionary. */
@@ -29,7 +29,6 @@ export interface SearchResponse {
   results: Result[];
   /** Words of a multi-word query, so each can be looked up. */
   tokens: string[];
-  suggestions: string[];
 }
 
 const MAX_RESULTS = 12;
@@ -70,7 +69,7 @@ async function stemmedHits(word: string, accentsTyped: boolean): Promise<Hit[]> 
 export async function search(raw: string): Promise<SearchResponse> {
   const query = cleanQuery(raw);
   const tokens = query.includes(' ') ? [...new Set(query.match(TOKEN_RE) ?? [])] : [];
-  if (!query) return { query, results: [], tokens, suggestions: [] };
+  if (!query) return { query, results: [], tokens };
 
   const accentsTyped = hasAccents(query);
   let hits = await hitsFor(query, accentsTyped);
@@ -133,8 +132,7 @@ export async function search(raw: string): Promise<SearchResponse> {
   );
   results.sort((a, b) => b.score - a.score || a.lemmaId - b.lemmaId);
 
-  const suggestions = results.length ? [] : await suggest(fold(query));
-  return { query, results: results.slice(0, MAX_RESULTS), tokens, suggestions };
+  return { query, results: results.slice(0, MAX_RESULTS), tokens };
 }
 
 // ----------------------------------------------------------------------------- English → Hungarian
@@ -191,7 +189,8 @@ export interface CombinedResponse {
   query: string;
   sections: Section[];
   tokens: string[];
-  suggestions: string[];
+  /** Other headwords starting or ending with the query, most common first. */
+  partial: PartialMatch[];
 }
 
 function glossMentions(lemma: Lemma, term: string): boolean {
@@ -227,10 +226,78 @@ export function rankSections(hu: SearchResponse, en: EnglishResponse | null): Se
  * Accented letters mean Hungarian, so English is only tried for unaccented queries.
  */
 export async function searchBoth(raw: string): Promise<CombinedResponse> {
-  const [hu, en] = await Promise.all([
+  const [hu, en, partial] = await Promise.all([
     search(raw),
     hasAccents(cleanQuery(raw)) ? Promise.resolve(null) : searchEnglish(raw),
+    partialRows(raw),
   ]);
   const sections = rankSections(hu, en);
-  return { query: hu.query, sections, tokens: hu.tokens, suggestions: sections.length ? [] : hu.suggestions };
+  const shown = new Set(sections.flatMap((sec) => sec.results.map((r) => r.lemmaId)));
+  return { query: hu.query, sections, tokens: hu.tokens, partial: rankPartial(hu.query, ...partial, shown) };
+}
+
+// ----------------------------------------------------------------------------- partial matches
+
+export interface PartialMatch {
+  word: string;
+  lemmaId: number;
+  pos: string;
+  /** Frequency rank, 0 when unranked. */
+  rank: number;
+  gloss: string;
+  /** Where the query matched, for highlighting. */
+  start: boolean;
+  end: boolean;
+}
+
+const MAX_PARTIAL = 200;
+const MIN_PARTIAL_LETTERS = 2;
+
+/** The folded query to match headwords against, or null when it is too short for partial matches. */
+export function partialKey(raw: string): string | null {
+  const folded = fold(cleanQuery(raw));
+  return (folded.match(/\p{L}/gu) ?? []).length >= MIN_PARTIAL_LETTERS ? folded : null;
+}
+
+/** Headwords starting with the query and headwords ending with it; empty for short queries or on a load error. */
+async function partialRows(raw: string): Promise<[starts: HeadRow[], ends: HeadRow[]]> {
+  const folded = partialKey(raw);
+  if (!folded) return [[], []];
+  // An extra: never let it hide the main results (e.g. offline with these shards not downloaded).
+  return Promise.all([lookupPrefix('starts', folded), lookupPrefix('ends', [...folded].reverse().join(''))]).catch(
+    () => [[], []] as [HeadRow[], HeadRow[]],
+  );
+}
+
+/**
+ * Merge starts-with and ends-with rows into one list, weighting both sides the same: common words
+ * first by frequency rank, then unranked ones by length and alphabet. Drops the query's own
+ * headword and lemmas listed in `exclude`. With accents typed, the accents must match as well.
+ */
+export function rankPartial(query: string, starts: HeadRow[], ends: HeadRow[], exclude: Set<number> = new Set()): PartialMatch[] {
+  const lower = query.toLowerCase();
+  const folded = fold(query);
+  const accents = hasAccents(query);
+  const byId = new Map<number, PartialMatch>();
+  const add = (rows: HeadRow[], side: 'start' | 'end') => {
+    for (const [word, lemmaId, pos, rank, gloss] of rows) {
+      if (exclude.has(lemmaId) || fold(word) === folded) continue;
+      const w = word.toLowerCase();
+      if (accents && !(side === 'start' ? w.startsWith(lower) : w.endsWith(lower))) continue;
+      const m = byId.get(lemmaId) ?? { word, lemmaId, pos, rank, gloss, start: false, end: false };
+      m[side] = true;
+      byId.set(lemmaId, m);
+    }
+  };
+  add(starts, 'start');
+  add(ends, 'end');
+  return [...byId.values()]
+    .sort(
+      (a, b) =>
+        (a.rank || Infinity) - (b.rank || Infinity) ||
+        a.word.length - b.word.length ||
+        a.word.localeCompare(b.word, 'hu') ||
+        a.lemmaId - b.lemmaId,
+    )
+    .slice(0, MAX_PARTIAL);
 }

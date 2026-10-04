@@ -12,6 +12,7 @@
   import SavedList from './components/SavedList.svelte';
   import About from './components/About.svelte';
   import Guide from './components/Guide.svelte';
+  import PartialList from './components/PartialList.svelte';
 
   type View = 'search' | 'entry' | 'saved' | 'guide' | 'about';
 
@@ -32,6 +33,8 @@
   // Recent searches and their scroll positions, so returning from a word page is instant and in place.
   const cache = new Map<string, CombinedResponse>();
   const scrollPositions = new Map<string, number>();
+  // How much of each search's partial-match list was expanded.
+  let partialShown = $state<Record<string, number>>({});
   const CACHE_SIZE = 20;
 
   function parseHash(): { view: View; word: string; entry?: EntryRoute; anchor?: string } {
@@ -273,17 +276,14 @@
         {#if !loading && !response.tokens.length}
           <div class="empty">
             <p>No entry for <strong>{response.query}</strong> in Hungarian or English.</p>
-            {#if response.suggestions.length}
-              <p>Did you mean:</p>
-              <div class="tokens">
-                {#each response.suggestions as s}
-                  <a href={`#/w/${encodeURIComponent(s)}`} lang="hu">{s}</a>
-                {/each}
-              </div>
-            {/if}
           </div>
         {/if}
       {/each}
+
+      {#if response.partial.length}
+        {@const q = response.query}
+        <PartialList matches={response.partial} query={q} shown={partialShown[q]} onshow={(n) => (partialShown[q] = n)} />
+      {/if}
     {:else if !query}
       <section class="welcome">
         <h1>{APP_NAME}</h1>
@@ -300,6 +300,10 @@
           {/each}
         </p>
         <p class="hint">Accents are optional: <em lang="hu">orom</em> finds <em lang="hu">öröm</em>.</p>
+        <p class="hint">
+          Below the results you'll also find words that start or end with what you typed: <em lang="hu">ház</em> lists
+          <em lang="hu">házas</em> and <em lang="hu">bérház</em>.
+        </p>
       </section>
     {/if}
     {#if loading}
