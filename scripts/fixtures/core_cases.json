@@ -1,0 +1,8232 @@
+{
+ "stemmer": [
+  {
+   "input": "könyveimben",
+   "candidates": [
+    {
+     "stem": "könyveimbe",
+     "steps": [
+      [
+       "n",
+       "superessive",
+       "on",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "könyveimb",
+     "steps": [
+      [
+       "en",
+       "superessive",
+       "on",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "könyveim",
+     "steps": [
+      [
+       "ben",
+       "inessive",
+       "in",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "könyveim",
+     "steps": [
+      [
+       "be",
+       "illative",
+       "into",
+       false
+      ],
+      [
+       "n",
+       "superessive",
+       "on",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "házzal",
+   "candidates": [
+    {
+     "stem": "ház",
+     "steps": [
+      [
+       "val",
+       "instrumental",
+       "with",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "busszal",
+   "candidates": [
+    {
+     "stem": "busz",
+     "steps": [
+      [
+       "val",
+       "instrumental",
+       "with",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "házzá",
+   "candidates": [
+    {
+     "stem": "ház",
+     "steps": [
+      [
+       "vá",
+       "translative",
+       "into (becoming)",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "almát",
+   "candidates": [
+    {
+     "stem": "almá",
+     "steps": [
+      [
+       "t",
+       "accusative",
+       "direct object",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "alma",
+     "steps": [
+      [
+       "t",
+       "accusative",
+       "direct object",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "kefében",
+   "candidates": [
+    {
+     "stem": "kefébe",
+     "steps": [
+      [
+       "n",
+       "superessive",
+       "on",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "keféb",
+     "steps": [
+      [
+       "en",
+       "superessive",
+       "on",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "kefé",
+     "steps": [
+      [
+       "ben",
+       "inessive",
+       "in",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "kefe",
+     "steps": [
+      [
+       "ben",
+       "inessive",
+       "in",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "kefé",
+     "steps": [
+      [
+       "be",
+       "illative",
+       "into",
+       false
+      ],
+      [
+       "n",
+       "superessive",
+       "on",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "kefe",
+     "steps": [
+      [
+       "be",
+       "illative",
+       "into",
+       false
+      ],
+      [
+       "n",
+       "superessive",
+       "on",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "kef",
+     "steps": [
+      [
+       "é",
+       "-é",
+       "…'s (belonging to)",
+       false
+      ],
+      [
+       "ben",
+       "inessive",
+       "in",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "kef",
+     "steps": [
+      [
+       "é",
+       "-é",
+       "…'s (belonging to)",
+       false
+      ],
+      [
+       "be",
+       "illative",
+       "into",
+       false
+      ],
+      [
+       "n",
+       "superessive",
+       "on",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "megláttam",
+   "candidates": [
+    {
+     "stem": "láttam",
+     "steps": [
+      [
+       "meg",
+       "meg-",
+       "verbal prefix: completed action",
+       true
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "tudod-e",
+   "candidates": [
+    {
+     "stem": "tudod",
+     "steps": [
+      [
+       "e",
+       "question -e",
+       "whether …?",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "barátaimmal",
+   "candidates": [
+    {
+     "stem": "barátaim",
+     "steps": [
+      [
+       "val",
+       "instrumental",
+       "with",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "szépségét",
+   "candidates": [
+    {
+     "stem": "szépségé",
+     "steps": [
+      [
+       "t",
+       "accusative",
+       "direct object",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "szépsége",
+     "steps": [
+      [
+       "t",
+       "accusative",
+       "direct object",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "szépség",
+     "steps": [
+      [
+       "é",
+       "-é",
+       "…'s (belonging to)",
+       false
+      ],
+      [
+       "t",
+       "accusative",
+       "direct object",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "szép",
+     "steps": [
+      [
+       "ség",
+       "-ság/-ség",
+       "-ness, abstract noun",
+       false
+      ],
+      [
+       "é",
+       "-é",
+       "…'s (belonging to)",
+       false
+      ],
+      [
+       "t",
+       "accusative",
+       "direct object",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "otthontalan",
+   "candidates": [
+    {
+     "stem": "otthontala",
+     "steps": [
+      [
+       "n",
+       "superessive",
+       "on",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "otthon",
+     "steps": [
+      [
+       "talan",
+       "-talan/-telen",
+       "without, -less",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "ottho",
+     "steps": [
+      [
+       "n",
+       "superessive",
+       "on",
+       false
+      ],
+      [
+       "talan",
+       "-talan/-telen",
+       "without, -less",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "otth",
+     "steps": [
+      [
+       "on",
+       "superessive",
+       "on",
+       false
+      ],
+      [
+       "talan",
+       "-talan/-telen",
+       "without, -less",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "városbeli",
+   "candidates": [
+    {
+     "stem": "városbel",
+     "steps": [
+      [
+       "i",
+       "-i",
+       "of, from (adjective)",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "város",
+     "steps": [
+      [
+       "beli",
+       "-beli",
+       "in/of the …",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "váro",
+     "steps": [
+      [
+       "s",
+       "-s",
+       "having …, with …",
+       false
+      ],
+      [
+       "beli",
+       "-beli",
+       "in/of the …",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "kanálnyi",
+   "candidates": [
+    {
+     "stem": "kanálny",
+     "steps": [
+      [
+       "i",
+       "-i",
+       "of, from (adjective)",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "kanál",
+     "steps": [
+      [
+       "nyi",
+       "-nyi",
+       "an amount of",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "ka",
+     "steps": [
+      [
+       "nál",
+       "adessive",
+       "at, by",
+       false
+      ],
+      [
+       "nyi",
+       "-nyi",
+       "an amount of",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "Kovácsék",
+   "candidates": [
+    {
+     "stem": "kovács",
+     "steps": [
+      [
+       "ék",
+       "-ék",
+       "… and family/group",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "kovác",
+     "steps": [
+      [
+       "s",
+       "-s",
+       "having …, with …",
+       false
+      ],
+      [
+       "ék",
+       "-ék",
+       "… and family/group",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "Péteré",
+   "candidates": [
+    {
+     "stem": "péter",
+     "steps": [
+      [
+       "é",
+       "-é",
+       "…'s (belonging to)",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "budapesti",
+   "candidates": [
+    {
+     "stem": "budapest",
+     "steps": [
+      [
+       "i",
+       "-i",
+       "of, from (adjective)",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "budapes",
+     "steps": [
+      [
+       "t",
+       "accusative",
+       "direct object",
+       false
+      ],
+      [
+       "i",
+       "-i",
+       "of, from (adjective)",
+       false
+      ]
+     ]
+    },
+    {
+     "stem": "budape",
+     "steps": [
+      [
+       "s",
+       "-s",
+       "having …, with …",
+       false
+      ],
+      [
+       "t",
+       "accusative",
+       "direct object",
+       false
+      ],
+      [
+       "i",
+       "-i",
+       "of, from (adjective)",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "szemüveges",
+   "candidates": [
+    {
+     "stem": "szemüvege",
+     "steps": [
+      [
+       "s",
+       "-s",
+       "having …, with …",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "elmentünk",
+   "candidates": [
+    {
+     "stem": "mentünk",
+     "steps": [
+      [
+       "el",
+       "el-",
+       "verbal prefix: away; completed",
+       true
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "visszajöttek",
+   "candidates": [
+    {
+     "stem": "jöttek",
+     "steps": [
+      [
+       "vissza",
+       "vissza-",
+       "verbal prefix: back",
+       true
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "meggyszörp",
+   "candidates": [
+    {
+     "stem": "gyszörp",
+     "steps": [
+      [
+       "meg",
+       "meg-",
+       "verbal prefix: completed action",
+       true
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "asszonnyal",
+   "candidates": [
+    {
+     "stem": "asszony",
+     "steps": [
+      [
+       "val",
+       "instrumental",
+       "with",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "hosszabbá",
+   "candidates": [
+    {
+     "stem": "hosszab",
+     "steps": [
+      [
+       "vá",
+       "translative",
+       "into (becoming)",
+       false
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "input": "ab",
+   "candidates": []
+  },
+  {
+   "input": "a",
+   "candidates": []
+  },
+  {
+   "input": "ő",
+   "candidates": []
+  }
+ ],
+ "deinflect": [
+  {
+   "input": "went",
+   "output": [
+    "go"
+   ]
+  },
+  {
+   "input": "children",
+   "output": [
+    "child"
+   ]
+  },
+  {
+   "input": "running",
+   "output": [
+    "runn",
+    "runne",
+    "run"
+   ]
+  },
+  {
+   "input": "stopped",
+   "output": [
+    "stoppe",
+    "stopp",
+    "stop"
+   ]
+  },
+  {
+   "input": "cities",
+   "output": [
+    "city",
+    "citie",
+    "citi"
+   ]
+  },
+  {
+   "input": "knives",
+   "output": [
+    "knif",
+    "knife",
+    "knive",
+    "kniv"
+   ]
+  },
+  {
+   "input": "wives",
+   "output": [
+    "wif",
+    "wife",
+    "wive",
+    "wiv"
+   ]
+  },
+  {
+   "input": "bigger",
+   "output": [
+    "bigg",
+    "bigge",
+    "big"
+   ]
+  },
+  {
+   "input": "happiest",
+   "output": [
+    "happy",
+    "happi",
+    "happie"
+   ]
+  },
+  {
+   "input": "quickly",
+   "output": [
+    "quick"
+   ]
+  },
+  {
+   "input": "dog's",
+   "output": [
+    "dog",
+    "dog'"
+   ]
+  },
+  {
+   "input": "running shoes",
+   "output": [
+    "running shoe",
+    "running sho"
+   ]
+  },
+  {
+   "input": "houses",
+   "output": [
+    "house",
+    "hous"
+   ]
+  },
+  {
+   "input": "boxes",
+   "output": [
+    "boxe",
+    "box"
+   ]
+  },
+  {
+   "input": "tried",
+   "output": [
+    "try",
+    "trie",
+    "tri"
+   ]
+  },
+  {
+   "input": "baked",
+   "output": [
+    "bake",
+    "bak"
+   ]
+  },
+  {
+   "input": "making",
+   "output": [
+    "mak",
+    "make"
+   ]
+  },
+  {
+   "input": "larger",
+   "output": [
+    "larg",
+    "large"
+   ]
+  },
+  {
+   "input": "ox",
+   "output": []
+  },
+  {
+   "input": "glass",
+   "output": []
+  },
+  {
+   "input": "hopping",
+   "output": [
+    "hopp",
+    "hoppe",
+    "hop"
+   ]
+  },
+  {
+   "input": "is",
+   "output": []
+  }
+ ],
+ "normalizeEnglish": [
+  {
+   "input": "To See",
+   "output": "see"
+  },
+  {
+   "input": "  the   House ",
+   "output": "house"
+  },
+  {
+   "input": "a book",
+   "output": "book"
+  },
+  {
+   "input": "an apple",
+   "output": "apple"
+  },
+  {
+   "input": "\"hello!\"",
+   "output": "hello"
+  },
+  {
+   "input": "...",
+   "output": ""
+  },
+  {
+   "input": "TO",
+   "output": "to"
+  },
+  {
+   "input": "to",
+   "output": "to"
+  },
+  {
+   "input": "theatre",
+   "output": "theatre"
+  },
+  {
+   "input": "Café",
+   "output": "café"
+  }
+ ],
+ "cleanQuery": [
+  {
+   "input": "  ház  ",
+   "output": "ház"
+  },
+  {
+   "input": "?ház!",
+   "output": "ház"
+  },
+  {
+   "input": "„alma\"",
+   "output": "alma"
+  },
+  {
+   "input": "Látom   a\tházat",
+   "output": "Látom a házat"
+  },
+  {
+   "input": " ház ",
+   "output": "ház"
+  },
+  {
+   "input": "﻿ház",
+   "output": "ház"
+  },
+  {
+   "input": "-ság",
+   "output": "ság"
+  },
+  {
+   "input": "",
+   "output": ""
+  },
+  {
+   "input": "...",
+   "output": ""
+  },
+  {
+   "input": "x — y",
+   "output": "x — y"
+  },
+  {
+   "input": "ház.\n",
+   "output": "ház"
+  },
+  {
+   "input": "é-é",
+   "output": "é-é"
+  }
+ ],
+ "partialKey": [
+  {
+   "input": "h",
+   "output": null
+  },
+  {
+   "input": "ha",
+   "output": "ha"
+  },
+  {
+   "input": "ház",
+   "output": "haz"
+  },
+  {
+   "input": " -h ",
+   "output": null
+  },
+  {
+   "input": "é",
+   "output": null
+  },
+  {
+   "input": "éé",
+   "output": "ee"
+  },
+  {
+   "input": "12",
+   "output": null
+  },
+  {
+   "input": "a1",
+   "output": null
+  },
+  {
+   "input": "Ő",
+   "output": null
+  }
+ ],
+ "frequency": [
+  {
+   "rank": 0,
+   "bonus": 0,
+   "commonness": null
+  },
+  {
+   "rank": 1,
+   "bonus": 12,
+   "commonness": {
+    "label": "very common",
+    "tag": "top1000",
+    "title": "#1 most frequent word in Hungarian film and TV subtitles"
+   }
+  },
+  {
+   "rank": 2,
+   "bonus": 11.096910013008056,
+   "commonness": {
+    "label": "very common",
+    "tag": "top1000",
+    "title": "#2 most frequent word in Hungarian film and TV subtitles"
+   }
+  },
+  {
+   "rank": 10,
+   "bonus": 9,
+   "commonness": {
+    "label": "very common",
+    "tag": "top1000",
+    "title": "#10 most frequent word in Hungarian film and TV subtitles"
+   }
+  },
+  {
+   "rank": 999,
+   "bonus": 3.0013035353220534,
+   "commonness": {
+    "label": "very common",
+    "tag": "top1000",
+    "title": "#999 most frequent word in Hungarian film and TV subtitles"
+   }
+  },
+  {
+   "rank": 1000,
+   "bonus": 3,
+   "commonness": {
+    "label": "very common",
+    "tag": "top1000",
+    "title": "#1,000 most frequent word in Hungarian film and TV subtitles"
+   }
+  },
+  {
+   "rank": 1001,
+   "bonus": 2.998697767562044,
+   "commonness": {
+    "label": "common",
+    "tag": "top5000",
+    "title": "#1,001 most frequent word in Hungarian film and TV subtitles"
+   }
+  },
+  {
+   "rank": 4999,
+   "bonus": 0.9033505897422298,
+   "commonness": {
+    "label": "common",
+    "tag": "top5000",
+    "title": "#4,999 most frequent word in Hungarian film and TV subtitles"
+   }
+  },
+  {
+   "rank": 5000,
+   "bonus": 0.9030899869919438,
+   "commonness": {
+    "label": "common",
+    "tag": "top5000",
+    "title": "#5,000 most frequent word in Hungarian film and TV subtitles"
+   }
+  },
+  {
+   "rank": 5001,
+   "bonus": 0.9028294363569955,
+   "commonness": null
+  },
+  {
+   "rank": 12345,
+   "bonus": 0,
+   "commonness": null
+  },
+  {
+   "rank": 1234567,
+   "bonus": 0,
+   "commonness": null
+  }
+ ],
+ "describe": [
+  {
+   "tags": "",
+   "parts": [],
+   "base": true
+  },
+  {
+   "tags": "nominative singular",
+   "parts": [
+    [
+     "nominative",
+     "subject"
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "accusative singular",
+   "parts": [
+    [
+     "accusative",
+     "direct object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "dative singular",
+   "parts": [
+    [
+     "dative",
+     "to, for"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "instrumental singular",
+   "parts": [
+    [
+     "instrumental",
+     "with"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "causal-final singular",
+   "parts": [
+    [
+     "causal-final",
+     "for, because of"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "singular translative",
+   "parts": [
+    [
+     "translative",
+     "into (becoming)"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "singular terminative",
+   "parts": [
+    [
+     "terminative",
+     "as far as, until"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "essive-formal singular",
+   "parts": [
+    [
+     "essive-formal",
+     "as, in the role of"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "essive-modal singular",
+   "parts": [
+    [
+     "essive-modal",
+     "as, -ly"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "inessive singular",
+   "parts": [
+    [
+     "inessive",
+     "in"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "singular superessive",
+   "parts": [
+    [
+     "superessive",
+     "on"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adessive singular",
+   "parts": [
+    [
+     "adessive",
+     "at, by"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "illative singular",
+   "parts": [
+    [
+     "illative",
+     "into"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "singular sublative",
+   "parts": [
+    [
+     "sublative",
+     "onto"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "allative singular",
+   "parts": [
+    [
+     "allative",
+     "to (towards)"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "elative singular",
+   "parts": [
+    [
+     "elative",
+     "out of"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "delative singular",
+   "parts": [
+    [
+     "delative",
+     "off, about"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "ablative singular",
+   "parts": [
+    [
+     "ablative",
+     "from"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "singular",
+   "parts": [],
+   "base": true
+  },
+  {
+   "tags": "nominative plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "accusative plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "accusative",
+     "direct object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "dative plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "dative",
+     "to, for"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "instrumental plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "instrumental",
+     "with"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "causal-final plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "causal-final",
+     "for, because of"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural translative",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "translative",
+     "into (becoming)"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural terminative",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "terminative",
+     "as far as, until"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "essive-formal plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "essive-formal",
+     "as, in the role of"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "inessive plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "inessive",
+     "in"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural superessive",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "superessive",
+     "on"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adessive plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "adessive",
+     "at, by"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "illative plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "illative",
+     "into"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural sublative",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "sublative",
+     "onto"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "allative plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "allative",
+     "to (towards)"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "elative plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "elative",
+     "out of"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "delative plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "delative",
+     "off, about"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "ablative plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "ablative",
+     "from"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person possessed-single possessive singular",
+   "parts": [
+    [
+     "my",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person possessed-many possessive singular",
+   "parts": [
+    [
+     "my (several)",
+     "possessive, several things"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "possessed-single possessive second-person singular",
+   "parts": [
+    [
+     "your",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "possessed-many possessive second-person singular",
+   "parts": [
+    [
+     "your (several)",
+     "possessive, several things"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "possessed-single possessive singular third-person",
+   "parts": [
+    [
+     "his/her/its",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "possessed-many possessive singular third-person",
+   "parts": [
+    [
+     "his/her/its (several)",
+     "possessive, several things"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person plural possessed-single possessive",
+   "parts": [
+    [
+     "our",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person plural possessed-many possessive",
+   "parts": [
+    [
+     "our (several)",
+     "possessive, several things"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural possessed-single possessive second-person",
+   "parts": [
+    [
+     "your (pl.)",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural possessed-many possessive second-person",
+   "parts": [
+    [
+     "your (pl.) (several)",
+     "possessive, several things"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural possessed-single possessive third-person",
+   "parts": [
+    [
+     "their",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural possessed-many possessive third-person",
+   "parts": [
+    [
+     "their (several)",
+     "possessive, several things"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "essive-modal plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "essive-modal",
+     "as, -ly"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative present singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative present second-person singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative present singular third-person",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative plural present",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative plural present second-person",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative plural present third-person",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative past singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past second-person singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past singular third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative past plural",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past plural second-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past plural third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person indefinite present singular",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite present second-person singular",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite present singular third-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person indefinite plural present",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite plural present second-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite plural present third-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite present singular subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite present second-person singular subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite present singular subjunctive third-person",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite plural present subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite plural present second-person subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite plural present subjunctive third-person",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive",
+   "parts": [
+    [
+     "infinitive",
+     "to …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person infinitive personal singular",
+   "parts": [
+    [
+     "infinitive (for me)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive personal second-person singular",
+   "parts": [
+    [
+     "infinitive (for you)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive personal singular third-person",
+   "parts": [
+    [
+     "infinitive (for him/her)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person infinitive personal plural",
+   "parts": [
+    [
+     "infinitive (for us)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive personal plural second-person",
+   "parts": [
+    [
+     "infinitive (for you all)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive personal plural third-person",
+   "parts": [
+    [
+     "infinitive (for them)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "noun-from-verb",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "participle present",
+   "parts": [
+    [
+     "present participle",
+     "-ó/-ő, …ing"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "participle past",
+   "parts": [
+    [
+     "past participle",
+     "-t/-tt, …ed"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adverbial participle",
+   "parts": [
+    [
+     "adverbial participle",
+     "-va/-ve, …ing, having …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative potential present singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative potential present second-person singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative potential present singular third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative plural potential present",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative plural potential present second-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative plural potential present third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative past potential singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past potential second-person singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past potential singular third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative past plural potential",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past plural potential second-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past plural potential third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person indefinite potential present singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite potential present second-person singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite potential present singular third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person indefinite plural potential present",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite plural potential present second-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite plural potential present third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite potential present singular subjunctive",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite potential present second-person singular subjunctive",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite potential present singular subjunctive third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite plural potential present subjunctive",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite plural potential present second-person subjunctive",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite plural potential present subjunctive third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive potential",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "infinitive",
+     "to …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person infinitive personal potential singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "infinitive (for me)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive personal potential second-person singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "infinitive (for you)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive personal potential singular third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "infinitive (for him/her)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person infinitive personal plural potential",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "infinitive (for us)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive personal plural potential second-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "infinitive (for you all)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive personal plural potential third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "infinitive (for them)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adverbial participle potential",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "adverbial participle",
+     "-va/-ve, …ing, having …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative present singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative present second-person singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative present singular third-person",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative plural present",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative plural present second-person",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative plural present third-person",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indicative object-second-person present singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "I → you",
+     "-lak/-lek: I do it to you"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative past singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past second-person singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past singular third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative past plural",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past plural second-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past plural third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indicative object-second-person past singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "I → you",
+     "-lak/-lek: I do it to you"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite first-person present singular",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite present second-person singular",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite present singular third-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite first-person plural present",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite plural present second-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite plural present third-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person object-second-person present singular",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "I → you",
+     "-lak/-lek: I do it to you"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person present singular subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite present second-person singular subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite present singular subjunctive third-person",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person plural present subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite plural present second-person subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite plural present subjunctive third-person",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person object-second-person present singular subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "I → you",
+     "-lak/-lek: I do it to you"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "future participle",
+   "parts": [
+    [
+     "future participle",
+     "-andó/-endő, to be …ed"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative potential present singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative potential present second-person singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative potential present singular third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative plural potential present",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative plural potential present second-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative plural potential present third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indicative object-second-person potential present singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present",
+     null
+    ],
+    [
+     "I → you",
+     "-lak/-lek: I do it to you"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative past potential singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past potential second-person singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past potential singular third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative past plural potential",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past plural potential second-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past plural potential third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indicative object-second-person past potential singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "past",
+     null
+    ],
+    [
+     "I → you",
+     "-lak/-lek: I do it to you"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite first-person potential present singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite potential present second-person singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite potential present singular third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite first-person plural potential present",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite plural potential present second-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite plural potential present third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person object-second-person potential present singular",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "I → you",
+     "-lak/-lek: I do it to you"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person potential present singular subjunctive",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite potential present second-person singular subjunctive",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite potential present singular subjunctive third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person plural potential present subjunctive",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite plural potential present second-person subjunctive",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite plural potential present subjunctive third-person",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person object-second-person potential present singular subjunctive",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "I → you",
+     "-lak/-lek: I do it to you"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "participle potential present",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "present participle",
+     "-ó/-ő, …ing"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "participle potential privative",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "privative",
+     "un…able"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "alternative",
+   "parts": [
+    [
+     "alternative",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "comparative",
+   "parts": [
+    [
+     "comparative",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "canonical",
+   "parts": [],
+   "base": true
+  },
+  {
+   "tags": "alternative archaic dialectal",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "dialectal",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative dialectal",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dialectal",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "causative",
+   "parts": [
+    [
+     "causative",
+     "make/let someone …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite informal second-person singular",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "formal indefinite second-person-semantically singular third-person",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "indefinite singular third-person",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite informal plural second-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "formal indefinite plural second-person-semantically third-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite plural third-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "indefinite informal past second-person singular",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "formal indefinite past second-person-semantically singular third-person",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "indefinite past singular third-person",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite past plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite informal past plural second-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "formal indefinite past plural second-person-semantically third-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite past plural third-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite past",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "future indefinite",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "infinitive informal second-person singular",
+   "parts": [
+    [
+     "infinitive (for you)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "formal infinitive second-person-semantically singular third-person",
+   "parts": [
+    [
+     "infinitive (for him/her)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive singular third-person",
+   "parts": [
+    [
+     "infinitive (for him/her)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person infinitive plural",
+   "parts": [
+    [
+     "infinitive (for us)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive informal plural second-person",
+   "parts": [
+    [
+     "infinitive (for you all)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "formal infinitive plural second-person-semantically third-person",
+   "parts": [
+    [
+     "infinitive (for them)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive plural third-person",
+   "parts": [
+    [
+     "infinitive (for them)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "future",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "adverbial first-person participle plural",
+   "parts": [
+    [
+     "adverbial participle",
+     "-va/-ve, …ing, having …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adverbial informal participle plural second-person",
+   "parts": [
+    [
+     "adverbial participle",
+     "-va/-ve, …ing, having …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adverbial first-person participle plural third-person",
+   "parts": [
+    [
+     "adverbial participle",
+     "-va/-ve, …ing, having …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adverbial formal participle plural second-person-semantically third-person",
+   "parts": [
+    [
+     "adverbial participle",
+     "-va/-ve, …ing, having …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "lowercase",
+   "parts": [
+    [
+     "lowercase",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "uppercase",
+   "parts": [
+    [
+     "uppercase",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative rare",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative dated nonstandard",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dated",
+     null
+    ],
+    [
+     "nonstandard",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "superlative",
+   "parts": [
+    [
+     "superlative",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative literary",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative archaic",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative dated",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dated",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative archaic literary",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "singular third-person",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "plural third-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "alternative archaic rare",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative misspelling",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "misspelling",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative nonstandard",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "nonstandard",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative dialectal informal",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dialectal",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "alternative dialectal rare",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dialectal",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative archaic nonstandard",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "nonstandard",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative archaic humorous",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "humorous",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative obsolete",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "obsolete",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative nonstandard proscribed",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "nonstandard",
+     null
+    ],
+    [
+     "proscribed",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "nominative",
+   "parts": [
+    [
+     "nominative",
+     "subject"
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "accusative",
+   "parts": [
+    [
+     "accusative",
+     "direct object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "dative",
+   "parts": [
+    [
+     "dative",
+     "to, for"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "instrumental",
+   "parts": [
+    [
+     "instrumental",
+     "with"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "causal-final",
+   "parts": [
+    [
+     "causal-final",
+     "for, because of"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "inessive",
+   "parts": [
+    [
+     "inessive",
+     "in"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "superessive",
+   "parts": [
+    [
+     "superessive",
+     "on"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adessive",
+   "parts": [
+    [
+     "adessive",
+     "at, by"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "illative",
+   "parts": [
+    [
+     "illative",
+     "into"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "sublative",
+   "parts": [
+    [
+     "sublative",
+     "onto"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "allative",
+   "parts": [
+    [
+     "allative",
+     "to (towards)"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "elative",
+   "parts": [
+    [
+     "elative",
+     "out of"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "delative",
+   "parts": [
+    [
+     "delative",
+     "off, about"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "ablative",
+   "parts": [
+    [
+     "ablative",
+     "from"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "alternative dated literary",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dated",
+     null
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative regional",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "regional",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative especially",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "especially",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "first-person future indefinite indicative singular",
+   "parts": [
+    [
+     "future",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "future indefinite indicative second-person singular",
+   "parts": [
+    [
+     "future",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "future indefinite indicative singular third-person",
+   "parts": [
+    [
+     "future",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person future indefinite indicative plural",
+   "parts": [
+    [
+     "future",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "future indefinite indicative plural second-person",
+   "parts": [
+    [
+     "future",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "future indefinite indicative plural third-person",
+   "parts": [
+    [
+     "future",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "potential",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "alternative humorous ironic nonstandard",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "humorous",
+     null
+    ],
+    [
+     "ironic",
+     null
+    ],
+    [
+     "nonstandard",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "archaic comparative",
+   "parts": [
+    [
+     "archaic",
+     null
+    ],
+    [
+     "comparative",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "archaic superlative",
+   "parts": [
+    [
+     "archaic",
+     null
+    ],
+    [
+     "superlative",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative archaic poetic",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "poetic",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "comparable",
+   "parts": [
+    [
+     "comparable",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative literary regional",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "literary",
+     null
+    ],
+    [
+     "regional",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative informal",
+   "parts": [
+    [
+     "alternative",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "alternative formal",
+   "parts": [
+    [
+     "alternative",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "alternative dated rare",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dated",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative archaic obsolete poetic",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "obsolete",
+     null
+    ],
+    [
+     "poetic",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative dialectal literary",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dialectal",
+     null
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative dialectal regional",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dialectal",
+     null
+    ],
+    [
+     "regional",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative literary rare",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "literary",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "comparative rare",
+   "parts": [
+    [
+     "comparative",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "rare superlative",
+   "parts": [
+    [
+     "rare",
+     null
+    ],
+    [
+     "superlative",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "possessed-single possessive predicative singular",
+   "parts": [
+    [
+     "predicative",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural possessed-single possessive predicative",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "predicative",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "alternative common nonstandard",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "common",
+     null
+    ],
+    [
+     "nonstandard",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "archaic",
+   "parts": [
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative dialectal nonstandard",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dialectal",
+     null
+    ],
+    [
+     "nonstandard",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative dialectal obsolete",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dialectal",
+     null
+    ],
+    [
+     "obsolete",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative historical",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "historical",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative emphatic",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "emphatic",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative poetic",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "poetic",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative dialectal proscribed sometimes",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "dialectal",
+     null
+    ],
+    [
+     "proscribed",
+     null
+    ],
+    [
+     "sometimes",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative colloquial",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "colloquial",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative rare regional",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "rare",
+     null
+    ],
+    [
+     "regional",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative especially figuratively",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "especially",
+     null
+    ],
+    [
+     "figuratively",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "also alternative",
+   "parts": [
+    [
+     "also",
+     null
+    ],
+    [
+     "alternative",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "obsolete",
+   "parts": [
+    [
+     "obsolete",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative proscribed sometimes",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "proscribed",
+     null
+    ],
+    [
+     "sometimes",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "alternative colloquial rare",
+   "parts": [
+    [
+     "alternative",
+     null
+    ],
+    [
+     "colloquial",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "causative transitive",
+   "parts": [
+    [
+     "causative",
+     "make/let someone …"
+    ],
+    [
+     "transitive",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "clitic in-compounds morpheme",
+   "parts": [
+    [
+     "clitic",
+     null
+    ],
+    [
+     "in compounds",
+     null
+    ],
+    [
+     "morpheme",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "first-person plural possessed-single possessive rare",
+   "parts": [
+    [
+     "our",
+     "possessive"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite imperative present second-person singular",
+   "parts": [
+    [
+     "imperative",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "in-compounds morpheme",
+   "parts": [
+    [
+     "in compounds",
+     null
+    ],
+    [
+     "morpheme",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "past singular third-person",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "countable noun-from-verb uncountable",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "countable",
+     null
+    ],
+    [
+     "uncountable",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "possessive predicative singular",
+   "parts": [
+    [
+     "predicative",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "demonstrative singular superessive",
+   "parts": [
+    [
+     "superessive",
+     "on"
+    ],
+    [
+     "demonstrative",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indicative past singular third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional present singular third-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic causative rare transitive",
+   "parts": [
+    [
+     "causative",
+     "make/let someone …"
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "rare",
+     null
+    ],
+    [
+     "transitive",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "obsolete participle present",
+   "parts": [
+    [
+     "present participle",
+     "-ó/-ő, …ing"
+    ],
+    [
+     "obsolete",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person singular",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "causative rare transitive",
+   "parts": [
+    [
+     "causative",
+     "make/let someone …"
+    ],
+    [
+     "rare",
+     null
+    ],
+    [
+     "transitive",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic indefinite indicative past rare singular third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "nominative plural rare",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "noun-from-verb uncountable usually",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "uncountable",
+     null
+    ],
+    [
+     "usually",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "second-person singular",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "plural second-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic participle present",
+   "parts": [
+    [
+     "present participle",
+     "-ó/-ő, …ing"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "essive-modal rare singular",
+   "parts": [
+    [
+     "essive-modal",
+     "as, -ly"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "participle present rare",
+   "parts": [
+    [
+     "present participle",
+     "-ó/-ő, …ing"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic indefinite indicative past singular third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic participle past",
+   "parts": [
+    [
+     "past participle",
+     "-t/-tt, …ed"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "future obsolete participle",
+   "parts": [
+    [
+     "future participle",
+     "-andó/-endő, to be …ed"
+    ],
+    [
+     "obsolete",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past rare singular third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "accusative participle singular",
+   "parts": [
+    [
+     "accusative",
+     "direct object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "noun-from-verb obsolete",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "obsolete",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "comparative not-comparable",
+   "parts": [
+    [
+     "comparative",
+     null
+    ],
+    [
+     "not comparable",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "nominative participle plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative present proscribed singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "proscribed",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative present rare singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic participle past rare",
+   "parts": [
+    [
+     "past participle",
+     "-t/-tt, …ed"
+    ],
+    [
+     "archaic",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "literary possessed-many possessive singular third-person",
+   "parts": [
+    [
+     "his/her/its (several)",
+     "possessive, several things"
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indicative past plural third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic nominative plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "often possessed-single possessive singular third-person",
+   "parts": [
+    [
+     "his/her/its",
+     "possessive"
+    ],
+    [
+     "often",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "singular temporal",
+   "parts": [
+    [
+     "temporal",
+     "at (time)"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "possessed-single possessive singular third-person vulgar",
+   "parts": [
+    [
+     "his/her/its",
+     "possessive"
+    ],
+    [
+     "vulgar",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic future participle",
+   "parts": [
+    [
+     "future participle",
+     "-andó/-endő, to be …ed"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adverbial archaic participle",
+   "parts": [
+    [
+     "adverbial participle",
+     "-va/-ve, …ing, having …"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "participle past rare",
+   "parts": [
+    [
+     "past participle",
+     "-t/-tt, …ed"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative literary past singular third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "noun-from-verb rare uncountable",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "rare",
+     null
+    ],
+    [
+     "uncountable",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "dialectal indicative past singular third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "dialectal",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "dialectal participle past",
+   "parts": [
+    [
+     "past participle",
+     "-t/-tt, …ed"
+    ],
+    [
+     "dialectal",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "subjunctive",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "dialectal",
+   "parts": [
+    [
+     "dialectal",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "comparative proscribed rare",
+   "parts": [
+    [
+     "comparative",
+     null
+    ],
+    [
+     "proscribed",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "proscribed rare superlative",
+   "parts": [
+    [
+     "proscribed",
+     null
+    ],
+    [
+     "rare",
+     null
+    ],
+    [
+     "superlative",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "formal literary noun-from-verb",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "dialectal first-person possessed-single possessive singular",
+   "parts": [
+    [
+     "my",
+     "possessive"
+    ],
+    [
+     "dialectal",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional singular third-person",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "accusative archaic singular",
+   "parts": [
+    [
+     "accusative",
+     "direct object"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "adverbial participle rare",
+   "parts": [
+    [
+     "adverbial participle",
+     "-va/-ve, …ing, having …"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative present rare singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic definite present second-person singular subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural present third-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "colloquial conditional singular third-person",
+   "parts": [
+    [
+     "colloquial",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative obsolete present second-person singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "obsolete",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "rare singular superessive",
+   "parts": [
+    [
+     "superessive",
+     "on"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "causative colloquial transitive",
+   "parts": [
+    [
+     "causative",
+     "make/let someone …"
+    ],
+    [
+     "colloquial",
+     null
+    ],
+    [
+     "transitive",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic intransitive passive",
+   "parts": [
+    [
+     "archaic",
+     null
+    ],
+    [
+     "intransitive",
+     null
+    ],
+    [
+     "passive",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "archaic impersonal intransitive passive",
+   "parts": [
+    [
+     "archaic",
+     null
+    ],
+    [
+     "impersonal",
+     null
+    ],
+    [
+     "intransitive",
+     null
+    ],
+    [
+     "passive",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "dated definite formal indicative literary past singular third-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "dated",
+     null
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "literary noun-from-verb uncountable",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "literary",
+     null
+    ],
+    [
+     "uncountable",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indicative past singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person possessed-single possessive rare singular",
+   "parts": [
+    [
+     "my",
+     "possessive"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic noun-from-verb",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "accusative literary singular",
+   "parts": [
+    [
+     "accusative",
+     "direct object"
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "not-comparable singular superessive",
+   "parts": [
+    [
+     "superessive",
+     "on"
+    ],
+    [
+     "not comparable",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative plural present rare",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative present rare second-person singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative present singular usually",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "usually",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative present rare second-person singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative plural present rare second-person",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person present singular",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "I",
+     "én"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional present second-person singular",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you",
+     "te"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person plural present",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "we",
+     "mi"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional plural present second-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "you all",
+     "ti"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional plural present third-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indicative past second-person singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indicative past plural",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indicative past plural second-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural possessed-single possessive rare second-person",
+   "parts": [
+    [
+     "your (pl.)",
+     "possessive"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative plural present rare third-person",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "locative singular",
+   "parts": [
+    [
+     "locative",
+     "in (place names)"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "literary noun-from-verb",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "formal second-person singular",
+   "parts": [],
+   "base": false
+  },
+  {
+   "tags": "rare singular third-person",
+   "parts": [
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "literary second-person singular",
+   "parts": [
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person literary plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "literary plural second-person",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past rare second-person singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "essive-formal rare",
+   "parts": [
+    [
+     "essive-formal",
+     "as, in the role of"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "translative",
+   "parts": [
+    [
+     "translative",
+     "into (becoming)"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "terminative",
+   "parts": [
+    [
+     "terminative",
+     "as far as, until"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "diminutive",
+   "parts": [
+    [
+     "diminutive",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "first-person indefinite indicative literary present singular",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "literary",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative plural present rare second-person",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative plural present rare",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person plural present rare subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative past rare singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite literary present rare second-person singular subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "literary",
+     null
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic potential",
+   "parts": [
+    [
+     "can",
+     "potential -hat/-het"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "causative dated transitive",
+   "parts": [
+    [
+     "causative",
+     "make/let someone …"
+    ],
+    [
+     "dated",
+     null
+    ],
+    [
+     "transitive",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "intransitive passive",
+   "parts": [
+    [
+     "intransitive",
+     null
+    ],
+    [
+     "passive",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "first-person possessive singular",
+   "parts": [
+    [
+     "my",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "possessive second-person singular",
+   "parts": [
+    [
+     "your",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person plural possessive",
+   "parts": [
+    [
+     "our",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural possessive second-person",
+   "parts": [
+    [
+     "your (pl.)",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural possessive third-person",
+   "parts": [
+    [
+     "their",
+     "possessive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person indefinite past singular",
+   "parts": [
+    [
+     "conditional past",
+     "would have …"
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite past second-person singular",
+   "parts": [
+    [
+     "conditional past",
+     "would have …"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite past singular third-person",
+   "parts": [
+    [
+     "conditional past",
+     "would have …"
+    ],
+    [
+     "he, she, it / formal you",
+     "ő / Ön"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional first-person indefinite past plural",
+   "parts": [
+    [
+     "conditional past",
+     "would have …"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite past plural second-person",
+   "parts": [
+    [
+     "conditional past",
+     "would have …"
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional indefinite past plural third-person",
+   "parts": [
+    [
+     "conditional past",
+     "would have …"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "future participle rare",
+   "parts": [
+    [
+     "future participle",
+     "-andó/-endő, to be …ed"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "essive-formal",
+   "parts": [
+    [
+     "essive-formal",
+     "as, in the role of"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "essive-modal",
+   "parts": [
+    [
+     "essive-modal",
+     "as, -ly"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative past rare singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "I",
+     "én"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person indefinite indicative past plural rare",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite indicative past plural rare second-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past plural rare second-person",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you all",
+     "ti"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative past plural rare",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite indicative past rare second-person singular",
+   "parts": [
+    [
+     "past",
+     null
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite informal present second-person singular subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "noun-from-verb uncountable",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "uncountable",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "dated noun-from-verb uncountable",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "dated",
+     null
+    ],
+    [
+     "uncountable",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "plural possessive predicative",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "predicative",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "noun-from-verb rare",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic possessed-single possessive singular third-person",
+   "parts": [
+    [
+     "his/her/its",
+     "possessive"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "indefinite present rare second-person singular subjunctive",
+   "parts": [
+    [
+     "subjunctive",
+     "imperative; let …, that … should"
+    ],
+    [
+     "you",
+     "te"
+    ],
+    [
+     "indefinite",
+     "no specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "definite first-person indicative plural present subjunctive",
+   "parts": [
+    [
+     "present",
+     null
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "first-person infinitive singular",
+   "parts": [
+    [
+     "infinitive (for me)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive second-person singular",
+   "parts": [
+    [
+     "infinitive (for you)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "infinitive plural second-person",
+   "parts": [
+    [
+     "infinitive (for you all)",
+     "personal infinitive"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "obsolete passive",
+   "parts": [
+    [
+     "obsolete",
+     null
+    ],
+    [
+     "passive",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "adessive participle singular",
+   "parts": [
+    [
+     "adessive",
+     "at, by"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "formal noun-from-verb uncountable usually",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "uncountable",
+     null
+    ],
+    [
+     "usually",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "dative participle plural",
+   "parts": [
+    [
+     "plural",
+     null
+    ],
+    [
+     "dative",
+     "to, for"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic intransitive literary passive",
+   "parts": [
+    [
+     "archaic",
+     null
+    ],
+    [
+     "intransitive",
+     null
+    ],
+    [
+     "literary",
+     null
+    ],
+    [
+     "passive",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "colloquial diminutive",
+   "parts": [
+    [
+     "colloquial",
+     null
+    ],
+    [
+     "diminutive",
+     null
+    ]
+   ],
+   "base": true
+  },
+  {
+   "tags": "in-compounds noun-from-verb uncountable",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "in compounds",
+     null
+    ],
+    [
+     "uncountable",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "conditional definite plural present rare third-person",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "they / formal you all",
+     "ők / Önök"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "rare",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "noun-from-verb rare uncountable usually",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ],
+    [
+     "rare",
+     null
+    ],
+    [
+     "uncountable",
+     null
+    ],
+    [
+     "usually",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "causative dialectal transitive",
+   "parts": [
+    [
+     "causative",
+     "make/let someone …"
+    ],
+    [
+     "dialectal",
+     null
+    ],
+    [
+     "transitive",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "archaic conditional definite first-person plural present",
+   "parts": [
+    [
+     "conditional",
+     "would …"
+    ],
+    [
+     "we",
+     "mi"
+    ],
+    [
+     "definite",
+     "with a specific object"
+    ],
+    [
+     "archaic",
+     null
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "formal noun-from-verb",
+   "parts": [
+    [
+     "verbal noun",
+     "-ás/-és, the act of …"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "delative participle singular",
+   "parts": [
+    [
+     "delative",
+     "off, about"
+    ]
+   ],
+   "base": false
+  },
+  {
+   "tags": "diminutive endearing",
+   "parts": [
+    [
+     "diminutive",
+     null
+    ],
+    [
+     "endearing",
+     null
+    ]
+   ],
+   "base": true
+  }
+ ],
+ "emphasisRuns": [
+  {
+   "input": "Plain text.",
+   "output": [
+    {
+     "text": "Plain text.",
+     "em": false
+    }
+   ]
+  },
+  {
+   "input": "The verb *lát* \"to see\".",
+   "output": [
+    {
+     "text": "The verb ",
+     "em": false
+    },
+    {
+     "text": "lát",
+     "em": true
+    },
+    {
+     "text": " \"to see\".",
+     "em": false
+    }
+   ]
+  },
+  {
+   "input": "*a* and *b*",
+   "output": [
+    {
+     "text": "a",
+     "em": true
+    },
+    {
+     "text": " and ",
+     "em": false
+    },
+    {
+     "text": "b",
+     "em": true
+    }
+   ]
+  },
+  {
+   "input": "**",
+   "output": [
+    {
+     "text": "**",
+     "em": false
+    }
+   ]
+  },
+  {
+   "input": "x *y",
+   "output": [
+    {
+     "text": "x *y",
+     "em": false
+    }
+   ]
+  }
+ ],
+ "labelName": [
+  {
+   "input": "not-comparable",
+   "output": "not comparable"
+  },
+  {
+   "input": "transitive",
+   "output": "transitive"
+  },
+  {
+   "input": "object-second-person",
+   "output": "object second person"
+  }
+ ],
+ "rankPartial": [
+  {
+   "query": "ház",
+   "starts": [
+    [
+     "háztartás",
+     2,
+     "noun",
+     3000,
+     ""
+    ],
+    [
+     "házas",
+     1,
+     "noun",
+     900,
+     ""
+    ],
+    [
+     "házikó",
+     6,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "ház",
+     9,
+     "noun",
+     245,
+     ""
+    ]
+   ],
+   "ends": [
+    [
+     "bérház",
+     3,
+     "noun",
+     2000,
+     ""
+    ],
+    [
+     "tűzoltóház",
+     4,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "családi ház",
+     5,
+     "noun",
+     400,
+     ""
+    ]
+   ],
+   "exclude": [],
+   "output": [
+    [
+     5,
+     false,
+     true
+    ],
+    [
+     1,
+     true,
+     false
+    ],
+    [
+     3,
+     false,
+     true
+    ],
+    [
+     2,
+     true,
+     false
+    ],
+    [
+     6,
+     true,
+     false
+    ],
+    [
+     4,
+     false,
+     true
+    ]
+   ]
+  },
+  {
+   "query": "kar",
+   "starts": [
+    [
+     "karó",
+     1,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "kárpit",
+     2,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "Karcag",
+     3,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "karácsony",
+     4,
+     "noun",
+     2000,
+     ""
+    ]
+   ],
+   "ends": [
+    [
+     "akar",
+     5,
+     "noun",
+     50,
+     ""
+    ],
+    [
+     "kár",
+     6,
+     "noun",
+     3000,
+     ""
+    ]
+   ],
+   "exclude": [
+    5
+   ],
+   "output": [
+    [
+     4,
+     true,
+     false
+    ],
+    [
+     1,
+     true,
+     false
+    ],
+    [
+     3,
+     true,
+     false
+    ],
+    [
+     2,
+     true,
+     false
+    ]
+   ]
+  },
+  {
+   "query": "kár",
+   "starts": [
+    [
+     "karó",
+     1,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "kárpit",
+     2,
+     "noun",
+     0,
+     ""
+    ]
+   ],
+   "ends": [
+    [
+     "akar",
+     3,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "lekár",
+     4,
+     "noun",
+     0,
+     ""
+    ]
+   ],
+   "exclude": [],
+   "output": [
+    [
+     4,
+     false,
+     true
+    ],
+    [
+     2,
+     true,
+     false
+    ]
+   ]
+  },
+  {
+   "query": "ha",
+   "starts": [
+    [
+     "haha",
+     1,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "hab",
+     2,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "hä",
+     3,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "Hab",
+     4,
+     "noun",
+     0,
+     ""
+    ]
+   ],
+   "ends": [
+    [
+     "haha",
+     1,
+     "noun",
+     0,
+     ""
+    ]
+   ],
+   "exclude": [],
+   "output": [
+    [
+     2,
+     true,
+     false
+    ],
+    [
+     4,
+     true,
+     false
+    ],
+    [
+     1,
+     true,
+     true
+    ]
+   ]
+  },
+  {
+   "query": "os",
+   "starts": [
+    [
+     "ós",
+     1,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "oszt",
+     2,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "ősz",
+     3,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "öszvér",
+     4,
+     "noun",
+     0,
+     ""
+    ],
+    [
+     "osztály",
+     5,
+     "noun",
+     0,
+     ""
+    ]
+   ],
+   "ends": [],
+   "exclude": [],
+   "output": [
+    [
+     3,
+     true,
+     false
+    ],
+    [
+     2,
+     true,
+     false
+    ],
+    [
+     4,
+     true,
+     false
+    ],
+    [
+     5,
+     true,
+     false
+    ]
+   ]
+  }
+ ],
+ "ankiTsv": {
+  "saved": [
+   {
+    "lemmaId": 1,
+    "word": "ház",
+    "pos": "noun",
+    "meaning": "house; home",
+    "example": [
+     "Látom a házat.",
+     "I see the house."
+    ],
+    "fr": 245,
+    "added": 1
+   },
+   {
+    "lemmaId": 2,
+    "word": "kar\tóra",
+    "pos": "noun",
+    "meaning": "arm\nclock",
+    "lookedUp": "karórát",
+    "fr": 4999,
+    "added": 2
+   },
+   {
+    "lemmaId": 3,
+    "word": "ritka",
+    "pos": "adj",
+    "meaning": "rare",
+    "added": 3
+   }
+  ],
+  "output": "#separator:tab\n#html:false\n#columns:Hungarian\tEnglish\tExample\tTags\n#tags column:4\nház\thouse; home (noun)\tLátom a házat. — I see the house.\thungarian top1000\nkar óra\tarm clock (noun)\t\thungarian top5000\nritka\trare (adj)\t\thungarian\n"
+ }
+}

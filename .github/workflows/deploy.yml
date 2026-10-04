@@ -54,6 +54,19 @@ jobs:
       - run: npm test
       - run: npm run check
 
+      # The web search's results for scripts/fixtures/parity_queries.json, for the Android parity test.
+      - name: Golden search results
+        run: npx vitest run --config vitest.golden.config.ts
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: android-data
+          path: |
+            public/data/manifest.json
+            public/data/*/szokert.db.xz
+            android/build/golden.json
+          retention-days: 7
+
       # Assets use relative URLs, so the build works on the custom domain and under /<repo>/ alike.
       - name: Build site
         run: npm run build
@@ -65,6 +78,7 @@ jobs:
 
   # The Android app (android/). Separate from the site, so an app failure never blocks a deploy.
   android:
+    needs: build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -78,6 +92,12 @@ jobs:
           java-version: 21
 
       - uses: gradle/actions/setup-gradle@v6
+
+      # This build's database and golden results, so the parity test runs on the same data.
+      - uses: actions/download-artifact@v8
+        with:
+          name: android-data
+          path: .
 
       - name: Test and build the debug APK
         run: ./gradlew check assembleDebug

@@ -19,6 +19,8 @@ kotlin {
         }
         jvmTest.dependencies {
             implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.icu4j)
         }
     }
 }

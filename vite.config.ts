@@ -56,6 +56,7 @@ export default defineConfig({
     }),
   ],
   test: {
-    include: ['src/**/*.test.ts'],
+    // core_cases.test.ts checks the shared fixtures the Android port is tested against.
+    include: ['src/**/*.test.ts', 'scripts/core_cases.test.ts'],
   },
 });
