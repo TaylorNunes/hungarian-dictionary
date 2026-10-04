@@ -6,3 +6,8 @@ public/data
 .DS_Store
 __pycache__
 data/sentence-labels
+android/.gradle
+android/.kotlin
+android/**/build
+android/local.properties
+*.jks

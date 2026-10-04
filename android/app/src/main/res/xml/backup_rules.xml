@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11 and older: back up saved words and settings, not the downloaded dictionary. -->
+<full-backup-content>
+    <exclude domain="file" path="dictionary" />
+</full-backup-content>

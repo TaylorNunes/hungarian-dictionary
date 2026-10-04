@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Back up saved words and settings; the dictionary itself is re-downloaded instead. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="file" path="dictionary" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="dictionary" />
+    </device-transfer>
+</data-extraction-rules>
