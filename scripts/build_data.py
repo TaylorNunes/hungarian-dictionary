@@ -21,13 +21,16 @@ import argparse
 import bz2
 import hashlib
 import json
+import lzma
 import math
 import re
 import shutil
+import sqlite3
 import sys
 import time
 import unicodedata
 import urllib.request
+import zlib
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -47,6 +50,9 @@ FORM_SHARD_MAX_BYTES = 250_000
 LEMMAS_PER_SHARD = 128
 MAX_FILE_BYTES = 50 * 1024 * 1024
 MAX_TOTAL_BYTES = 900 * 1024 * 1024
+DB_SCHEMA = 1                      # PRAGMA user_version; bump when the app needs a new layout
+DB_NAME = 'szokert.db.xz'
+MAX_DB_BYTES = 50 * 1024 * 1024    # compressed; the app downloads it on first launch
 EXAMPLES_PER_LEMMA = 5
 EXAMPLES_PER_SENSE = 2
 
@@ -869,6 +875,81 @@ def write_sharded(directory: Path, mapping: dict[str, list], dump) -> list[str]:
     return sorted(shard_keys)
 
 
+def sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open('rb') as fh:
+        for block in iter(lambda: fh.read(1 << 20), b''):
+            h.update(block)
+    return h.hexdigest()
+
+
+def write_sqlite(path: Path, lemmas, folded: dict[str, list], tag_list, english, starts, meta: dict) -> None:
+    """The same data as the JSON shards, as one SQLite database for the Android app.
+
+    Rows keep the order the web app sees them in (the ord columns), since search ranking depends
+    on it; scripts/check_db.py verifies the two agree. Inflection tables are stored zlib-compressed
+    apart from the rest of the entry, as only the word page needs them.
+    """
+    if path.exists():
+        path.unlink()
+    db = sqlite3.connect(path)
+    db.executescript(f"""
+        PRAGMA page_size = 4096;
+        PRAGMA journal_mode = OFF;
+        PRAGMA synchronous = OFF;
+        PRAGMA user_version = {DB_SCHEMA};
+        CREATE TABLE meta(key TEXT PRIMARY KEY, value TEXT NOT NULL) WITHOUT ROWID;
+        CREATE TABLE tags(idx INTEGER PRIMARY KEY, tags TEXT NOT NULL);
+        CREATE TABLE lemmas(id INTEGER PRIMARY KEY, w TEXT NOT NULL, pos TEXT NOT NULL, fr INTEGER,
+                            data TEXT NOT NULL, tbl BLOB);
+        CREATE TABLE forms(folded TEXT NOT NULL, ord INTEGER NOT NULL, form TEXT NOT NULL,
+                           lemma_id INTEGER NOT NULL, tag_idx INTEGER NOT NULL,
+                           PRIMARY KEY(folded, ord)) WITHOUT ROWID;
+        CREATE TABLE en(term TEXT NOT NULL, ord INTEGER NOT NULL, lemma_id INTEGER NOT NULL,
+                        sense INTEGER NOT NULL, position INTEGER NOT NULL,
+                        PRIMARY KEY(term, ord)) WITHOUT ROWID;
+        CREATE TABLE heads(key TEXT NOT NULL, lemma_id INTEGER NOT NULL, rkey TEXT NOT NULL,
+                           word TEXT NOT NULL, pos TEXT NOT NULL, rank INTEGER NOT NULL,
+                           gloss TEXT NOT NULL, PRIMARY KEY(key, lemma_id)) WITHOUT ROWID;
+    """)
+    dumps = lambda obj: json.dumps(obj, ensure_ascii=False, separators=(',', ':'))
+    db.executemany('INSERT INTO meta VALUES (?, ?)', [(k, str(v)) for k, v in meta.items()])
+    db.executemany('INSERT INTO tags VALUES (?, ?)', enumerate(tag_list))
+
+    def lemma_rows():
+        for lid, l in enumerate(lemmas):
+            rec = {k: v for k, v in l.items() if v}
+            table = rec.pop('t', None)
+            tbl = zlib.compress(dumps(table).encode('utf-8'), 9) if table else None
+            yield lid, rec['w'], rec['pos'], rec.get('fr'), dumps(rec), tbl
+    db.executemany('INSERT INTO lemmas VALUES (?, ?, ?, ?, ?, ?)', lemma_rows())
+    db.executemany('INSERT INTO forms VALUES (?, ?, ?, ?, ?)',
+                   ((key, i, form, lid, t) for key, rows in folded.items() for i, (form, lid, t) in enumerate(rows)))
+    db.executemany('INSERT INTO en VALUES (?, ?, ?, ?, ?)',
+                   ((term, i, lid, si, pos) for term, rows in english.items() for i, (lid, si, pos) in enumerate(rows)))
+    db.executemany('INSERT INTO heads VALUES (?, ?, ?, ?, ?, ?, ?)',
+                   ((key, lid, key[::-1], w, pos, rank, gloss)
+                    for key, rows in starts.items() for w, lid, pos, rank, gloss in rows))
+    db.executescript("""
+        CREATE INDEX lemmas_w ON lemmas(w);
+        CREATE INDEX heads_rkey ON heads(rkey);
+    """)
+    db.commit()
+    db.execute('VACUUM')
+    db.close()
+
+
+def compress_database(raw: Path, schema: int, version: str) -> dict:
+    """xz the database next to it (preset 6: ~9 MB to decompress, safe on low-end phones) and describe it."""
+    out = raw.with_name(DB_NAME)
+    raw_info = {'rawBytes': raw.stat().st_size, 'rawSha256': sha256_file(raw)}
+    with raw.open('rb') as src, lzma.open(out, 'wb', preset=6) as dst:
+        shutil.copyfileobj(src, dst, 1 << 20)
+    raw.unlink()
+    return {'schema': schema, 'path': f'{version}/{DB_NAME}', 'bytes': out.stat().st_size,
+            'sha256': sha256_file(out), **raw_info}
+
+
 def write_output(out_root: Path, lemmas, form_entries, tag_list, english, heads, args) -> None:
     print('Writing shards…')
     staging = out_root / '_staging'
@@ -912,12 +993,20 @@ def write_output(out_root: Path, lemmas, form_entries, tag_list, english, heads,
             shutil.rmtree(p)
     staging.rename(out_root / version)
 
+    # The database isn't part of the content hash: it holds the same data as the hashed JSON.
+    print('Writing the SQLite database…')
+    built = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    raw_db = out_root / version / 'szokert.db'
+    write_sqlite(raw_db, lemmas, folded, tag_list, english, heads[0],
+                 {'version': version, 'built': built, 'lemmaCount': len(lemmas), 'formCount': len(form_entries)})
+    database = compress_database(raw_db, DB_SCHEMA, version)
+
     files = list((out_root / version).rglob('*.json'))
     total = sum(p.stat().st_size for p in files)
     largest = max(files, key=lambda p: p.stat().st_size)
     manifest = {
         'version': version,
-        'built': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'built': built,
         'lemmaCount': len(lemmas),
         'posCounts': dict(sorted(Counter(l['pos'] for l in lemmas).items(), key=lambda kv: -kv[1])),
         'formCount': len(form_entries),
@@ -929,6 +1018,7 @@ def write_output(out_root: Path, lemmas, form_entries, tag_list, english, heads,
         'startShards': start_keys,
         'endShards': end_keys,
         'bytes': total,
+        'databases': [database],
         'sources': {
             'kaikki': SOURCES['kaikki-hu.jsonl'],
             'tatoeba': 'https://tatoeba.org/en/downloads',
@@ -944,8 +1034,11 @@ def write_output(out_root: Path, lemmas, form_entries, tag_list, english, heads,
         print(f'    {name}/: {size / 1e6:.1f} MB')
     if largest.stat().st_size > MAX_FILE_BYTES:
         sys.exit(f'{largest} exceeds {MAX_FILE_BYTES} bytes')
+    print(f'    {DB_NAME}: {database["bytes"] / 1e6:.1f} MB ({database["rawBytes"] / 1e6:.1f} MB uncompressed)')
     if total > MAX_TOTAL_BYTES:
         sys.exit(f'data is {total} bytes, over the {MAX_TOTAL_BYTES} byte budget')
+    if database['bytes'] > MAX_DB_BYTES:
+        sys.exit(f'{DB_NAME} is {database["bytes"]} bytes, over the {MAX_DB_BYTES} byte limit')
 
 
 def main() -> None:

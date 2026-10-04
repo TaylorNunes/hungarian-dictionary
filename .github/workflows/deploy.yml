@@ -46,6 +46,10 @@ jobs:
       - name: Build dictionary data
         run: python3 scripts/build_data.py
 
+      # The Android app reads the SQLite database; the website reads the JSON. They must agree.
+      - name: Check the database matches the JSON
+        run: python3 scripts/check_db.py
+
       - run: npm ci
       - run: npm test
       - run: npm run check

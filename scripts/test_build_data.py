@@ -12,6 +12,7 @@ from types import SimpleNamespace
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_data as bd  # noqa: E402
 import sentence_labels as sl  # noqa: E402
+import check_db  # noqa: E402
 
 FIXTURES = Path(__file__).resolve().parent / 'fixtures'
 
@@ -367,6 +368,35 @@ class BuildTest(unittest.TestCase):
         manifest, root = self.build()
         ids = {self.lemma(manifest, root, lid)['w']: lid for _, lid, _ in self.lookup(manifest, root, 'lat')}
         self.assertNotIn(['Látom a házat.', 'I see the house.'], self.lemma(manifest, root, ids['lát']).get('ex', []))
+
+    def test_database_matches_json_shards(self):
+        manifest, root = self.build(shard_max=2000)
+        info = manifest['databases'][0]
+        self.assertEqual(info['schema'], bd.DB_SCHEMA)
+        self.assertEqual(info['path'], f"{manifest['version']}/{bd.DB_NAME}")
+        self.assertTrue((self.out / info['path']).exists())
+        self.assertEqual(check_db.check(self.out), [])
+
+    def test_database_prefix_and_suffix_ranges(self):
+        import lzma, sqlite3
+        manifest, _ = self.build()
+        raw = self.tmp / 'szokert.db'
+        raw.write_bytes(lzma.decompress((self.out / manifest['databases'][0]['path']).read_bytes()))
+        db = sqlite3.connect(raw)
+        starts = [w for (w,) in db.execute("SELECT word FROM heads WHERE key >= ? AND key < ?", ('ha', 'ha\U0010ffff'))]
+        ends = [w for (w,) in db.execute("SELECT word FROM heads WHERE rkey >= ? AND rkey < ?", ('za', 'za\U0010ffff'))]
+        db.close()
+        self.assertIn('ház', starts)
+        self.assertIn('ház', ends)
+
+    def test_check_db_reports_a_mismatch(self):
+        manifest, root = self.build()
+        shard = next((root / 'forms').glob('*.json'))
+        data = json.loads(shard.read_text(encoding='utf-8'))
+        key = next(iter(data))
+        data[key] = list(reversed(data[key])) + [['extra', 0, 0]]
+        shard.write_text(json.dumps(data, ensure_ascii=False), encoding='utf-8')
+        self.assertTrue(check_db.check(self.out))
 
     def test_lemmas_carry_frequency_rank(self):
         manifest, root = self.build()
