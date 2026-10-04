@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -25,7 +24,7 @@ import com.tcnunes.szokert.ui.theme.Szokert
 fun DownloadScreen(task: Task?, onDownload: () -> Unit) {
     val c = Szokert.colors
     Column(
-        Modifier.fillMaxSize().safeDrawingPadding().padding(horizontal = 24.dp, vertical = 32.dp),
+        Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Text("Szókert", color = c.accent, fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold, fontSize = 40.sp)

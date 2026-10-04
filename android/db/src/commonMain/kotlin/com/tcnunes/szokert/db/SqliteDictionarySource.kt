@@ -70,6 +70,11 @@ class SqliteDictionarySource(private val db: SQLiteConnection) : DictionarySourc
         }.also { tagSets = it }
     }
 
+    /** Entries per part of speech, most first (for the Guide). */
+    suspend fun posCounts(): List<Pair<String, Int>> = lock.withLock {
+        query("SELECT pos, count(*) AS n FROM lemmas GROUP BY pos ORDER BY n DESC, pos") { it.getText(0) to it.getLong(1).toInt() }
+    }
+
     override fun close() = db.close()
 
     private fun headRow(row: SQLiteStatement) =
