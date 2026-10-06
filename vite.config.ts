@@ -6,7 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 const APP_NAME = 'Szókert';
 const APP_SLOGAN = 'Cultivate your knowledge.';
 
-// Relative asset URLs, so the same build works at a domain root (szokert.tcnunes.com) and under a
+// Relative asset URLs, so the same build works at a domain root (szokert.org) and under a
 // sub-path (taylornunes.github.io/szokert/). Routing is hash-based, so the page's own path
 // never changes. Set BASE_PATH to force an absolute base.
 const base = process.env.BASE_PATH ?? './';

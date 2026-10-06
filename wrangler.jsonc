@@ -1,0 +1,7 @@
+// Cloudflare Worker that serves the built site (dist/) as static assets. Deployed by the deploy job
+// in .github/workflows/deploy.yml; szokert.org is attached in the dashboard.
+{
+  "name": "szokert",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./dist" }
+}

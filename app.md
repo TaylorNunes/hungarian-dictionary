@@ -20,7 +20,7 @@ It runs as a web app, installs on Android, and costs nothing to host.
 | Frontend | Vite + TypeScript (Svelte or plain TS — keep it light) |
 | Data build | Python script: Kaikki + Tatoeba → SQLite or sharded JSON |
 | In-browser query | sql.js-httpvfs (fetches only needed parts of the DB via HTTP range requests), or prefix-sharded JSON files |
-| Hosting | GitHub Pages, deployed by GitHub Actions |
+| Hosting | Cloudflare (Worker static assets), deployed by GitHub Actions |
 | Android | PWA first, then Bubblewrap (Trusted Web Activity) for the Play Store |
 
 ## Data sources

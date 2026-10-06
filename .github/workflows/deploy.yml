@@ -9,11 +9,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: false
 
 jobs:
@@ -71,10 +69,11 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
+          name: site
           path: dist
+          retention-days: 7
 
   # The Android app (android/). Separate from the site, so an app failure never blocks a deploy.
   android:
@@ -108,12 +107,24 @@ jobs:
           name: szokert-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
+  # Cloudflare Worker serving dist/ as static assets (wrangler.jsonc).
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v5
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: dist
+
+      - name: Deploy to Cloudflare
+        run: npx --yes wrangler@4.147.0 deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

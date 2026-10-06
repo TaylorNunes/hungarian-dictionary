@@ -159,7 +159,7 @@ class DataManager(private val context: Context) {
     }
 
     companion object {
-        const val DATA_URL = "https://szokert.tcnunes.com/data/"
+        const val DATA_URL = "https://szokert.org/data/"
         const val DOWNLOAD = "dictionary-download"
         const val BACKGROUND_UPDATE = "dictionary-background-update"
         private const val LAST_CHECK = "lastCheck"

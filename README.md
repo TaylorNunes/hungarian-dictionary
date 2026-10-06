@@ -1,6 +1,6 @@
 # Szókert: Hungarian ⇄ English dictionary
 
-*Cultivate your knowledge.* Live at https://szokert.tcnunes.com/. The name and slogan are set in `src/config.ts` and `vite.config.ts`; the logo and app icons are drawn by `scripts/make_icons.py`.
+*Cultivate your knowledge.* Live at https://szokert.org/. The name and slogan are set in `src/config.ts` and `vite.config.ts`; the logo and app icons are drawn by `scripts/make_icons.py`.
 
 An offline-capable Hungarian→English dictionary in the spirit of Takoboto. Type or paste any form of a word and get:
 
@@ -68,14 +68,15 @@ Output lives in `public/data/`:
 - `src/lib/tags.ts` turns tag sets into readable breakdowns and inflection grids.
 - The service worker (`vite-plugin-pwa`) precaches the app shell and caches data shards as they're used. About → "Download for offline use" fetches every shard.
 
-## Deploying (GitHub Pages)
+## Deploying (Cloudflare)
 
-`.github/workflows/deploy.yml` runs on every push to `main` and weekly, to pick up new Wiktionary data. It tests the pipeline, builds the data, runs the app tests, builds and deploys.
+`.github/workflows/deploy.yml` runs on every push to `main` and weekly, to pick up new Wiktionary data. It tests the pipeline, builds the data, runs the app tests, builds, and deploys `dist/` to a Cloudflare Worker as static assets (`wrangler.jsonc`).
 
-1. Create a GitHub repository and push this project to `main`.
-2. In the repository's **Settings → Pages**, set **Source** to **GitHub Actions**.
+1. In Cloudflare, create an API token with **Account → Workers Scripts → Edit** (plus read-only Account Settings, User Details and Memberships).
+2. In the GitHub repository's **Settings → Secrets and variables → Actions**, add the repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+3. The first deploy creates the Worker `szokert`. Attach the domain in its **Settings → Domains & Routes**.
 
-The build uses relative asset URLs, so the same site works on a custom domain (it's served at https://szokert.tcnunes.com/) and at `<user>.github.io/<repo>/`. To use a custom domain, add a CNAME record pointing at `<user>.github.io` and enter the domain in **Settings → Pages → Custom domain**.
+Cloudflare rejects any single file over 25 MiB; `szokert.db.xz` is the largest (about 22 MB).
 
 ## Android / Play Store (phase 8)
 
@@ -83,7 +84,7 @@ The site is already an installable PWA (manifest, icons including a maskable one
 
 1. `npm i -g @bubblewrap/cli`, then `bubblewrap init --manifest https://<your-site>/manifest.webmanifest`.
 2. `bubblewrap build` produces a signed `.aab` and the SHA-256 fingerprint of the signing key.
-3. Publish `public/.well-known/assetlinks.json` with that fingerprint, so the app opens without the browser bar. Add `.well-known` to the site. Note that GitHub Pages needs a `.nojekyll` file to serve dot-directories.
+3. Publish `public/.well-known/assetlinks.json` with that fingerprint, so the app opens without the browser bar. Add `.well-known` to the site.
 4. Upload the `.aab` in the Play Console (this needs a developer account).
 
 ## Licences
